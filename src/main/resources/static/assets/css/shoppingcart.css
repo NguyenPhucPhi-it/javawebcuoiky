@@ -1,0 +1,424 @@
+/* ===================================
+   Giỏ Hàng CSS - giohang.css
+   =================================== */
+
+/* Page Banner */
+.page-banner-section {
+  background-color: #f8f8f8;
+  padding: 30px 0;
+  margin-bottom: 40px;
+  border-bottom: 3px solid #cea679;
+}
+
+.page-banner-section h2 {
+  text-align: center;
+  padding: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333333;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+@media only screen and (max-width: 767px) {
+  .page-banner-section {
+    padding: 20px 0;
+    margin-bottom: 30px;
+  }
+
+  .page-banner-section h2 {
+    font-size: 24px;
+    padding: 15px 10px;
+  }
+}
+
+/* Cart Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+table thead {
+  display: none;
+}
+
+/* Table Header */
+table tr:first-child {
+  background: linear-gradient(135deg, #333333 0%, #4a4a4a 100%);
+  display: table-row !important;
+}
+
+table tr:first-child th {
+  padding: 18px 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+table tr:first-child th:last-child {
+  border-right: none;
+}
+
+@media only screen and (max-width: 767px) {
+  table tr:first-child {
+    display: none !important;
+  }
+}
+
+/* Table Body Rows */
+table tr {
+  border-bottom: 1px solid #e5e5e5;
+  transition: all 0.3s ease;
+}
+
+table tr:hover {
+  background-color: #f9f9f9;
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+table tr td {
+  padding: 20px 15px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #333333;
+  border-right: 1px solid #f0f0f0;
+}
+
+table tr td:last-child {
+  border-right: none;
+}
+
+/* Mobile Responsive */
+@media only screen and (max-width: 767px) {
+  table {
+    border: 0;
+    box-shadow: none;
+  }
+
+  table tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 15px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  table tr:hover {
+    transform: none;
+    border-color: #cea679;
+  }
+
+  table tr td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  table tr td:last-child {
+    border-bottom: none;
+  }
+
+  table tr td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #333333;
+    font-size: 12px;
+    flex: 0 0 100px;
+  }
+
+  /* Thêm data-label cho mobile */
+  table tr td:nth-child(1)::before {
+    content: "STT:";
+  }
+
+  table tr td:nth-child(2)::before {
+    content: "Tên SP:";
+  }
+
+  table tr td:nth-child(3)::before {
+    content: "Giá:";
+  }
+
+  table tr td:nth-child(4)::before {
+    content: "Số lượng:";
+  }
+
+  table tr td:nth-child(5)::before {
+    content: "Hình:";
+  }
+
+  table tr td:nth-child(6)::before {
+    content: "Thành tiền:";
+  }
+
+  table tr td:nth-child(7)::before {
+    content: "Hành động:";
+  }
+}
+
+/* STT Column */
+table tr td:nth-child(1) {
+  font-weight: 700;
+  font-size: 16px;
+  color: #cea679;
+  width: 60px;
+}
+
+/* Product Name Column */
+table tr td:nth-child(2) {
+  font-weight: 600;
+  color: #333333;
+  font-size: 15px;
+  max-width: 250px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+  table tr td:nth-child(2) {
+    max-width: 100%;
+    text-align: right;
+  }
+}
+
+/* Price Column */
+table tr td:nth-child(3) {
+  font-weight: 700;
+  color: #cea679;
+  font-size: 16px;
+  min-width: 120px;
+}
+
+/* Quantity Column */
+table tr td:nth-child(4) {
+  font-weight: 600;
+  color: #333333;
+  font-size: 15px;
+  min-width: 100px;
+}
+
+table tr td:nth-child(4)::after {
+  content: " cái";
+  font-size: 12px;
+  color: #999999;
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 767px) {
+  table tr td:nth-child(4)::after {
+    display: none;
+  }
+}
+
+/* Image Column */
+table tr td:nth-child(5) {
+  min-width: 100px;
+}
+
+table tr td:nth-child(5) img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+table tr td:nth-child(5) img:hover {
+  transform: scale(1.15);
+  border-color: #cea679;
+  box-shadow: 0 4px 12px rgba(206, 166, 121, 0.3);
+}
+
+@media only screen and (max-width: 767px) {
+  table tr td:nth-child(5) img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Total Price Column */
+table tr td:nth-child(6) {
+  font-weight: 700;
+  color: #333333;
+  font-size: 17px;
+  min-width: 140px;
+}
+
+/* Action Column */
+table tr td:nth-child(7) a {
+  display: inline-block;
+  padding: 10px 25px;
+  background: #cea679;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  letter-spacing: 0.5px;
+}
+
+table tr td:nth-child(7) a:hover {
+  background: #565656;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(255, 68, 68, 0.4);
+}
+
+table tr td:nth-child(7) a:active {
+  transform: translateY(-1px);
+}
+
+@media only screen and (max-width: 767px) {
+  table tr td:nth-child(7) a {
+    padding: 8px 20px;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Empty Cart Message */
+table tr td[colspan="7"] {
+  padding: 80px 20px !important;
+  font-size: 20px;
+  color: #999999;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+  border: 3px dashed #e5e5e5;
+  border-radius: 10px;
+}
+
+table tr td[colspan="7"]::before {
+  content: "🛒";
+  display: block;
+  font-size: 60px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 767px) {
+  table tr td[colspan="7"] {
+    padding: 60px 20px !important;
+    font-size: 16px;
+  }
+
+  table tr td[colspan="7"]::before {
+    font-size: 50px;
+    margin-bottom: 15px;
+  }
+}
+
+/* Container Wrapper */
+body {
+  background-color: #f5f5f5;
+}
+
+/* Add some padding to the page */
+.page-banner-section + table {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 15px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .page-banner-section + table {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .page-banner-section + table {
+    padding: 0 10px;
+  }
+}
+
+/* Hover Effects */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+table tr {
+  animation: slideIn 0.3s ease forwards;
+}
+
+table tr:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+table tr:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+table tr:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+table tr:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+/* Scrollbar Styling */
+table::-webkit-scrollbar {
+  height: 8px;
+}
+
+table::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+table::-webkit-scrollbar-thumb {
+  background: #cea679;
+  border-radius: 10px;
+}
+
+table::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+/* Print Styles */
+@media print {
+  table tr td:nth-child(7) {
+    display: none;
+  }
+
+  table tr:hover {
+    background-color: transparent;
+    transform: none;
+  }
+}

@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -249,7 +250,7 @@
 <body>
     <div class="container">
         <div class="form-header">
-               <a href="index.php"><i class="fa-solid fa-house"></i></a> 
+               <a href="/user/home"><i class="fa-solid fa-house"></i></a> 
             <h2>Đăng Nhập</h2>
         
             <p>Chào mừng bạn trở lại!</p>

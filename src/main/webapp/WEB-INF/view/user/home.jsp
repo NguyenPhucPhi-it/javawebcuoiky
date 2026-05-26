@@ -1,4 +1,5 @@
       <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
       <!DOCTYPE html>
       <html lang="en">
@@ -39,9 +40,9 @@
                                     <li><a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
                                         <ul class="ht-dropdown right">
                                             <!-- <li><a href="compare.html">Compare Products</a></li> -->
-                                            <li><a href="my-account.html">Cập nhật</a></li>
+                                            <li><a href="/auth/register">Đăng ký</a></li>
                                             <!-- <li><a href="wishlist.html">My Wish List</a></li> -->
-                                            <li><a href="login-register.html">Đăng ký / Đăng nhập</a></li>
+                                            <li><a href="/auth/login"> Đăng nhập</a></li>
                                             <!-- <li><a href="login-register.html">Sign In</a></li> -->
                                         </ul>
                                     </li>
@@ -150,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="header-cart">
-                                <a href="cart.html"><i class="fa fa-shopping-cart"></i><span>3</span></a>
+                                <a href="/user/shoppingcart"><i class="fa fa-shopping-cart"></i><span>3</span></a>
                             </div>
                         </div>
                         <!--Search Cart End-->

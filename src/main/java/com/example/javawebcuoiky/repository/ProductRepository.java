@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.javawebcuoiky.model.Product;
 
 @Repository
-public interface LoginRepository extends JpaRepository<Product, Integer> {
-   
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+    
 }

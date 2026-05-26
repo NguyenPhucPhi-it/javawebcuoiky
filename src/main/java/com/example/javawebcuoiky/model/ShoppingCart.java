@@ -1,13 +1,17 @@
 package com.example.javawebcuoiky.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="ShoppingCart")
 public class ShoppingCart {
-    @Id private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+     private int id;
     private double price;
     private int quantity;
     private String session_id;

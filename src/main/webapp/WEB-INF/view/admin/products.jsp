@@ -1,81 +1,95 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/products.css">
 </head>
+
 <body>
-    <div class="main-content">
-                <div class="container">
-                <h3 class="title-page">
-                   Sản phẩm
-                </h3>
-                <div class="d-flex justify-content-end">
-                    <form action="/admin/products" method="post" >
-                        <label for="">Ten san pham: <input type="text" name="name"></label>
-                        <label for="">Gia goc: <input type="number" name="price"></label>
-                        <label for="">Gia khuyen mai: <input type="number" name="discount"></label>
-                        <label for="">Hinh anh: <input type="file" name="image"></label>
-                        <label for="">Mo ta: <input type="text" name="description"></label>
-                        <label for="">So luong: <input type="number" name="quantity"></label>
-                        <select name="id_brand" id="">
-                            <option value="">Chon thuong hieu</option>
-                            <?php
-                            if(isset($dsbr)&&(count($dsbr)>0)){
-                                foreach ($dsbr as $item) {
-                                     echo '  <option value="'.$item['id'].'">'.$item['name'].'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                        <input type="submit" value="Thêm sản phẩm " name="btnproduct" class="btn btn-primary mb-2">
-                        
-                    </form>
-                    <!-- <a href="index.php?pg=category_add" class="btn btn-primary mb-2">Thêm danh mục</a> -->
-                </div>
-                <table id="example" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Ten san pham</th>
-                            <th>Gia goc</th>
-                            <th>Gia khuyen mai</th>
-                            <th>Hinh anh</th>
-                            <th>Mo ta</th>
-                            <th>So luong</th>
-                            <th>Hanh dong</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if(isset($dspr)&&(count($dspr)>0)){
-                            $i=1;
-                            $kq="";
-                            foreach ($dspr as $item) {
-                                $kq.=' <tr>
-                                        <td>'.$i++.'</td>
-                                        <td>'.$item['name'].'</td>
-                                        <td>'.$item['price'].'</td>
-                                        <td>'.$item['discount'].'</td>
-                                        <td><img src="'.$item['image'].'" width="80" height="80"></td>
-                                        <td>'.$item['description'].'</td>
-                                        <td>'.$item['quantity'].'</td>
-                                         <td>
-                                            <a href="index.php?act=uppr&id='.$item['id'].'" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i> Sửa</a>
-                                            <a href="index.php?act=delpr&id='.$item['id'].'" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Xóa</a>
-                                        </td>
-                                        </tr>';
-                            
-                            }
-                            echo $kq;
-                        }
-                        ?>
-                        
-                    </tbody>
+    <div class="container-fluid main-page">
+        <div class="app-main">
+            <nav class="sidebar bg-primary">
+                <ul>
+                    <li>
+                        <a href="/admin/dashboard"><i class="fa-solid fa-house ico-side"></i>Dashboards</a>
+                    </li>
                     
-                </table>
+                    <li>
+                        <a href="/admin/brands"><i class="fa-solid fa-folder-open ico-side"></i>Quản lí danh muc</a>
+                    </li>
+                    <li>
+                        <a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a>
+                    </li>
+                    <li>
+                        <a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
+                    </li>
+                    <li>
+                        <a href="user.html"><i class="fa-solid fa-user ico-side"></i>Quản lí thành viên</a>
+                    </li>
+                    <li>
+                        <a href="order.html"><i class="fa-solid fa-cart-shopping ico-side"></i>Quản kí đơn hàng</a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="main-content">
+                <div class="container">
+                    <h3 class="title-page">
+                        Sản phẩm
+                    </h3>
+                    <div class="d-flex justify-content-end">
+                        <a href="${pageContext.request.contextPath}/admin/products/add" 
+                            class="btn btn-primary mb-2">Thêm sản phẩm</a>
+                    </div>
+                    <table id="example" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Hình </th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Khuyến mãi</th>
+                                <th>Danh mục</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                       <tbody>
+                        <c:forEach var="p" items="${products}">
+                            <tr>
+                                <td>
+                                    <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
+                                        width="60" height="60" style="object-fit:cover; border-radius:6px;"
+                                        onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
+                                </td>
+                                <td>${p.name}</td>
+                                <td>${p.price}</td>
+                                <td>${p.discount}%</td>
+                                <td>${brandMap[p.id_brand]}</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                        
+                    </table>
                 </div>
             </div>
+        </div>
+    </div>
+ <script src="${pageContext.request.contextPath}/assets/js/vendor/main.js"></script>
+    <script>
+        new DataTable('#example');
+    </script>
 </body>
+
 </html>

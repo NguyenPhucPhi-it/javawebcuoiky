@@ -1,0 +1,173 @@
+/* --- Quy chuẩn chung (Reset & Base) --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  line-height: 1.6;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+/* --- Bố cục chính (Layout) --- */
+.main-page {
+  padding: 0;
+  max-width: 100%;
+}
+
+.app-main {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Thanh menu bên cạnh (Sidebar) --- */
+.sidebar {
+  width: 260px;
+  background-color: #ffffff !important; /* Ghi đè màu bg-primary */
+  border-right: 2px solid #000000;
+  padding: 20px 0;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin-bottom: 5px;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Hiệu ứng khi rê chuột vào menu */
+.sidebar ul li a:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.sidebar ul li a .ico-side {
+  margin-right: 15px;
+  width: 20px;
+  text-align: center;
+}
+
+/* --- Nội dung chính (Main Content) --- */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #ffffff;
+}
+
+.title-page {
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #000000;
+}
+
+/* --- Nút bấm (Buttons) --- */
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0px !important; /* Vuông vắn hợp cơ bản */
+  transition: all 0.2s ease;
+}
+
+/* Nút Thêm sản phẩm / Nút chính */
+.btn-primary {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+.btn-primary:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Nút Sửa */
+.btn-warning {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+.btn-warning:hover {
+  background-color: #f0f0f0 !important; /* Xám nhẹ khi hover nút sửa */
+  font-weight: 700;
+}
+
+/* Nút Xóa */
+.btn-danger {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+.btn-danger:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* --- Bảng dữ liệu (Table) --- */
+.table {
+  width: 100%;
+  border-collapse: collapse !important;
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  padding: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.table tbody td {
+  padding: 12px;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+  vertical-align: middle;
+}
+
+/* Hiệu ứng sọc hàng (Striped) trắng / xám cực nhẹ */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffffff !important;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9 !important;
+}
+
+/* Tùy biến thêm cho các thành phần của thư viện DataTable (nếu có hiển thị) */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #000000 !important;
+  padding: 5px;
+}
