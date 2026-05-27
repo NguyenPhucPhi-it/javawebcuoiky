@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.javawebcuoiky.model.User;
+import com.example.javawebcuoiky.service.ShoppingCartService;
 import com.example.javawebcuoiky.service.UserSevice;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
+    
     private final UserSevice userSevice;
-
-    AuthController(UserSevice userSevice) {
+    private final ShoppingCartService cartService;
+    AuthController(UserSevice userSevice, ShoppingCartService cartService) {
         this.userSevice = userSevice;
+        this.cartService = cartService;
     }
 
     // ───── Login ─────
@@ -41,6 +44,8 @@ public class AuthController {
             model.addAttribute("error", "Sai email hoặc mật khẩu");
             return "auth/login";
         }
+         String oldSessionId = session.getId(); // lấy sessionId trước khi gán user
+         cartService.mergeSessionCart(oldSessionId, user);
 
         session.setAttribute("loggedUser", user);
 

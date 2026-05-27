@@ -5,12 +5,18 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.javawebcuoiky.model.Product;
+import com.example.javawebcuoiky.model.ShoppingCartItem;
+import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.ProductService;
+import com.example.javawebcuoiky.service.ShoppingCartService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -18,8 +24,10 @@ import com.example.javawebcuoiky.service.ProductService;
 @Controller
 public class UserController {
     private final ProductService productService;
-    public UserController(ProductService productService){
+    private final ShoppingCartService cartService;
+    public UserController(ProductService productService,ShoppingCartService cartService){
         this.productService=productService;
+        this.cartService = cartService;
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
     public String showHome(Model model) {
@@ -41,11 +49,34 @@ public class UserController {
         return "user/product";
     }
 
-    @RequestMapping(value="/user/shoppingcart", method=RequestMethod.GET)
-    public String showGioHang(Model model) {
+    @RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
+    public String showGioHang(Model model, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        String sessionId = session.getId();
+
+        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, sessionId);
+        double total = cartItems.stream()
+                .mapToDouble(ShoppingCartItem::getSubtotal)
+                .sum();
+
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", total);
         return "user/shoppingcart";
     }
-
+     @PostMapping("/user/cart/add")
+    public String addToCart(@RequestParam int productId,
+                            @RequestParam(defaultValue = "1") int quantity,
+                            HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+        return "redirect:/user/shoppingcart";
+    }
+    // ───── Xóa khỏi giỏ ─────
+    @PostMapping("/user/cart/remove")
+    public String removeFromCart(@RequestParam int cartId) {
+        cartService.removeFromCart(cartId);
+        return "redirect:/user/shoppingcart";
+    }
 
     
 

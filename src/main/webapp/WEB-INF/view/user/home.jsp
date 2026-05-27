@@ -280,7 +280,15 @@
                                                         <a class="product-btn" href="/user/productdetail/${p.id}">Mua hàng</a>
                                                         <ul class="d-flex">
                                                             <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                                            <li><a href="shoppingcart.jsp"><i class="fa-solid fa-shop"></i></i></a></li>
+                                                           <li>
+                                                                <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
+                                                                    <input type="hidden" name="productId" value="${p.id}"/>
+                                                                    <input type="hidden" name="quantity" value="1"/>
+                                                                    <button type="submit" style="background:none; border:none; cursor:pointer; padding:0;">
+                                                                        <i class="fa-solid fa-shop"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </li>
                                                             <li><a href="#"><i class="fa fa-exchange"></i></a></li>
                                                         </ul>
                                                     </div>
