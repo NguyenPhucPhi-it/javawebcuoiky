@@ -35,6 +35,15 @@ public class ProductService {
         Pageable pageable=PageRequest.of(page,size);
         return productRepository.findAll(pageable);
     }
+    // san pham moi 
+    public List<Product> getNewProducts(){
+        return productRepository.findNewProducts(PageRequest.of(0, 8));
+    }
+    // san pham khuyen mai
+    public List<Product> getSaleProducts(){
+         return productRepository.findSaleProducts(PageRequest.of(0, 8));
+    }
+    
 
 }
 

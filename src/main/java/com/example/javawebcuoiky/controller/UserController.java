@@ -1,5 +1,7 @@
 package com.example.javawebcuoiky.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,13 @@ public class UserController {
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
     public String showHome(Model model) {
+        List<Product> newProducts =productService.getNewProducts();
+        List<Product> saleProducts = productService.getSaleProducts();
+        model.addAttribute("newProducts", newProducts);
+        model.addAttribute("saleProducts",saleProducts);
         return "user/home";
     }
- @RequestMapping(value = "/user/product", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/product", method = RequestMethod.GET)
     public String showProduct(Model model,
                               @RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "9") int size) {
@@ -35,10 +41,21 @@ public class UserController {
         return "user/product";
     }
 
+    
+    
+
+
+
+
+
+
+
     @RequestMapping(value="/user/shoppingcart", method=RequestMethod.GET)
     public String showGioHang(Model model) {
         return "user/shoppingcart";
     }
+
+
     
 
 
