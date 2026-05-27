@@ -41,15 +41,6 @@ public class UserController {
         return "user/product";
     }
 
-    
-    
-
-
-
-
-
-
-
     @RequestMapping(value="/user/shoppingcart", method=RequestMethod.GET)
     public String showGioHang(Model model) {
         return "user/shoppingcart";

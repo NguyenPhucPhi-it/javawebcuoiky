@@ -46,6 +46,7 @@
                     <li>
                         <a href="order.html"><i class="fa-solid fa-cart-shopping ico-side"></i>Quản kí đơn hàng</a>
                     </li>
+                    <li><li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li></li>
 
                 </ul>
             </nav>

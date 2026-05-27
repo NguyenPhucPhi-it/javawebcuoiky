@@ -1,6 +1,6 @@
       <%@ page contentType="text/html;charset=UTF-8" language="java" %>
       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<c:set var="loggedUser" value="${sessionScope.loggedUser}" />
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -37,16 +37,31 @@
                         <div class="col-xl-6 col-lg-4">
                             <div class="ht-right d-flex justify-content-lg-end justify-content-center">
                                 <ul class="ht-us-menu d-flex">
-                                    <li><a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                            <c:choose>
+                                <c:when test="${loggedUser != null}">
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
                                         <ul class="ht-dropdown right">
-                                            <!-- <li><a href="compare.html">Compare Products</a></li> -->
-                                            <li><a href="/auth/register">Đăng ký</a></li>
-                                            <!-- <li><a href="wishlist.html">My Wish List</a></li> -->
-                                            <li><a href="/auth/login"> Đăng nhập</a></li>
-                                            <!-- <li><a href="login-register.html">Sign In</a></li> -->
+                                            <c:if test="${loggedUser.role == 1}">
+                                                <li><a href="/admin/dashboard">Quản trị</a></li>
+                                            </c:if>
+                                            <li><a href="/auth/logout">Đăng xuất</a></li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </c:when>
+                                <c:otherwise>
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                                        <ul class="ht-dropdown right">
+                                            <li><a href="/auth/register">Đăng ký</a></li>
+                                            <li><a href="/auth/login">Đăng nhập</a></li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
                             </div>
                         </div>
                     </div>
@@ -265,7 +280,7 @@
                                                         <a class="product-btn" href="/user/productdetail/${p.id}">Mua hàng</a>
                                                         <ul class="d-flex">
                                                             <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                                            <li><a href="#"><i class="fa fa-heart-o"></i></a></li>
+                                                            <li><a href="shoppingcart.jsp"><i class="fa-solid fa-shop"></i></i></a></li>
                                                             <li><a href="#"><i class="fa fa-exchange"></i></a></li>
                                                         </ul>
                                                     </div>
@@ -808,7 +823,7 @@
                         <!-- Single Banner Start -->
                         <div class="single-banner mb-30">
                             <a href="#">
-                                <img src="assets/images/banner/h1-banner-1.png" alt="">
+                                <img src="https://images.unsplash.com/photo-1506193095-80bc749473f2?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
                             </a>
                         </div>
                         <!-- Single Banner End -->
@@ -817,7 +832,7 @@
                         <!-- Single Banner Start -->
                         <div class="single-banner mb-30">
                             <a href="#">
-                                <img src="assets/images/banner/h1-banner-2.png" alt="">
+                                <img src="https://plus.unsplash.com/premium_photo-1728759435328-9a5a417edef7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
                             </a>
                         </div>
                         <!-- Single Banner End -->
@@ -826,7 +841,7 @@
                         <!-- Single Banner Start -->
                         <div class="single-banner mb-30">
                             <a href="#">
-                                <img src="assets/images/banner/h1-banner-3.png" alt="">
+                                <img src="https://plus.unsplash.com/premium_photo-1723568571445-24c92fc4d566?q=80&w=1204&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
                             </a>
                         </div>
                         <!-- Single Banner End -->

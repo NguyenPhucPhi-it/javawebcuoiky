@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="loggedUser" value="${sessionScope.loggedUser}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,15 +40,32 @@
                         </div>
                         <div class="col-xl-6 col-lg-4">
                             <div class="ht-right d-flex justify-content-lg-end justify-content-center">
-                                <ul class="ht-us-menu d-flex">
-                                    <li><a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                               <ul class="ht-us-menu d-flex">
+                            <c:choose>
+                                <c:when test="${loggedUser != null}">
+                                
+                                    <li>
+                                       <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
                                         <ul class="ht-dropdown right">
-                                            <!-- <li><a href="compare.html">Compare Products</a></li> -->
-                                            <li><a href="my-account.html">Cập nhật</a></li>
-                                            <!-- <li><a href="wishlist.html">My Wish List</a></li> -->
-                                            <li><a href="login-register.html">Đăng ký / Đăng nhập</a></li>
-                                            <!-- <li><a href="login-register.html">Sign In</a></li> -->
+                                            <c:if test="${loggedUser.role == 1}">
+                                                <li><a href="/admin/dashboard">Quản trị</a></li>
+                                            </c:if>
+                                            <li><a href="/auth/logout">Đăng xuất</a></li>
                                         </ul>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                                        <ul class="ht-dropdown right">
+                                            <li><a href="/auth/register">Đăng ký</a></li>
+                                            <li><a href="/auth/login">Đăng nhập</a></li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
                                     </li>
                                 </ul>
                             </div>

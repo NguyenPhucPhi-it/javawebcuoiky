@@ -2,57 +2,67 @@ package com.example.javawebcuoiky.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.UserSevice;
 
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
     private final UserSevice userSevice;
+
     AuthController(UserSevice userSevice) {
         this.userSevice = userSevice;
     }
 
-    @RequestMapping("/auth/login")
-    public String showLogin() {
+    // ───── Login ─────
+    @GetMapping("/auth/login")
+    public String showLogin(HttpSession session) {
+        User u = (User) session.getAttribute("loggedUser");
+        if (u != null) {
+            return u.getRole() == 1 ? "redirect:/admin/dashboard" : "redirect:/user/home";
+        }
         return "auth/login";
     }
-   
-    @RequestMapping("/auth/register")
-    public String showRegister() {
+
+    @PostMapping("/auth/login")
+    public String login(@RequestParam String email,
+                        @RequestParam String password,
+                        Model model,
+                        HttpSession session) {
+        User user = userSevice.findByEmail(email);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            model.addAttribute("error", "Sai email hoặc mật khẩu");
+            return "auth/login";
+        }
+
+        session.setAttribute("loggedUser", user);
+
+        return user.getRole() == 1 ? "redirect:/admin/dashboard" : "redirect:/user/home";
+    }
+
+    @GetMapping("/auth/register")
+    public String showRegister(HttpSession session) {
+        if (session.getAttribute("loggedUser") != null) return "redirect:/user/home";
         return "auth/register";
     }
 
-    @RequestMapping(value="/auth/register", method=RequestMethod.POST)
-    public String saveRegister(@ModelAttribute User user,Model model) {
+    @PostMapping("/auth/register")
+    public String saveRegister(@ModelAttribute User user) {
         user.setRole(0);
-       this.userSevice.save(user);
+        userSevice.save(user);
         return "redirect:/auth/login";
-    } 
-    @RequestMapping(value="/auth/login", method=RequestMethod.POST)
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
-                        Model model) {
-                            User user=userSevice.findByEmail(email);
-        if( user==null || !user.getPassword().equals(password)){
-            model.addAttribute("error","Sai email or pass");
-            return "auth/login";
-
-        }
-        if(user.getRole()==0){
-            return "redirect:/user/home"; 
-        }else{
-            return "admin/dashboard";
-            //  return "redirect:/admin/dashboard";
-        }
-        
     }
-    
-  
-    
+
+    @GetMapping("/auth/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/user/home";
+    }
 }
