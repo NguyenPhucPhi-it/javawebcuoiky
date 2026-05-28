@@ -12,6 +12,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -109,4 +110,24 @@ public class AdminController {
         brandService.saveBrand(brand);
         return "redirect:/admin/brands";
     }
+    @RequestMapping(value="/admin/updateBrand/{id}", method=RequestMethod.GET)
+    public String showUpdateBrandForm(@PathVariable("id") int id, Model model, HttpSession session) {
+        if(!isAdmin(session)) return "redirect:/auth/login";
+        Brand brand = brandService.getBrandById(id);
+        if(brand ==null){
+            return "redirect:/admin/brands";
+        }
+         model.addAttribute("brand", brand);
+        return "admin/updateBrand";
+    }
+    @RequestMapping(value="/admin/updateBrand", method=RequestMethod.POST)
+    public String updateBrand(@ModelAttribute Brand brand, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        brandService.saveBrand(brand);
+        return "redirect:/admin/brands";
+    }
+    
+       
+
+    
 }

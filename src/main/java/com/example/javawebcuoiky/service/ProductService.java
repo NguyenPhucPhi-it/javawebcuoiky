@@ -43,6 +43,9 @@ public class ProductService {
     public List<Product> getSaleProducts(){
          return productRepository.findSaleProducts(PageRequest.of(0, 8));
     }
+    public Product getProductById(int id){
+        return productRepository.findById(id).orElse(null);
+    }
     
 
 }

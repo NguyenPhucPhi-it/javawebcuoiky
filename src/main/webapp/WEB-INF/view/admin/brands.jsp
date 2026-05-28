@@ -61,7 +61,7 @@
                     <td>${b.id}</td>
                     <td>${b.brandName}</td>  
                     <td>
-                        <a href="#" class="btn btn-warning btn-sm">
+                        <a href="${pageContext.request.contextPath}/admin/updateBrand/${b.id}" class="btn btn-warning btn-sm">
                             <i class="fa-solid fa-pen-to-square"></i> Sửa
                         </a>
                         <a href="#" class="btn btn-danger btn-sm">

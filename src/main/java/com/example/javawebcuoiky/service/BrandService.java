@@ -22,4 +22,7 @@ public class BrandService {
         Brand b = this.brandRepository.save(brand);
         return b;
     }
+    public Brand getBrandById(int id){
+        return brandRepository.findById(id).orElse(null);
+    }
 }

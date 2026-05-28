@@ -318,7 +318,7 @@
                                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                                     <div class="single-product mb-30">
                                                         <div class="product-img">
-                                                            <a href="#">
+                                                            <a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">
                                                                 <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
                                                                     alt="${p.name}"
                                                                     onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
@@ -331,7 +331,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="product-content">
-                                                            <h3><a href="#">${p.name}</a></h3>
+                                                            <h3><a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">${p.name}</a></h3>
                                                             <h4 class="price">
                                                                 <c:choose>
                                                                     <c:when test="${p.discount > 0}">

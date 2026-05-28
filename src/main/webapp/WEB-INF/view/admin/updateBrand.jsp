@@ -3,7 +3,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Thêm thuong hieu</title>
+    <title>Cập nhật danh mục</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/products.css">
 </head>
 <body>
@@ -36,18 +36,25 @@
         </nav>
         <div class="main-content">
             <div class="container">
-                <h3 class="title-page">Thêm danh mục</h3>
-                <form action="${pageContext.request.contextPath}/admin/brands/add"
-                      method="post">
+                <h3 class="title-page">Cập nhật danh mục</h3>
 
-                    <div class="mb-3">
-                        <label>Tên danh mục</label>
-                        <input type="text" name="brandName" class="form-control" required/>
-                    </div>
+                    <form action="${pageContext.request.contextPath}/admin/updateBrand" method="post">
+                        
+                        <div class="mb-3">
+                            <input type="hidden" name="id" class="form-control" value="${brand.id}"/>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary">Lưu</button>
-                    <a href="/admin/brands" class="btn btn-secondary">Hủy</a>
-                </form>
+                        <div class="mb-3">
+                            <label>Tên danh mục</label>
+                            <input type="text" name="brandName" class="form-control" value="${brand.brandName}"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fa-solid fa-pen-to-square"></i> Lưu thay đổi
+                        </button>
+                        
+                        <a href="${pageContext.request.contextPath}/admin/brands" class="btn btn-secondary">Hủy</a>
+                    </form>
             </div>
         </div>
     </div>

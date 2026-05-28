@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,12 +78,13 @@ public class UserController {
         cartService.removeFromCart(cartId);
         return "redirect:/user/shoppingcart";
     }
-
+    @RequestMapping(value="/user/productDetails/{id}", method=RequestMethod.GET)
+    public String showProductDetails(@PathVariable int id,Model model, HttpSession session) {
+        Product product=productService.getProductById(id);
+        if(product==null) return "redirect:/user/product";
+        model.addAttribute("product", product);
+        return "user/productDetails";
+    }
     
-
-
-    
-    
-
     
 }
