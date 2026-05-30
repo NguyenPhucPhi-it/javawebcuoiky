@@ -25,4 +25,7 @@ public class BrandService {
     public Brand getBrandById(int id){
         return brandRepository.findById(id).orElse(null);
     }
+     public void deleteBrand(int id){
+        brandRepository.deleteById(id);
+    }
 }

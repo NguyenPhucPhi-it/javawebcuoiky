@@ -19,7 +19,6 @@
     <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
     <title>Trang chủ</title>
 </head>
-
 <body>
     <!--Header section start-->
     <div id="main-wrapper">
@@ -212,31 +211,48 @@
                         <div class="common-sidebar-widget">
                             <h3 class="sidebar-title">Danh mục</h3>
                             <ul class="sidebar-list">
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Dưỡng da <span
-                                            class="count">(5)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Dưỡng tóc <span
-                                            class="count">(4)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Làm đẹp <span
-                                            class="count">(4)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Mỹ phẩm <span
-                                            class="count">(4)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Phấn <span
-                                            class="count">(4)</span></a></li>
-                            </ul>\
+                             
+                                <li class="${selectedBrand == null ? 'active' : ''}">
+                                    <a href="${pageContext.request.contextPath}/user/product?page=0&size=9">
+                                        <i class="fa fa-angle-right"></i>Tất cả
+                                    </a>
+                                </li>
+                          
+                                <c:forEach var="b" items="${brands}">
+                                    <li class="${selectedBrand == b.id ? 'active' : ''}">
+                                        <a href="${pageContext.request.contextPath}/user/product?page=0&size=9&brandId=${b.id}">
+                                            <i class="fa fa-angle-right"></i>${b.brandName}
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
                         </div>
                         <!-- Single Sidebar End  -->
                         <!-- Single Sidebar Start  -->
                         <div class="common-sidebar-widget">
                             <h3 class="sidebar-title">Tìm sản phẩm theo giá</h3>
+                            <c:set var="brandParam" value="${selectedBrand != null ? '&brandId='.concat(selectedBrand) : ''}"/>
                             <ul class="sidebar-list">
-                                <li><a href="#"><i class="fa fa-angle-right"></i><span class="price">0</span> -
-                                        <span class="price">500.000 đ </span> <span class="count">(7)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i><span class="price">500.000</span> -
-                                    <span class="price">1.000.000 đ </span> <span class="count">(7)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i><span class="price">1.000.000</span> -
-                                    <span class="price">3.000.000 đ </span> <span class="count">(7)</span></a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i><span class="price">3.000.000</span> -
-                                    <span class="price">5.000.000 đ </span> <span class="count">(7)</span></a></li>
+                                <li class="${minPrice == 0 && maxPrice == 500000 ? 'active' : ''}">
+                                    <a href="${pageContext.request.contextPath}/user/product?page=0&size=9${brandParam}&minPrice=0&maxPrice=500000">
+                                        <i class="fa fa-angle-right"></i>0 - 500.000 đ
+                                    </a>
+                                </li>
+                                <li class="${minPrice == 500000 && maxPrice == 1000000 ? 'active' : ''}">
+                                    <a href="${pageContext.request.contextPath}/user/product?page=0&size=9${brandParam}&minPrice=500000&maxPrice=1000000">
+                                        <i class="fa fa-angle-right"></i>500.000 - 1.000.000 đ
+                                    </a>
+                                </li>
+                                <li class="${minPrice == 1000000 && maxPrice == 3000000 ? 'active' : ''}">
+                                    <a href="${pageContext.request.contextPath}/user/product?page=0&size=9${brandParam}&minPrice=1000000&maxPrice=3000000">
+                                        <i class="fa fa-angle-right"></i>1.000.000 - 3.000.000 đ
+                                    </a>
+                                </li>
+                                <li class="${minPrice == 3000000 && maxPrice == 5000000 ? 'active' : ''}">
+                                    <a href="${pageContext.request.contextPath}/user/product?page=0&size=9${brandParam}&minPrice=3000000&maxPrice=5000000">
+                                        <i class="fa fa-angle-right"></i>3.000.000 - 5.000.000 đ
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <!-- Single Sidebar End  -->

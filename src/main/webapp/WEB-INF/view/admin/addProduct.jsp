@@ -73,7 +73,6 @@
                         <label>Hình ảnh</label>
                         <input type="file" name="imageFile" class="form-control" accept="image/*"
                                onchange="previewImage(event)"/>
-                        <!-- <%-- Preview ảnh trước khi upload --%> -->
                         <img id="preview" src="#" alt="Preview"
                              style="display:none; margin-top:10px; max-width:200px; border-radius:8px;"/>
                     </div>

@@ -46,7 +46,18 @@ public class ProductService {
     public Product getProductById(int id){
         return productRepository.findById(id).orElse(null);
     }
-    
 
+
+    public Page<Product> getProductByPage(int page, int size, Integer brandId, Double minPrice, Double maxPrice) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (brandId != null && minPrice != null && maxPrice != null) {
+            return productRepository.findByBrandIdAndPriceBetween(brandId, minPrice, maxPrice, pageable);
+        } else if (brandId != null) {
+            return productRepository.findByBrandId(brandId, pageable);
+        } else if (minPrice != null && maxPrice != null) {
+            return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+        }
+        return productRepository.findAll(pageable);
+    }
 }
-

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.ShoppingCartItem;
 import com.example.javawebcuoiky.model.User;
+import com.example.javawebcuoiky.service.BrandService;
 import com.example.javawebcuoiky.service.ProductService;
 import com.example.javawebcuoiky.service.ShoppingCartService;
 
@@ -26,9 +27,11 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
     private final ProductService productService;
     private final ShoppingCartService cartService;
-    public UserController(ProductService productService,ShoppingCartService cartService){
+    private final  BrandService brandService;
+    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService){
         this.productService=productService;
         this.cartService = cartService;
+        this.brandService=brandService;
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
     public String showHome(Model model) {
@@ -41,12 +44,20 @@ public class UserController {
     @RequestMapping(value = "/user/product", method = RequestMethod.GET)
     public String showProduct(Model model,
                               @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "9") int size) {
+                              @RequestParam(defaultValue = "9") int size,
+                              @RequestParam(required = false) Integer brandId,     
+                              @RequestParam(required = false) Double minPrice,      
+                              @RequestParam(required = false) Double maxPrice)
+                               {
 
-        Page<Product> productPage = productService.getProductByPage(page, size);
+           Page<Product> productPage = productService.getProductByPage(page, size, brandId, minPrice, maxPrice);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("brands", brandService.getAllBrands());
+        model.addAttribute("selectedBrand", brandId);             
+        model.addAttribute("minPrice", minPrice);              
+        model.addAttribute("maxPrice", maxPrice);   
         return "user/product";
     }
 
@@ -85,6 +96,9 @@ public class UserController {
         model.addAttribute("product", product);
         return "user/productDetails";
     }
+
+   
+    
     
     
 }

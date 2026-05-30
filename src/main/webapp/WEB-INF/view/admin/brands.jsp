@@ -64,9 +64,10 @@
                         <a href="${pageContext.request.contextPath}/admin/updateBrand/${b.id}" class="btn btn-warning btn-sm">
                             <i class="fa-solid fa-pen-to-square"></i> Sửa
                         </a>
-                        <a href="#" class="btn btn-danger btn-sm">
-                            <i class="fa-solid fa-trash"></i> Xóa
-                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/brands/delete/${b.id}" class="btn btn-danger btn-sm"
+                                         onclick="return confirm('Xóa sản phẩm này?')">
+                                        <i class="fa-solid fa-trash"></i> Xóa
+                                    </a>
                     </td>
                 </tr>
             </c:forEach>

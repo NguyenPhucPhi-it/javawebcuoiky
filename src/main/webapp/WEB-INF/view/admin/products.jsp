@@ -66,14 +66,15 @@
                                         onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
                                 </td>
                                 <td>${p.name}</td>
-                                <td>${p.price}</td>
+                                <td>${p.price}đ</td>
                                 <td>${p.discount}%</td>
                                 <td>${brandMap[p.id_brand]}</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-sm">
+                                    <a href="${pageContext.request.contextPath}/admin/products/update/${p.id}" class="btn btn-warning btn-sm">
                                         <i class="fa-solid fa-pen-to-square"></i> Sửa
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-sm">
+                                    <a href="${pageContext.request.contextPath}/admin/products/delete/${p.id}" class="btn btn-danger btn-sm"
+                                         onclick="return confirm('Xóa sản phẩm này?')">
                                         <i class="fa-solid fa-trash"></i> Xóa
                                     </a>
                                 </td>

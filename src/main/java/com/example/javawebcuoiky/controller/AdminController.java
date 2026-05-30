@@ -126,6 +126,51 @@ public class AdminController {
         brandService.saveBrand(brand);
         return "redirect:/admin/brands";
     }
+    @RequestMapping(value="/admin/products/update/{id}", method=RequestMethod.GET)
+    public String showUpdateProduct(@PathVariable int id,Model model, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        Product product = productService.getProductById(id);
+        if(product == null)  return "redirect:/admin/products";
+        model.addAttribute("product", product);
+        model.addAttribute("brands", brandService.getAllBrands());
+        return "admin/updateProduct";
+    }
+    @RequestMapping(value = "/admin/products/update", method = RequestMethod.POST)
+    public String updateProduct(@ModelAttribute Product product,
+                             @RequestParam("imageFile") MultipartFile imageFile,
+                             HttpSession session) throws IOException {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+
+    // Nếu có upload ảnh mới thì thay, không thì giữ ảnh cũ
+    if (!imageFile.isEmpty()) {
+        String uploadDir = "src/main/webapp/assets/uploads/";
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+        String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+        Files.copy(imageFile.getInputStream(), uploadPath.resolve(fileName),
+                   StandardCopyOption.REPLACE_EXISTING);
+        product.setImage(fileName);
+    }
+    // imageFile rỗng → product.image vẫn giữ giá trị từ hidden input
+    productService.saveProduct(product);
+    return "redirect:/admin/products";
+    }
+    @RequestMapping(value="/admin/products/delete/{id}", method=RequestMethod.GET)
+    public String deleteProduct(@PathVariable int id, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        productService.deletProducts(id);
+        return "redirect:/admin/products";
+    }
+    @RequestMapping(value="/admin/brands/delete/{id}", method=RequestMethod.GET)
+    public String deleteBrand(@PathVariable int id, HttpSession session) {
+         if (!isAdmin(session)) return "redirect:/auth/login";
+         brandService.deleteBrand(id);
+        return "redirect:/admin/brands";
+    }
+    
+
+    
+    
     
        
 

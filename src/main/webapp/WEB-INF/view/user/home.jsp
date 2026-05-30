@@ -7,13 +7,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-          <script src="https://kit.fontawesome.com/8c204d0fdf.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/plugins.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/helper.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/iconfont.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-          <script src="${pageContext.request.contextPath}assets/js/vendor/modernizr-2.8.3.min.js"></script>
+            <script src="https://kit.fontawesome.com/8c204d0fdf.js" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/plugins.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/helper.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/iconfont.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+            <script src="${pageContext.request.contextPath}assets/js/vendor/modernizr-2.8.3.min.js"></script>
       </head>
       
      <body>
@@ -269,11 +269,11 @@
                                             <!-- Single Product Start -->
                                             <div class="single-product mb-30">
                                                 <div class="product-img">
-                                                    <a href="/user/productdetail/${p.id}">
-                                                        <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
-                                                            alt="${p.name}"
-                                                            onerror="this.src='${pageContext.request.contextPath}/assets/images/product/product-1.jpg'">
-                                                    </a>
+                                                    <a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">
+                                                                <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
+                                                                    alt="${p.name}"
+                                                                    onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
+                                                            </a>
                                                   
                                                     <span class="sticker">New</span>
                                                     <div class="product-action d-flex justify-content-between">
@@ -340,11 +340,11 @@
                                         <div class="col-12">
                                             <div class="single-product mb-30">
                                                 <div class="product-img">
-                                                    <a href="/user/product/${p.id}">
-                                                        <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
-                                                            alt="${p.name}"                                                         
-                                                            onerror="this.src='${pageContext.request.contextPath}/assets/images/product/product-1.jpg'">
-                                                    </a>
+                                                    <a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">
+                                                                <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
+                                                                    alt="${p.name}"
+                                                                    onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
+                                                            </a>
                                                     <c:if test="${p.discount != null && p.discount > 0 && p.discount <= 100}">
                                                         <span class="descount-sticker">-<c:out value="${p.discount}"/>%</span>
                                                     </c:if>
