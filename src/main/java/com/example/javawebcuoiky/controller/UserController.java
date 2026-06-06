@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.javawebcuoiky.model.Order;
+import com.example.javawebcuoiky.model.Post;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.ShoppingCartItem;
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.BrandService;
 import com.example.javawebcuoiky.service.OrderService;
+import com.example.javawebcuoiky.service.PostService;
 import com.example.javawebcuoiky.service.ProductService;
 import com.example.javawebcuoiky.service.ShoppingCartService;
 
@@ -31,11 +33,13 @@ public class UserController {
     private final ShoppingCartService cartService;
     private final  BrandService brandService;
       private final OrderService orderService;
-    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService){
+      private final PostService postService;
+    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService,PostService postService){
         this.productService=productService;
         this.cartService = cartService;
         this.brandService=brandService;
         this.orderService = orderService;
+        this.postService=postService;
         
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
@@ -166,7 +170,21 @@ public String addToCart(@RequestParam int productId,
         return "user/contact";
     }
 
-    
+    // ───── Bài viết ─────
+@RequestMapping(value = "/user/blog", method = RequestMethod.GET)
+public String showBlog(Model model) {
+    List<Post> posts = postService.getAllPosts();
+    model.addAttribute("posts", posts);
+    return "user/blog";
+}
+
+@RequestMapping(value = "/user/blog/{id}", method = RequestMethod.GET)
+public String showBlogDetail(@PathVariable int id, Model model) {
+    Post post = postService.getPostById(id);
+    if (post == null) return "redirect:/user/blog";
+    model.addAttribute("post", post);
+    return "user/blogDetail";
+}
 
    
     

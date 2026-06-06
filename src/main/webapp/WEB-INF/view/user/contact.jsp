@@ -131,7 +131,7 @@
                                             </ul>
                                          -->
                                     </li>
-                                    <li><a href="blog.html">Bài viết</a>
+                                    <li><a href="/user/blog">Bài viết</a>
                                     </li>
                                     <li><a href="about.html">GIỚI THIỆU</a></li>
                                     <li><a href="/user/contact">LIÊN HỆ</a></li>

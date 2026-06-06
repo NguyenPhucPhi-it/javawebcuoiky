@@ -234,41 +234,41 @@ private final OrderDetailService orderDetailService;
     // quan ly don hang 
     
     @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
-public String listOrders(Model model, HttpSession session) {
-    if (!isAdmin(session)) return "redirect:/auth/login";
-    model.addAttribute("orders", orderService.getAllOrders());
-    return "admin/orders";
-}
+    public String listOrders(Model model, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        model.addAttribute("orders", orderService.getAllOrders());
+        return "admin/orders";
+    }
 
-@RequestMapping(value = "/admin/orders/{id}", method = RequestMethod.GET)
-public String orderDetail(@PathVariable int id, Model model, HttpSession session) {
-    if (!isAdmin(session)) return "redirect:/auth/login";
-    Order order = orderService.getOrderById(id);
-    if (order == null) return "redirect:/admin/orders";
-    List<OrderDetail> details = orderDetailService.getByOrderId(id);
-    model.addAttribute("order", order);
-    model.addAttribute("details", details);
-    return "admin/orderDetail";
-}
+    @RequestMapping(value = "/admin/orders/{id}", method = RequestMethod.GET)
+    public String orderDetail(@PathVariable int id, Model model, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        Order order = orderService.getOrderById(id);
+        if (order == null) return "redirect:/admin/orders";
+        List<OrderDetail> details = orderDetailService.getByOrderId(id);
+        model.addAttribute("order", order);
+        model.addAttribute("details", details);
+        return "admin/orderDetail";
+    }
 
-@PostMapping("/admin/orders/updateStatus")
-public String updateStatus(@RequestParam int orderId,
-                           @RequestParam String status,
-                           HttpSession session) {
-    if (!isAdmin(session)) return "redirect:/auth/login";
-    orderService.updateStatus(orderId, status);
-    return "redirect:/admin/orders";
-}
-    
-@PostMapping("/admin/orders/detail/updateStatus")
-public String updateDetailStatus(@RequestParam int detailId,
-                                 @RequestParam String status,
-                                 @RequestParam int orderId,
-                                 HttpSession session) {
-    if (!isAdmin(session)) return "redirect:/auth/login";
-    orderDetailService.updateStatus(detailId, status);
-    return "redirect:/admin/orders/" + orderId;
-}
+    @PostMapping("/admin/orders/updateStatus")
+    public String updateStatus(@RequestParam int orderId,
+                            @RequestParam String status,
+                            HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        orderService.updateStatus(orderId, status);
+        return "redirect:/admin/orders";
+    }
+        
+    @PostMapping("/admin/orders/detail/updateStatus")
+    public String updateDetailStatus(@RequestParam int detailId,
+                                    @RequestParam String status,
+                                    @RequestParam int orderId,
+                                    HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        orderDetailService.updateStatus(detailId, status);
+        return "redirect:/admin/orders/" + orderId;
+    }
        
 
     
