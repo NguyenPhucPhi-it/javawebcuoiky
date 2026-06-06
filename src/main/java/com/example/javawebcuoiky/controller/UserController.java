@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.javawebcuoiky.model.Order;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.ShoppingCartItem;
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.BrandService;
+import com.example.javawebcuoiky.service.OrderService;
 import com.example.javawebcuoiky.service.ProductService;
 import com.example.javawebcuoiky.service.ShoppingCartService;
 
@@ -28,10 +30,13 @@ public class UserController {
     private final ProductService productService;
     private final ShoppingCartService cartService;
     private final  BrandService brandService;
-    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService){
+      private final OrderService orderService;
+    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService){
         this.productService=productService;
         this.cartService = cartService;
         this.brandService=brandService;
+        this.orderService = orderService;
+        
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
     public String showHome(Model model) {
@@ -75,14 +80,28 @@ public class UserController {
         model.addAttribute("total", total);
         return "user/shoppingcart";
     }
-     @PostMapping("/user/cart/add")
-    public String addToCart(@RequestParam int productId,
-                            @RequestParam(defaultValue = "1") int quantity,
-                            HttpSession session) {
-        User loggedUser = (User) session.getAttribute("loggedUser");
-        cartService.addToCart(loggedUser, session.getId(), productId, quantity);
-        return "redirect:/user/shoppingcart";
+    //  @PostMapping("/user/cart/add")
+    // public String addToCart(@RequestParam int productId,
+    //                         @RequestParam(defaultValue = "1") int quantity,
+    //                         HttpSession session) {
+    //     User loggedUser = (User) session.getAttribute("loggedUser");
+    //     cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+        
+    //     return "redirect:/user/shoppingcart";
+    // }
+    @PostMapping("/user/cart/add")
+public String addToCart(@RequestParam int productId,
+                        @RequestParam(defaultValue = "1") int quantity,
+                        @RequestParam(defaultValue = "") String returnUrl,
+                        HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+
+    if (!returnUrl.isEmpty()) {
+        return "redirect:" + returnUrl;
     }
+    return "redirect:/user/shoppingcart";
+}
     // ───── Xóa khỏi giỏ ─────
     @PostMapping("/user/cart/remove")
     public String removeFromCart(@RequestParam int cartId) {
@@ -96,6 +115,58 @@ public class UserController {
         model.addAttribute("product", product);
         return "user/productDetails";
     }
+
+
+    // ───── Checkout – hiển thị form ─────
+    @RequestMapping(value = "/user/checkout", method = RequestMethod.GET)
+    public String showCheckout(Model model, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) return "redirect:/auth/login";
+
+        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+        if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
+
+        double total = cartItems.stream()
+                .mapToDouble(ShoppingCartItem::getSubtotal)
+                .sum();
+
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", total);
+        model.addAttribute("loggedUser", loggedUser);
+        return "user/checkout";
+    }
+
+    // ───── Checkout – xử lý đặt hàng ─────
+    @PostMapping("/user/checkout")
+    public String placeOrder(@RequestParam String receiverName,
+                             @RequestParam String receiverEmail,
+                             @RequestParam String receiverPhone,
+                             @RequestParam String address,
+                             HttpSession session,
+                             Model model) {
+
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) return "redirect:/auth/login";
+
+        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+        if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
+
+        Order savedOrder = orderService.placeOrder(
+                receiverName, receiverEmail, receiverPhone, address,
+                loggedUser.getId(), cartItems
+        );
+
+        model.addAttribute("order", savedOrder);
+        return "user/order-success";
+    }
+
+    // ───── Liên hệ ─────
+    @RequestMapping(value = "/user/contact", method = RequestMethod.GET)
+    public String showContact() {
+        return "user/contact";
+    }
+
+    
 
    
     

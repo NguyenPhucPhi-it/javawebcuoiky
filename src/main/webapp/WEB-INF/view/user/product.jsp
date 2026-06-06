@@ -153,7 +153,7 @@
                                     <li><a href="blog.html">Bài viết</a>
                                     </li>
                                     <li><a href="about.html">GIỚI THIỆU</a></li>
-                                    <li><a href="contact.html">LIÊN HỆ</a></li>
+                                    <li><a href="/user/contact">LIÊN HỆ</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -343,8 +343,17 @@
                                                                 <span class="descount-sticker">-${p.discount}%</span>
                                                             </c:if>
                                                             <div class="product-action d-flex justify-content-between">
-                                                                <a class="product-btn" href="#">Mua hàng</a>
-                                                            </div>
+
+                                                                    <form action="${pageContext.request.contextPath}/user/cart/add" method="post" style="display:inline;">
+                                                                        <input type="hidden" name="productId" value="${p.id}"/>
+                                                                        <input type="hidden" name="quantity" value="1"/>
+                                                                        <input type="hidden" name="returnUrl" value="/user/product"/>
+                                                                        <button type="submit" class="product-btn" title="Thêm vào giỏ hàng">
+                                                                            <i class="fa fa-shopping-cart"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                  
+                                                                </div>
                                                         </div>
                                                         <div class="product-content">
                                                             <h3><a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">${p.name}</a></h3>

@@ -125,7 +125,7 @@
                     <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
                         <input type="hidden" name="productId" value="${product.id}"/>
                         <input type="hidden" name="quantity" value="1"/>
-                        <button type="submit" style="width:100%; padding:12px; background:#e91e63; color:white; border:none; cursor:pointer; font-size:16px; margin-bottom:15px;">
+                        <button type="submit" style="width:100%; padding:12px; background:#333333; color:white; border:none; cursor:pointer; font-size:16px; margin-bottom:15px;">
                             <i class="fa fa-bolt"></i> Mua ngay
                         </button>
                     </form>

@@ -21,6 +21,7 @@ public class OrderDetail {
     private int id_product;
     @Column(name = "id_order") 
     private int id_order;
+     private String status = "Chờ xác nhận";
     public OrderDetail() {
     }
     public int getId() {
@@ -65,4 +66,6 @@ public class OrderDetail {
     public void setId_order(int id_order) {
         this.id_order = id_order;
     }
+     public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

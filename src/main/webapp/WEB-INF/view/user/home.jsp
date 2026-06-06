@@ -92,7 +92,7 @@
                                     <li><a href="blog.html">Bài viết</a>
                                     </li>
                                     <li><a href="about.html">GIỚI THIỆU</a></li>
-                                    <li><a href="contact.html">LIÊN HỆ</a></li>
+                                    <li><a href="/user/contact">LIÊN HỆ</a></li>
                                 </ul>
                             </nav>
                         </div>

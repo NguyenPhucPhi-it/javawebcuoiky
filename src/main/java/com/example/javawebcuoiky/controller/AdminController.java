@@ -11,17 +11,25 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.javawebcuoiky.model.Brand;
+import com.example.javawebcuoiky.model.Order;
+import com.example.javawebcuoiky.model.OrderDetail;
+import com.example.javawebcuoiky.model.Post;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.BrandService;
+import com.example.javawebcuoiky.service.OrderDetailService;
+import com.example.javawebcuoiky.service.OrderService;
+import com.example.javawebcuoiky.service.PostService;
 import com.example.javawebcuoiky.service.ProductService;
 
 import jakarta.servlet.http.HttpSession;
@@ -31,10 +39,17 @@ public class AdminController {
 
     private final ProductService productService;
     private final BrandService brandService;
+       private final PostService postService;
+       private final OrderService orderService;
+private final OrderDetailService orderDetailService;
 
-    public AdminController(ProductService productService, BrandService brandService) {
+    public AdminController(ProductService productService, BrandService brandService,PostService postService,OrderService orderService,
+                       OrderDetailService orderDetailService) {
         this.productService = productService;
         this.brandService = brandService;
+         this.postService = postService;
+         this.orderService = orderService;
+    this.orderDetailService = orderDetailService;
     }
 
     private boolean isAdmin(HttpSession session) {
@@ -169,9 +184,91 @@ public class AdminController {
     }
     
 
+    // post
+    @RequestMapping(value="/admin/post", method=RequestMethod.GET)
+    public String listPost(Model model, HttpSession session) {
+           if (!isAdmin(session)) return "redirect:/auth/login";
+        List<Post> posts=postService.getAllPosts();
+        model.addAttribute("posts", posts);
+        return "admin/post";
+    }
+    @RequestMapping(value="/admin/post/add", method=RequestMethod.GET)
+    public String addPost(Model model, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        model.addAttribute("post", new Post());
+        return "admin/post-form";
+    }
+    @RequestMapping(value="/admin/post/update/{id}", method=RequestMethod.GET)
+    public String updateFormPost(@PathVariable int id, Model model, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        Post post = postService.getPostById(id);
+        if (post == null) return "redirect:/admin/post";
+        model.addAttribute("post", post);
+        return "admin/post-form";
+    }
+     @PostMapping("/admin/post/save")
+    public String savePost(@ModelAttribute Post post,
+                           @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+                               if (!isAdmin(session)) return "redirect:/auth/login";
+        if (!file.isEmpty()) {
+            String uploadDir = "src/main/resources/static/assets/uploads/";
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path path = Paths.get(uploadDir + filename);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+            post.setImage(filename);
+        }
+        postService.savePost(post);
+        return "redirect:/admin/post";
+    }
+
+    @GetMapping("/admin/post/delete/{id}")
+    public String deletePost(@PathVariable int id, HttpSession session) {
+           if (!isAdmin(session)) return "redirect:/auth/login";
+        postService.deletePost(id);
+        return "redirect:/admin/post";
+    }
+
+
     
+    // quan ly don hang 
     
+    @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
+public String listOrders(Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    model.addAttribute("orders", orderService.getAllOrders());
+    return "admin/orders";
+}
+
+@RequestMapping(value = "/admin/orders/{id}", method = RequestMethod.GET)
+public String orderDetail(@PathVariable int id, Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    Order order = orderService.getOrderById(id);
+    if (order == null) return "redirect:/admin/orders";
+    List<OrderDetail> details = orderDetailService.getByOrderId(id);
+    model.addAttribute("order", order);
+    model.addAttribute("details", details);
+    return "admin/orderDetail";
+}
+
+@PostMapping("/admin/orders/updateStatus")
+public String updateStatus(@RequestParam int orderId,
+                           @RequestParam String status,
+                           HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    orderService.updateStatus(orderId, status);
+    return "redirect:/admin/orders";
+}
     
+@PostMapping("/admin/orders/detail/updateStatus")
+public String updateDetailStatus(@RequestParam int detailId,
+                                 @RequestParam String status,
+                                 @RequestParam int orderId,
+                                 HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    orderDetailService.updateStatus(detailId, status);
+    return "redirect:/admin/orders/" + orderId;
+}
        
 
     
