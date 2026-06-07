@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/products.css">
+     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                     <li>
                       <a href="/admin/orders"><i class="fa-solid fa-cart-shopping ico-side"></i>Quản lý đơn hàng</a>
                     </li>
-                    <li><li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li></li>
+                    <li><li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li></li>
 
                 </ul>
             </nav>

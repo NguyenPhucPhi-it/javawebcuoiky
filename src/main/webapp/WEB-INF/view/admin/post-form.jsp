@@ -5,19 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>${post.id == 0 ? 'Thêm' : 'Sửa'} bài viết</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/products.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container-fluid main-page">
     <div class="app-main">
-        <nav class="sidebar bg-primary">
+        <nav class="sidebar">
             <ul>
                 <li><a href="/admin/dashboard"><i class="fa-solid fa-house ico-side"></i>Dashboards</a></li>
                 <li><a href="/admin/brands"><i class="fa-solid fa-folder-open ico-side"></i>Quản lí danh mục</a></li>
                 <li><a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a></li>
                 <li><a href="/admin/post"><i class="fa-solid fa-newspaper ico-side"></i>Quản lý bài viết</a></li>
-                <li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                <li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li>
             </ul>
         </nav>
         <div class="main-content">

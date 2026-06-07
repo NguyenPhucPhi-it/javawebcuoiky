@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cập nhật sản phẩm</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/products.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
 </head>
 <body>
 <div class="container-fluid main-page">
@@ -19,7 +19,7 @@
                 <li><a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a></li>
                 <li> <a href="/admin/post"><i class="fa-solid fa-user ico-side"></i>Quản lý bài viết</a></li>
                 <li><a href="/admin/orders"><i class="fa-solid fa-cart-shopping ico-side"></i>Quản lý đơn hàng</a></li>
-                <li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                <li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li>
             </ul>
         </nav>
 
