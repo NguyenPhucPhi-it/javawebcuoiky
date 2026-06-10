@@ -16,19 +16,23 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailService orderDetailService;
     private final ShoppingCartService cartService;
+    private final PaymentService paymentService;
 
     public OrderService(OrderRepository orderRepository,
                         OrderDetailService orderDetailService,
-                        ShoppingCartService cartService) {
+                        ShoppingCartService cartService,
+                        PaymentService paymentService) { 
         this.orderRepository = orderRepository;
         this.orderDetailService = orderDetailService;
         this.cartService = cartService;
+        this.paymentService = paymentService; 
     }
 
     public Order placeOrder(String receiverName,
                             String receiverEmail,
                             String receiverPhone,
                             String address,
+                            String paymentMethod,        
                             int userId,
                             List<ShoppingCartItem> cartItems) {
 
@@ -43,7 +47,8 @@ public class OrderService {
         order.setOrderDate(new Time(System.currentTimeMillis()));
         Order savedOrder = orderRepository.save(order);
 
-        // 2. Lưu OrderDetail từng sản phẩm
+        // 2. Lưu OrderDetail và tính tổng tiền
+        double total = 0;
         for (ShoppingCartItem item : cartItems) {
             OrderDetail detail = new OrderDetail();
             detail.setId_order(savedOrder.getId());
@@ -53,28 +58,33 @@ public class OrderService {
             detail.setDiscount(0);
             detail.setShippingFee(0);
             orderDetailService.save(detail);
+            total += item.getSubtotal();
         }
 
-        // 3. Xóa giỏ hàng
+        // 3. Lưu Payment ← mới
+        paymentService.createPayment(savedOrder.getId(), paymentMethod, total);
+
+        // 4. Xóa giỏ hàng
         for (ShoppingCartItem item : cartItems) {
             cartService.removeFromCart(item.getCart().getId());
         }
 
         return savedOrder;
     }
+
     public List<Order> getAllOrders() {
-    return orderRepository.findAll();
-}
-
-public Order getOrderById(int id) {
-    return orderRepository.findById(id).orElse(null);
-}
-
-public void updateStatus(int orderId, String status) {
-    Order order = orderRepository.findById(orderId).orElse(null);
-    if (order != null) {
-        order.setStatus(status);
-        orderRepository.save(order);
+        return orderRepository.findAll();
     }
-}
+
+    public Order getOrderById(int id) {
+        return orderRepository.findById(id).orElse(null);
+    }
+
+    public void updateStatus(int orderId, String status) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+    }
 }

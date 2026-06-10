@@ -57,6 +57,19 @@
             <span class="lbl">Trạng thái</span>
             <span class="val" style="color:#ff9800;"><i class="fa fa-clock-o"></i> ${order.status}</span>
         </div>
+        <div class="row-info">
+    <span class="lbl">Phương thức thanh toán</span>
+    <span class="val">
+        <c:choose>
+            <c:when test="${paymentMethod == 'BANK'}">
+                <i class="fa fa-credit-card" style="color:#2196f3;"></i> Chuyển khoản ngân hàng
+            </c:when>
+            <c:otherwise>
+                <i class="fa fa-money" style="color:#4caf50;"></i> Thanh toán khi nhận hàng (COD)
+            </c:otherwise>
+        </c:choose>
+    </span>
+</div>
     </div>
 
     <a href="${pageContext.request.contextPath}/user/home" class="btn-pink">

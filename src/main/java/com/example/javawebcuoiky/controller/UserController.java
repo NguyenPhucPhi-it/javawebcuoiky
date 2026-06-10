@@ -141,28 +141,31 @@ public String addToCart(@RequestParam int productId,
     }
 
     // ───── Checkout – xử lý đặt hàng ─────
-    @PostMapping("/user/checkout")
-    public String placeOrder(@RequestParam String receiverName,
-                             @RequestParam String receiverEmail,
-                             @RequestParam String receiverPhone,
-                             @RequestParam String address,
-                             HttpSession session,
-                             Model model) {
+  @PostMapping("/user/checkout")
+public String placeOrder(@RequestParam String receiverName,
+                         @RequestParam String receiverEmail,
+                         @RequestParam String receiverPhone,
+                         @RequestParam String address,
+                         @RequestParam(defaultValue = "COD") String paymentMethod, 
+                         HttpSession session,
+                         Model model) {
 
-        User loggedUser = (User) session.getAttribute("loggedUser");
-        if (loggedUser == null) return "redirect:/auth/login";
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
 
-        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
-        if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
+    List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+    if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
 
-        Order savedOrder = orderService.placeOrder(
-                receiverName, receiverEmail, receiverPhone, address,
-                loggedUser.getId(), cartItems
-        );
+    Order savedOrder = orderService.placeOrder(
+            receiverName, receiverEmail, receiverPhone, address,
+            paymentMethod,       // ← thêm
+            loggedUser.getId(), cartItems
+    );
 
-        model.addAttribute("order", savedOrder);
-        return "user/order-success";
-    }
+    model.addAttribute("order", savedOrder);
+    model.addAttribute("paymentMethod", paymentMethod); // ← để hiển thị ở order-success
+    return "user/order-success";
+}
 
     // ───── Liên hệ ─────
     @RequestMapping(value = "/user/contact", method = RequestMethod.GET)
