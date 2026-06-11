@@ -47,7 +47,7 @@
                                                 <li><a href="/admin/dashboard">Quản trị</a></li>
                                             </c:if>
                                             <li><a href="/auth/logout">Đăng xuất</a></li>
-                                            <li><a href="">Lịch sử đặt hàng</a></li>
+                                            <li><a href="/user/orders">Lịch sử đặt hàng</a></li>
                                             <li><a href="">Bình luận/ đánh giá</a></li>
                                         </ul>
                                     </li>

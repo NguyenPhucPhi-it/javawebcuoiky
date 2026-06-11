@@ -22,11 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.javawebcuoiky.model.Brand;
 import com.example.javawebcuoiky.model.Order;
-import com.example.javawebcuoiky.model.OrderDetail;
 import com.example.javawebcuoiky.model.Post;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.User;
+import com.example.javawebcuoiky.repository.ProductRepository;
 import com.example.javawebcuoiky.service.BrandService;
+import com.example.javawebcuoiky.service.CommentService;
 import com.example.javawebcuoiky.service.OrderDetailService;
 import com.example.javawebcuoiky.service.OrderService;
 import com.example.javawebcuoiky.service.PostService;
@@ -39,17 +40,21 @@ public class AdminController {
 
     private final ProductService productService;
     private final BrandService brandService;
-       private final PostService postService;
-       private final OrderService orderService;
-private final OrderDetailService orderDetailService;
+    private final PostService postService;
+    private final OrderService orderService;
+    private final OrderDetailService orderDetailService;
+    private final CommentService commentService;
+    private final ProductRepository productRepository;
 
-    public AdminController(ProductService productService, BrandService brandService,PostService postService,OrderService orderService,
-                       OrderDetailService orderDetailService) {
+    public AdminController(ProductService productService, BrandService brandService,PostService postService,OrderService orderService,CommentService commentService,
+                       OrderDetailService orderDetailService,ProductRepository productRepository) {
         this.productService = productService;
         this.brandService = brandService;
-         this.postService = postService;
-         this.orderService = orderService;
-    this.orderDetailService = orderDetailService;
+        this.postService = postService;
+        this.orderService = orderService;
+        this.orderDetailService = orderDetailService;
+        this.commentService=commentService;
+            this.productRepository  = productRepository;
     }
 
     private boolean isAdmin(HttpSession session) {
@@ -57,11 +62,11 @@ private final OrderDetailService orderDetailService;
         return user != null && user.getRole() == 1;
     }
 
-    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-    public String showDashboard(HttpSession session) {
-        if (!isAdmin(session)) return "redirect:/auth/login";
-        return "admin/dashboard";
-    }
+    // @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
+    // public String showDashboard(HttpSession session) {
+    //     if (!isAdmin(session)) return "redirect:/auth/login";
+    //     return "admin/dashboard";
+    // }
 
     @RequestMapping(value = "/admin/products", method = RequestMethod.GET)
     public String showProduct(Model model, HttpSession session) {
@@ -245,7 +250,8 @@ private final OrderDetailService orderDetailService;
         if (!isAdmin(session)) return "redirect:/auth/login";
         Order order = orderService.getOrderById(id);
         if (order == null) return "redirect:/admin/orders";
-        List<OrderDetail> details = orderDetailService.getByOrderId(id);
+       List<com.example.javawebcuoiky.model.OrderDetailItem> details =
+            orderService.getDetailItemsByOrderId(id);
         model.addAttribute("order", order);
         model.addAttribute("details", details);
         return "admin/orderDetail";
@@ -270,6 +276,64 @@ private final OrderDetailService orderDetailService;
         return "redirect:/admin/orders/" + orderId;
     }
        
+@RequestMapping(value = "/admin/comments", method = RequestMethod.GET)
+public String listComments(Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
 
-    
+    List<com.example.javawebcuoiky.model.CommentAdminItem> comments =
+            commentService.getAllCommentItems(productRepository); 
+
+    long total    = comments.size();
+    long pending  = comments.stream().filter(c -> c.getStatus() == 0).count();
+    long approved = comments.stream().filter(c -> c.getStatus() == 1).count();
+    long hidden   = comments.stream().filter(c -> c.getStatus() == 2).count();
+
+    model.addAttribute("comments",      comments);
+    model.addAttribute("totalCount",    total);
+    model.addAttribute("pendingCount",  pending);
+    model.addAttribute("approvedCount", approved);
+    model.addAttribute("hiddenCount",   hidden);
+    return "admin/comments";
+}
+    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
+public String showDashboard(Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+
+    // Thống kê
+    model.addAttribute("totalProducts", productService.getAllProducts().size());
+    model.addAttribute("totalOrders",   orderService.getAllOrders().size());
+    model.addAttribute("totalBrands",   brandService.getAllBrands().size());
+    model.addAttribute("totalComments", commentService.getAllComments().size());
+
+    // Đơn hàng theo trạng thái
+    long choXacNhan  = orderService.getAllOrders().stream()
+            .filter(o -> "Chờ xác nhận".equals(o.getStatus())).count();
+    long dangGiao    = orderService.getAllOrders().stream()
+            .filter(o -> "Đang giao hàng".equals(o.getStatus())).count();
+    long thanhCong   = orderService.getAllOrders().stream()
+            .filter(o -> "Thành công".equals(o.getStatus())).count();
+    long daHuy       = orderService.getAllOrders().stream()
+            .filter(o -> "Đã hủy".equals(o.getStatus())).count();
+
+    model.addAttribute("choXacNhan", choXacNhan);
+    model.addAttribute("dangGiao",   dangGiao);
+    model.addAttribute("thanhCong",  thanhCong);
+    model.addAttribute("daHuy",      daHuy);
+
+    // Bình luận chờ duyệt
+    long pendingComments = commentService.getAllComments().stream()
+            .filter(c -> c.getStatus() == 0).count();
+    model.addAttribute("pendingComments", pendingComments);
+
+    // 5 đơn hàng mới nhất
+    java.util.List<com.example.javawebcuoiky.model.Order> recentOrders =
+            orderService.getAllOrders();
+    int fromIndex = Math.max(0, recentOrders.size() - 5);
+    java.util.List<com.example.javawebcuoiky.model.Order> last5 =
+            new java.util.ArrayList<>(recentOrders.subList(fromIndex, recentOrders.size()));
+    java.util.Collections.reverse(last5);
+    model.addAttribute("recentOrders", last5);
+
+    return "admin/dashboard";
+}
 }

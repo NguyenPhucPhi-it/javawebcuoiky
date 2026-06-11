@@ -17,6 +17,8 @@ import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.ShoppingCartItem;
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.BrandService;
+import com.example.javawebcuoiky.service.CommentService;
+import com.example.javawebcuoiky.service.OrderDetailService;
 import com.example.javawebcuoiky.service.OrderService;
 import com.example.javawebcuoiky.service.PostService;
 import com.example.javawebcuoiky.service.ProductService;
@@ -34,12 +36,16 @@ public class UserController {
     private final  BrandService brandService;
       private final OrderService orderService;
       private final PostService postService;
-    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService,PostService postService){
+      private final OrderDetailService orderDetailService;
+      private final CommentService commentService;
+    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService,PostService postService,OrderDetailService orderDetailService,CommentService commentService){
         this.productService=productService;
         this.cartService = cartService;
         this.brandService=brandService;
         this.orderService = orderService;
         this.postService=postService;
+        this.orderDetailService = orderDetailService;
+        this.commentService=commentService;
         
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
@@ -106,7 +112,7 @@ public String addToCart(@RequestParam int productId,
     }
     return "redirect:/user/shoppingcart";
 }
-    // ───── Xóa khỏi giỏ ─────
+    // Xóa khỏi giỏ 
     @PostMapping("/user/cart/remove")
     public String removeFromCart(@RequestParam int cartId) {
         cartService.removeFromCart(cartId);
@@ -190,7 +196,118 @@ public String showBlogDetail(@PathVariable int id, Model model) {
 }
 
    
+    // Lịch sử đơn hàng
+@RequestMapping(value = "/user/orders", method = RequestMethod.GET)
+public String showOrderHistory(Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    List<com.example.javawebcuoiky.model.OrderDetailItem> items =
+            orderService.getPurchasedItems(loggedUser.getId());
+
+    model.addAttribute("items", items);
+    return "user/order-history";
+}
+// Chi tiết đơn hàng
+@RequestMapping(value = "/user/orders/{id}", method = RequestMethod.GET)
+public String showOrderDetail(@PathVariable int id, Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    Order order = orderService.getOrderById(id);
+    if (order == null || order.getId_user() != loggedUser.getId())
+        return "redirect:/user/orders";
+
+    // ← đổi sang getPurchasedItems rồi filter theo orderId
+    List<com.example.javawebcuoiky.model.OrderDetailItem> details =
+            orderService.getDetailItemsByOrderId(id);
+
+    model.addAttribute("order", order);
+    model.addAttribute("details", details);
+    return "user/order-detail";
+}
+// Hủy đơn hàng
+@PostMapping("/user/orders/cancel")
+public String cancelOrder(@RequestParam int orderId, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+    orderService.cancelOrder(orderId, loggedUser.getId());
+    return "redirect:/user/orders/" + orderId;
+}
+
+// Xác nhận đã nhận hàng
+@PostMapping("/user/orders/confirm")
+public String confirmReceived(@RequestParam int orderId, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+    orderService.confirmReceived(orderId, loggedUser.getId());
+    return "redirect:/user/orders/" + orderId;
+}
     
-    
-    
+    // Hủy từng sản phẩm
+@PostMapping("/user/orders/cancelItem")
+public String cancelItem(@RequestParam int detailId,
+                         @RequestParam int orderId,
+                         HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+    orderDetailService.updateStatus(detailId, "Đã hủy");
+    return "redirect:/user/orders/" + orderId;
+}
+
+// Xác nhận đã nhận từng sản phẩm
+@PostMapping("/user/orders/confirmItem")
+public String confirmItem(@RequestParam int detailId,
+                          @RequestParam int orderId,
+                          HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+    orderDetailService.updateStatus(detailId, "Đã nhận hàng");
+    return "redirect:/user/orders/" + orderId;
+}
+
+// Hiển thị form đánh giá
+@RequestMapping(value = "/user/review/{detailId}", method = RequestMethod.GET)
+public String showReviewForm(@PathVariable int detailId, Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    // Lấy OrderDetailItem để biết sản phẩm và đơn hàng
+    com.example.javawebcuoiky.model.OrderDetail detail =
+            orderDetailService.getById(detailId);
+    if (detail == null) return "redirect:/user/orders";
+
+    // Chỉ cho review khi Hoàn thành
+    if (!"Hoàn thành".equals(detail.getStatus()))
+        return "redirect:/user/orders/" + detail.getId_order();
+
+    // Kiểm tra đã review chưa
+    if (commentService.hasReviewed(loggedUser.getId(),
+            detail.getId_product(), detail.getId_order()))
+        return "redirect:/user/orders/" + detail.getId_order() + "?reviewed=true";
+
+    com.example.javawebcuoiky.model.Product product =
+            productService.getProductById(detail.getId_product());
+
+    model.addAttribute("detail", detail);
+    model.addAttribute("product", product);
+    return "user/review-form";
+}
+
+// Xử lý gửi đánh giá
+@PostMapping("/user/review/submit")
+public String submitReview(@RequestParam int detailId,
+                           @RequestParam int productId,
+                           @RequestParam int orderId,
+                           @RequestParam String message,
+                           @RequestParam int rating,
+                           HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    if (!commentService.hasReviewed(loggedUser.getId(), productId, orderId)) {
+        commentService.saveComment(loggedUser.getId(), productId, orderId, message, rating);
+    }
+    return "redirect:/user/orders/" + orderId + "?reviewed=true";
+}
 }

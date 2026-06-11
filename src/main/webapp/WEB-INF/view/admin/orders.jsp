@@ -32,7 +32,7 @@
                         <a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a>
                     </li>
                     <li>
-                        <a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
+                         <a href="/admin/comments"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
                     </li>
                     <li>
                          <a href="/admin/post"><i class="fa-solid fa-user ico-side"></i>Quản lý bài viết</a>
@@ -49,12 +49,11 @@
                 <table id="example" class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Mã đơn hàng</th>
                             <th>Người nhận</th>
                             <th>Email</th>
                             <th>SĐT</th>
                             <th>Địa chỉ</th>
-                            <th>Trạng thái chung</th>
                             <th>Chi tiết</th>
                         </tr>
                     </thead>
@@ -65,29 +64,7 @@
                                 <td>${o.receiverName}</td>
                                 <td>${o.receiverEmail}</td>
                                 <td>${o.receiverPhone}</td>
-                                <td>${o.address}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${o.status == 'Chờ xác nhận'}">
-                                            <span class="badge-pending">${o.status}</span>
-                                        </c:when>
-                                        <c:when test="${o.status == 'Đã xác nhận'}">
-                                            <span class="badge-confirm">${o.status}</span>
-                                        </c:when>
-                                        <c:when test="${o.status == 'Đang giao'}">
-                                            <span class="badge-shipping">${o.status}</span>
-                                        </c:when>
-                                        <c:when test="${o.status == 'Hoàn thành'}">
-                                            <span class="badge-done">${o.status}</span>
-                                        </c:when>
-                                        <c:when test="${o.status == 'Đã hủy'}">
-                                            <span class="badge-cancel">${o.status}</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="badge-pending">${o.status}</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
+                                <td>${o.address}</td>                              
                                 <td>
                                     <a href="${pageContext.request.contextPath}/admin/orders/${o.id}" 
                                        class="btn btn-info btn-sm">

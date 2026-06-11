@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cập nhật sản phẩm</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
+    
 </head>
 <body>
 <div class="container-fluid main-page">
@@ -16,7 +17,7 @@
                 <li><a href="/admin/dashboard"><i class="fa-solid fa-house ico-side"></i>Dashboards</a></li>
                 <li><a href="/admin/brands"><i class="fa-solid fa-folder-open ico-side"></i>Quản lí danh mục</a></li>
                 <li><a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a></li>
-                <li><a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a></li>
+                <li>  <a href="/admin/comments"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a></li>
                 <li> <a href="/admin/post"><i class="fa-solid fa-user ico-side"></i>Quản lý bài viết</a></li>
                 <li><a href="/admin/orders"><i class="fa-solid fa-cart-shopping ico-side"></i>Quản lý đơn hàng</a></li>
                 <li><a href="/auth/logout"><i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li>
@@ -30,7 +31,7 @@
                 <form action="${pageContext.request.contextPath}/admin/products/update"
                       method="post" enctype="multipart/form-data">
 
-                    <%-- Giữ id và ảnh cũ --%>
+                 
                     <input type="hidden" name="id" value="${product.id}" />
                     <input type="hidden" name="image" value="${product.image}" />
 

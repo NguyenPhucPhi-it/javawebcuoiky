@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2026 at 04:06 PM
+-- Generation Time: Jun 11, 2026 at 05:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,6 +46,30 @@ INSERT INTO `brand` (`id`, `brand_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `id_order` int(11) DEFAULT NULL,
+  `id_product` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `rating` int(11) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `created_at`, `id_order`, `id_product`, `id_user`, `message`, `rating`, `status`) VALUES
+(1, '2026-06-11 20:37:42.000000', 1, 9, 2, 'sp tot', 5, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -70,7 +94,7 @@ INSERT INTO `orders` (`id`, `address`, `id_user`, `order_date`, `receiver_email`
 (3, 'xom 12, huyen Ky Anh, tinh Vung Tau', 3, '14:24:49.000000', 'ly@gmail.com', 'Ly', '0328859476', 'Chờ xác nhận'),
 (4, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '20:46:55.000000', 'anh@gmail.com', 'Anh', '0567748576', 'Chờ xác nhận'),
 (5, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '20:48:39.000000', 'anh@gmail.com', 'Anh', '098754676', 'Chờ xác nhận'),
-(6, 'số 114, Hà Nội', 2, '20:50:45.000000', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận');
+(6, 'số 114, Hà Nội', 2, '20:50:45.000000', 'anh@gmail.com', 'Anh', '0356654345', 'Đã hủy');
 
 -- --------------------------------------------------------
 
@@ -100,13 +124,13 @@ INSERT INTO `order_detail` (`id`, `discount`, `id_order`, `id_product`, `quantit
 (4, 0, 1, 12, 1, 0, 174000, 'Đã hủy'),
 (5, 0, 1, 1, 2, 0, 869000, 'Đã xác nhận'),
 (6, 0, 2, 12, 1, 0, 174000, 'Hoàn thành'),
-(7, 0, 3, 2, 3, 0, 3000000, 'Đã xác nhận'),
+(7, 0, 3, 2, 3, 0, 3000000, 'Đang giao'),
 (8, 0, 4, 1, 1, 0, 869000, 'Chờ xác nhận'),
 (9, 0, 4, 4, 2, 0, 15900000, 'Chờ xác nhận'),
 (10, 0, 4, 7, 1, 0, 1234567890, 'Chờ xác nhận'),
 (11, 0, 5, 1, 1, 0, 869000, 'Chờ xác nhận'),
 (12, 0, 5, 4, 2, 0, 15900000, 'Chờ xác nhận'),
-(13, 0, 5, 7, 1, 0, 1234567890, 'Chờ xác nhận'),
+(13, 0, 5, 7, 1, 0, 1234567890, 'Hoàn thành'),
 (14, 0, 6, 2, 1, 0, 3000000, 'Chờ xác nhận');
 
 -- --------------------------------------------------------
@@ -184,14 +208,14 @@ INSERT INTO `product` (`id`, `description`, `discount`, `hot`, `id_brand`, `imag
 (1, 'Theo dõi sức khỏe, chống nước 5ATM', 10, 0, 2, '1779801781825_dongho2.webp', 'Vòng Đồng Hồ Thông Minh 2026', 869000, 0),
 (2, 'Giá ưu đãi online', 12, 0, 3, '1779801801860_istockphoto-890822072-612x612.webp', 'Đồng Hồ Đeo Tay Nữ Pindow PDS-2109-N9', 3000000, 0),
 (3, 'sdafsdfsdfdsfsdvxcvxcvxcvxcvx', 10, 0, 2, '1779808185902_photo-1732679005773-f2ef48b724c7.avif', 'đồng hồ 1', 2000000, 0),
-(4, 'Ghi âm 24h, lọc âm', 2, 0, 3, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 0),
+(4, 'Ghi âm 24h, lọc âm', 2, 0, 2, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 0),
 (5, 'ềasfesdafsdfds', 10, 0, 1, '1780019780217_photo-1624106159879-8a16d53c54ff.avif', 'ưefgewfgwe', 123123, 0),
 (6, 'qưertyuiop[ádfghjkl;zxcvbnm,', 3, 0, 1, '1779808253524_photo-1631031354362-b1fd73f89e19.avif', 'ưerfewfwe', 500000, 0),
 (7, 'sdfsasdfghjklxcvbnmrtyuio', 12, 0, 2, '1779808283436_photo-1624106159879-8a16d53c54ff.avif', 'ádfghjklr', 2000000, 0),
 (8, 'ưertyuuioplokijhgfvbnm,', 10, 0, 3, '1779808317074_photo-1610888968213-4f6d2c068108.avif', 'ádfghjkl', 1000000, 0),
 (9, 'êfsdvxcvsvsdvsdvsd', 12, 0, 3, '1779808345735_photo-1588748543198-cd1afaf858ff.avif', 'dèagdahdjnjasmdak', 3000000, 0),
 (10, 'gfsklmnmsgjfugfdbdfd', 2, 0, 2, '1779808381920_photo-1751437774882-deeea4352018.avif', 'adasfdasdfsdfsdfsdf', 450000, 0),
-(12, 'Phiên bản cao cấp', 2, 0, 3, '1780019945191_premium_photo-1728012217493-b0bfdc0c389a.avif', 'Đồng hồ điện tử chống nước huyền thoại', 174000, 0);
+(12, 'Phiên bản cao cấp 1', 2, 0, 3, '1780019945191_premium_photo-1728012217493-b0bfdc0c389a.avif', 'Đồng hồ điện tử chống nước huyền thoại 1', 174000, 0);
 
 -- --------------------------------------------------------
 
@@ -242,6 +266,15 @@ ALTER TABLE `brand`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_comment_product` (`id_product`),
+  ADD KEY `fk_comment_user` (`id_user`),
+  ADD KEY `fk_comment_orders` (`id_order`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -260,7 +293,8 @@ ALTER TABLE `order_detail`
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_payment_orders` (`id_order`);
 
 --
 -- Indexes for table `post`
@@ -298,6 +332,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -346,6 +386,14 @@ ALTER TABLE `user`
 --
 
 --
+-- Constraints for table `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `fk_comment_orders` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `fk_comment_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `fk_comment_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
@@ -357,6 +405,12 @@ ALTER TABLE `orders`
 ALTER TABLE `order_detail`
   ADD CONSTRAINT `fk_order_detail_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`),
   ADD CONSTRAINT `fk_orderdetail_orders` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`);
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `fk_payment_orders` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`);
 
 --
 -- Constraints for table `product`

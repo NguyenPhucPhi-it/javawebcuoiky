@@ -37,4 +37,7 @@ public class OrderDetailService {
             orderDetailRepository.save(detail);
         }
     }
+    public OrderDetail getById(int id) {
+    return orderDetailRepository.findById(id).orElse(null);
+}
 }

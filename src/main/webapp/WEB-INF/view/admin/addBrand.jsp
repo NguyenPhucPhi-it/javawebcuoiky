@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Thêm thuong hieu</title>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
+ 
 </head>
 <body>
 <div class="container-fluid main-page">
@@ -22,7 +23,7 @@
                         <a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a>
                     </li>
                     <li>
-                        <a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
+                        <a href="/admin/comments"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
                     </li>
                     <li>
                          <a href="/admin/post"><i class="fa-solid fa-user ico-side"></i>Quản lý bài viết</a>

@@ -32,7 +32,7 @@
                         <a href="/admin/products"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a>
                     </li>
                     <li>
-                        <a href="comment.html"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
+                         <a href="/admin/comments"><i class="fa-solid fa-mug-hot ico-side"></i>Quản lí bình luận</a>
                     </li>
                     <li>
                          <a href="/admin/post"><i class="fa-solid fa-user ico-side"></i>Quản lý bài viết</a>
@@ -47,7 +47,7 @@
             <div class="container">
                 <h3 class="title-page">Chi tiết đơn hàng #${order.id}</h3>
 
-                <%-- Thông tin người nhận --%>
+             
                 <div class="card mb-4" style="padding:20px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);">
                     <div class="row">
                         <div class="col-md-6">
@@ -61,11 +61,11 @@
                     </div>
                 </div>
 
-                <%-- Danh sách sản phẩm --%>
+                
                 <table class="table table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th>#</th>
+                            <th>Mã sp</th>
                             <th>ID Sản phẩm</th>
                             <th>Số lượng</th>
                             <th>Đơn giá</th>
@@ -75,67 +75,79 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:set var="tongTien" value="0"/>
-                        <c:forEach var="d" items="${details}" varStatus="st">
-                            <tr>
-                                <td>${st.index + 1}</td>
-                                <td>${d.id_product}</td>
-                                <td>${d.quantity}</td>
-                                <td><fmt:formatNumber value="${d.unitPrice}" type="number"/> đ</td>
-                                <td><fmt:formatNumber value="${d.unitPrice * d.quantity}" type="number"/> đ</td>
-
-                                <%-- Trạng thái hiện tại --%>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${d.status == 'Chờ xác nhận'}">
-                                            <span class="badge-pending">${d.status}</span>
-                                        </c:when>
-                                        <c:when test="${d.status == 'Đã xác nhận'}">
-                                            <span class="badge-confirm">${d.status}</span>
-                                        </c:when>
-                                        <c:when test="${d.status == 'Đang giao'}">
-                                            <span class="badge-shipping">${d.status}</span>
-                                        </c:when>
-                                        <c:when test="${d.status == 'Hoàn thành'}">
-                                            <span class="badge-done">${d.status}</span>
-                                        </c:when>
-                                        <c:when test="${d.status == 'Đã hủy'}">
-                                            <span class="badge-cancel">${d.status}</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="badge-pending">Chờ xác nhận</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-
-                                <%-- Form cập nhật trạng thái riêng từng sản phẩm --%>
-                                <td>
-                                    <form action="${pageContext.request.contextPath}/admin/orders/detail/updateStatus"
-                                          method="post" style="display:flex; gap:6px; align-items:center;">
-                                        <input type="hidden" name="detailId" value="${d.id}"/>
-                                        <input type="hidden" name="orderId"  value="${order.id}"/>
-                                        <select name="status" class="form-control form-control-sm" style="width:150px;">
-                                            <option value="Chờ xác nhận" ${d.status == 'Chờ xác nhận' ? 'selected' : ''}>Chờ xác nhận</option>
-                                            <option value="Đã xác nhận"  ${d.status == 'Đã xác nhận'  ? 'selected' : ''}>Đã xác nhận</option>
-                                            <option value="Đang giao"    ${d.status == 'Đang giao'    ? 'selected' : ''}>Đang giao</option>
-                                            <option value="Hoàn thành"   ${d.status == 'Hoàn thành'   ? 'selected' : ''}>Hoàn thành</option>
-                                            <option value="Đã hủy"       ${d.status == 'Đã hủy'       ? 'selected' : ''}>Đã hủy</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-primary btn-sm">Lưu</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <c:set var="tongTien" value="${tongTien + d.unitPrice * d.quantity}"/>
-                        </c:forEach>
-                    </tbody>
-                    <tfoot>
+                    <c:set var="tongTien" value="0"/>
+                    <c:forEach var="item" items="${details}" varStatus="st">
+                        <c:set var="lineTotal" value="${item.detail.unitPrice * item.detail.quantity}"/>
+                        <c:set var="tongTien"  value="${tongTien + lineTotal}"/>
                         <tr>
-                            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
-                            <td style="color:#e91e63; font-weight:700;">
-                                <fmt:formatNumber value="${tongTien}" type="number"/> đ
+                            <td>${st.index + 1}</td>
+
+                            
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <img src="${pageContext.request.contextPath}/assets/uploads/${item.product.image}"
+                                        style="width:52px;height:52px;object-fit:cover;border-radius:4px;border:1px solid #eee;"
+                                        onerror="this.src='${pageContext.request.contextPath}/assets/images/product/product-1.jpg'"
+                                        alt="${item.product.name}">
+                                    <span style="font-weight:600;">${item.product.name}</span>
+                                </div>
+                            </td>
+
+                            <td>${item.detail.quantity}</td>
+                            <td><fmt:formatNumber value="${item.detail.unitPrice}" type="number"/> đ</td>
+                            <td><fmt:formatNumber value="${lineTotal}" type="number"/> đ</td>
+
+                         
+                            <td>
+                                <c:choose>
+                                    <c:when test="${item.detail.status == 'Chờ xác nhận'}">
+                                        <span class="badge-pending">${item.detail.status}</span>
+                                    </c:when>
+                                    <c:when test="${item.detail.status == 'Đã xác nhận'}">
+                                        <span class="badge-confirm">${item.detail.status}</span>
+                                    </c:when>
+                                    <c:when test="${item.detail.status == 'Đang giao'}">
+                                        <span class="badge-shipping">${item.detail.status}</span>
+                                    </c:when>
+                                    <c:when test="${item.detail.status == 'Hoàn thành'}">
+                                        <span class="badge-done">${item.detail.status}</span>
+                                    </c:when>
+                                    <c:when test="${item.detail.status == 'Đã hủy'}">
+                                        <span class="badge-cancel">${item.detail.status}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge-pending">Chờ xác nhận</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+
+                         
+                            <td>
+                                <form action="${pageContext.request.contextPath}/admin/orders/detail/updateStatus"
+                                    method="post" style="display:flex; gap:6px; align-items:center;">
+                                    <input type="hidden" name="detailId" value="${item.detail.id}"/>
+                                    <input type="hidden" name="orderId"  value="${order.id}"/>
+                                    <select name="status" class="form-control form-control-sm" style="width:150px;">
+                                        <option value="Chờ xác nhận" ${item.detail.status == 'Chờ xác nhận' ? 'selected' : ''}>Chờ xác nhận</option>
+                                        <option value="Đã xác nhận"  ${item.detail.status == 'Đã xác nhận'  ? 'selected' : ''}>Đã xác nhận</option>
+                                        <option value="Đang giao"    ${item.detail.status == 'Đang giao'    ? 'selected' : ''}>Đang giao</option>
+                                        <option value="Hoàn thành"   ${item.detail.status == 'Hoàn thành'   ? 'selected' : ''}>Hoàn thành</option>
+                                        <option value="Đã hủy"       ${item.detail.status == 'Đã hủy'       ? 'selected' : ''}>Đã hủy</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Lưu</button>
+                                </form>
                             </td>
                         </tr>
-                    </tfoot>
+                    </c:forEach>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                        <td style="color:#e91e63; font-weight:700;">
+                            <fmt:formatNumber value="${tongTien}" type="number"/> đ
+                        </td>
+                    </tr>
+                </tfoot>
                 </table>
 
                 <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-secondary">
