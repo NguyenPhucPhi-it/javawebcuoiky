@@ -18,12 +18,12 @@ public class AuthController {
     
     private final UserSevice userSevice;
     private final ShoppingCartService cartService;
+
     AuthController(UserSevice userSevice, ShoppingCartService cartService) {
         this.userSevice = userSevice;
         this.cartService = cartService;
     }
 
-   
     @GetMapping("/auth/login")
     public String showLogin(HttpSession session) {
         User u = (User) session.getAttribute("loggedUser");
@@ -33,20 +33,22 @@ public class AuthController {
         return "auth/login";
     }
 
+
     @PostMapping("/auth/login")
     public String login(@RequestParam String email,
                         @RequestParam String password,
                         Model model,
                         HttpSession session) {
-        User user = userSevice.findByEmail(email);
 
-        if (user == null || !user.getPassword().equals(password)) {
+        User user = userSevice.login(email, password); 
+
+        if (user == null) {
             model.addAttribute("error", "Sai email hoặc mật khẩu");
             return "auth/login";
         }
-         String oldSessionId = session.getId(); // lấy sessionId trước khi gán user
-         cartService.mergeSessionCart(oldSessionId, user);
 
+        String oldSessionId = session.getId();
+        cartService.mergeSessionCart(oldSessionId, user);
         session.setAttribute("loggedUser", user);
 
         return user.getRole() == 1 ? "redirect:/admin/dashboard" : "redirect:/user/home";
@@ -59,9 +61,15 @@ public class AuthController {
     }
 
     @PostMapping("/auth/register")
-    public String saveRegister(@ModelAttribute User user) {
+    public String saveRegister(@ModelAttribute User user, Model model) {
+        // Kiểm tra email đã tồn tại chưa
+        if (userSevice.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Email đã được sử dụng");
+            return "auth/register";
+        }
+
         user.setRole(0);
-        userSevice.save(user);
+        userSevice.save(user); // mã hóa password bên trong save()
         return "redirect:/auth/login";
     }
 

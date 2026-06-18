@@ -19,7 +19,7 @@ public class User {
     @NotBlank(message = "name khong duoc de trong")
     private String username;
     @NotBlank(message="password kong duoc trong")
-    @Size(min=6, max=20, message="6-20 ky tu")
+    @NotBlank(message="password khong duoc trong")
     private String password;
     private int role=0;
      @NotBlank(message = "email khong duoc de trong ")
