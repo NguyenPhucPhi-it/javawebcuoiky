@@ -21,7 +21,7 @@
     <!--Header section start-->
     <div id="main-wrapper">
         <header class="header header-transparent header-sticky">
-            <div class="header-top">
+             <div class="header-top">
                 <div class="container">
                     <div class="row align-items-center">
                         <div
@@ -38,16 +38,33 @@
                         <div class="col-xl-6 col-lg-4">
                             <div class="ht-right d-flex justify-content-lg-end justify-content-center">
                                 <ul class="ht-us-menu d-flex">
-                                    <li><a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                            <c:choose>
+                                <c:when test="${loggedUser != null}">
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
                                         <ul class="ht-dropdown right">
-                                            <!-- <li><a href="compare.html">Compare Products</a></li> -->
-                                            <li><a href="my-account.html">Cập nhật</a></li>
-                                            <!-- <li><a href="wishlist.html">My Wish List</a></li> -->
-                                            <li><a href="login-register.html">Đăng ký / Đăng nhập</a></li>
-                                            <!-- <li><a href="login-register.html">Sign In</a></li> -->
+                                            <c:if test="${loggedUser.role == 1}">
+                                                <li><a href="/admin/dashboard">Quản trị</a></li>
+                                            </c:if>
+                                            <li><a href="/auth/logout">Đăng xuất</a></li>
+                                            <li><a href="/user/orders">Lịch sử đặt hàng</a></li>
+                                            <li><a href="/user/pending-reviews">Bình luận/ đánh giá</a></li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </c:when>
+                                <c:otherwise>
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                                        <ul class="ht-dropdown right">
+                                            <li><a href="/auth/register">Đăng ký</a></li>
+                                            <li><a href="/auth/login">Đăng nhập</a></li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
                             </div>
                         </div>
                     </div>
@@ -308,7 +325,7 @@
                         <!--Footer Widget start-->
                         <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
                             <h4 class="title"><span class="text">Poly Shop</span></h4>
-                            <p>Poly Shop là website kinh doanh mỹ phẩm chính hãng, mang đến những sản phẩm chăm sóc sắc đẹp chất lượng cao, phù hợp với mọi loại da. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
+                              <p>Poly Shop là website kinh doanh mỹ phẩm chính hãng, mang đến những sản phẩm đồng hồ, phù hợp với mọi người. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
                             <div class="footer-social">
                                 <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
                                 <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -354,7 +371,7 @@
                         <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
                             <h4 class="title"><span class="text">Liên hệ</span></h4>
                             <ul class="address">
-                                <li><i class="fa fa-home"></i><span>FPT Polytechnic</span>
+                                <li><i class="fa fa-home"></i><span></span>
                                 </li>
                                 <li><i class="fa fa-phone"></i><span><a href="#">(08) 123 456 7890</a></span></li>
                                 <li><i class="fa fa-envelope-o"></i><span><a href="#">yourmail@domain.com</a></span>

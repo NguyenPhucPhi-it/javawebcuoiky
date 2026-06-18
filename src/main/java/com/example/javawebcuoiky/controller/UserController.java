@@ -90,15 +90,7 @@ public class UserController {
         model.addAttribute("total", total);
         return "user/shoppingcart";
     }
-    //  @PostMapping("/user/cart/add")
-    // public String addToCart(@RequestParam int productId,
-    //                         @RequestParam(defaultValue = "1") int quantity,
-    //                         HttpSession session) {
-    //     User loggedUser = (User) session.getAttribute("loggedUser");
-    //     cartService.addToCart(loggedUser, session.getId(), productId, quantity);
-        
-    //     return "redirect:/user/shoppingcart";
-    // }
+
     @PostMapping("/user/cart/add")
 public String addToCart(@RequestParam int productId,
                         @RequestParam(defaultValue = "1") int quantity,
@@ -123,6 +115,7 @@ public String addToCart(@RequestParam int productId,
         Product product=productService.getProductById(id);
         if(product==null) return "redirect:/user/product";
         model.addAttribute("product", product);
+        model.addAttribute("comments", commentService.getApprovedComments(id));
         return "user/productDetails";
     }
 
@@ -309,5 +302,32 @@ public String submitReview(@RequestParam int detailId,
         commentService.saveComment(loggedUser.getId(), productId, orderId, message, rating);
     }
     return "redirect:/user/orders/" + orderId + "?reviewed=true";
+}
+@RequestMapping(value = "/user/pending-reviews", method = RequestMethod.GET)
+public String showPendingReviews(Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    // Lấy tất cả sản phẩm đã hoàn thành
+    List<com.example.javawebcuoiky.model.OrderDetailItem> allItems =
+            orderService.getPurchasedItems(loggedUser.getId());
+
+    // Lọc ra những sản phẩm Hoàn thành và chưa đánh giá
+    List<com.example.javawebcuoiky.model.OrderDetailItem> pendingItems = new java.util.ArrayList<>();
+    for (com.example.javawebcuoiky.model.OrderDetailItem item : allItems) {
+        if ("Hoàn thành".equals(item.getDetail().getStatus())) {
+            boolean reviewed = commentService.hasReviewed(
+                loggedUser.getId(),
+                item.getDetail().getId_product(),
+                item.getDetail().getId_order()
+            );
+            if (!reviewed) {
+                pendingItems.add(item);
+            }
+        }
+    }
+
+    model.addAttribute("pendingItems", pendingItems);
+    return "user/pending-reviews";
 }
 }

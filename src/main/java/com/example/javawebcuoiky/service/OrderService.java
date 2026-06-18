@@ -1,6 +1,5 @@
 package com.example.javawebcuoiky.service;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +20,13 @@ public class OrderService {
     private final OrderDetailService orderDetailService;
     private final ShoppingCartService cartService;
     private final PaymentService     paymentService;
-    private final ProductRepository  productRepository; // ← thêm
+    private final ProductRepository  productRepository; 
 
     public OrderService(OrderRepository orderRepository,
                         OrderDetailService orderDetailService,
                         ShoppingCartService cartService,
                         PaymentService paymentService,
-                        ProductRepository productRepository) { // ← thêm
+                        ProductRepository productRepository) { 
         this.orderRepository    = orderRepository;
         this.orderDetailService = orderDetailService;
         this.cartService        = cartService;
@@ -46,7 +45,7 @@ public class OrderService {
         order.setAddress(address);
         order.setStatus("Chờ xác nhận");
         order.setId_user(userId);
-        order.setOrderDate(new Time(System.currentTimeMillis()));
+        order.setOrderDate(new java.util.Date());
         Order savedOrder = orderRepository.save(order);
 
         double total = 0;
@@ -134,4 +133,144 @@ public class OrderService {
     }
     return items;
 }
+private double calculateOrderRevenue(int orderId) {
+    return orderDetailService.getByOrderId(orderId)
+            .stream()
+            .filter(d -> 
+                "Hoàn thành".equals(d.getStatus())
+            )
+            .mapToDouble(d ->
+                    d.getUnitPrice() * d.getQuantity()
+                    - d.getDiscount()
+                    + d.getShippingFee()
+            )
+            .sum();
+}
+public double getTotalRevenue() {
+    return getAllOrders().stream()
+            .filter(o ->
+                    "Thành công".equals(o.getStatus())
+                    || "Đã nhận hàng".equals(o.getStatus()))
+            .mapToDouble(o -> calculateOrderRevenue(o.getId()))
+            .sum();
+}
+
+
+public double getRevenueThisDay() {
+
+    java.util.Calendar today =
+            java.util.Calendar.getInstance();
+
+    return getAllOrders().stream()
+
+        .filter(o -> o.getOrderDate() != null)
+
+        .filter(o -> {
+
+            java.util.Calendar c =
+                    java.util.Calendar.getInstance();
+
+            c.setTime(o.getOrderDate());
+
+            return c.get(java.util.Calendar.DAY_OF_YEAR)
+                    == today.get(java.util.Calendar.DAY_OF_YEAR)
+                &&
+                   c.get(java.util.Calendar.YEAR)
+                    == today.get(java.util.Calendar.YEAR);
+
+        })
+
+        .mapToDouble(o ->
+                calculateOrderRevenue(o.getId())
+        )
+        .sum();
+}
+public double getRevenueThisWeek() {
+
+    java.util.Calendar weekAgo =
+            java.util.Calendar.getInstance();
+
+    weekAgo.add(java.util.Calendar.DAY_OF_YEAR,-7);
+
+
+    return getAllOrders().stream()
+
+        .filter(o -> o.getOrderDate()!=null)
+
+        .filter(o ->
+            o.getOrderDate()
+             .after(weekAgo.getTime())
+        )
+
+        .mapToDouble(o ->
+            calculateOrderRevenue(o.getId())
+        )
+        .sum();
+}
+public double getRevenueThisMonth() {
+
+    java.util.Calendar now =
+            java.util.Calendar.getInstance();
+
+
+    return getAllOrders().stream()
+
+        .filter(o -> o.getOrderDate()!=null)
+
+        .filter(o -> {
+
+            java.util.Calendar c =
+                    java.util.Calendar.getInstance();
+
+            c.setTime(o.getOrderDate());
+
+
+            return c.get(java.util.Calendar.MONTH)
+                    ==
+                   now.get(java.util.Calendar.MONTH)
+
+                &&
+                   c.get(java.util.Calendar.YEAR)
+                    ==
+                   now.get(java.util.Calendar.YEAR);
+
+        })
+
+        .mapToDouble(o ->
+            calculateOrderRevenue(o.getId())
+        )
+
+        .sum();
+}
+
+public double getRevenueThisYear(){
+
+    int year =
+        java.util.Calendar.getInstance()
+        .get(java.util.Calendar.YEAR);
+
+
+    return getAllOrders().stream()
+
+        .filter(o -> o.getOrderDate()!=null)
+
+        .filter(o -> {
+
+            java.util.Calendar c =
+                    java.util.Calendar.getInstance();
+
+            c.setTime(o.getOrderDate());
+
+            return c.get(java.util.Calendar.YEAR)
+                    == year;
+
+        })
+
+        .mapToDouble(o ->
+            calculateOrderRevenue(o.getId())
+        )
+
+        .sum();
+}
+
 }

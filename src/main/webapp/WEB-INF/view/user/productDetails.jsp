@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -145,9 +146,56 @@
                         <span>Mã SP: #${product.id}</span>
                     </div>
                 </div>
+
             </div>
         </div>
+<div class="row" style="margin-top:40px;">
+    <div class="col-12">
+        <h4 style="border-bottom:2px solid #cea679; padding-bottom:10px;">
+            <i class="fa fa-comments"></i> Đánh giá của khách hàng
+            <span style="font-size:14px; color:#999; font-weight:normal;">
+                (${fn:length(comments)} đánh giá)
+            </span>
+        </h4>
 
+        <c:choose>
+            <c:when test="${empty comments}">
+                <div style="text-align:center; padding:40px; color:#bbb;">
+                    <i class="fa fa-comment-o" style="font-size:36px;"></i>
+                    <p style="margin-top:10px;">Chưa có đánh giá nào cho sản phẩm này.</p>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="cm" items="${comments}">
+                    <div style="border:1px solid #eee; border-radius:8px; padding:16px 20px;
+                                margin-bottom:16px; background:#fafafa;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <i class="fa fa-user-circle" style="color:#cea679; font-size:18px;"></i>
+                                <strong style="margin-left:6px;">Người dùng #${cm.id_user}</strong>
+                            </div>
+                            <span style="font-size:12px; color:#aaa;">${cm.created_at}</span>
+                        </div>
+
+                        <!-- Sao -->
+                        <div style="margin:8px 0; color:#f5a623; font-size:16px;">
+                            <c:forEach begin="1" end="5" var="i">
+                                <c:choose>
+                                    <c:when test="${i <= cm.rating}">★</c:when>
+                                    <c:otherwise><span style="color:#ddd;">★</span></c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <span style="font-size:12px; color:#888; margin-left:4px;">${cm.rating}/5</span>
+                        </div>
+
+                        <!-- Nội dung -->
+                        <p style="margin:0; color:#444; line-height:1.6;">${cm.message}</p>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
     
         <div class="row">
             <div class="col-12">

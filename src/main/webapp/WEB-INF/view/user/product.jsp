@@ -50,6 +50,8 @@
                                                 <li><a href="/admin/dashboard">Quản trị</a></li>
                                             </c:if>
                                             <li><a href="/auth/logout">Đăng xuất</a></li>
+                                             <li><a href="/user/orders">Lịch sử đặt hàng</a></li>
+                                             <li><a href="/user/pending-reviews">Bình luận/ đánh giá</a></li>
                                         </ul>
                                     </li>
                                 </c:when>
@@ -92,7 +94,7 @@
                                 <ul>
                                     <li><a href="/user/home">TRANG CHỦ</a>
                                     </li>
-                                    <li><a href="shop.html">CỬA HÀNG</a>
+                                    <li><a href="/user/product">CỬA HÀNG</a>
                                         <!-- 
                                             <ul class="mega-menu four-column">
                                                 <li><a href="#" class="item-link">Pages</a>
@@ -348,7 +350,7 @@
                                                                         <input type="hidden" name="productId" value="${p.id}"/>
                                                                         <input type="hidden" name="quantity" value="1"/>
                                                                         <input type="hidden" name="returnUrl" value="/user/product"/>
-                                                                        <button type="submit" class="product-btn" title="Thêm vào giỏ hàng">
+                                                                        <button type="submit" class="product-btn" title="Thêm vào giỏ hàng" style="background:none; border:none; cursor:pointer; padding:0; color:white">
                                                                             <i class="fa fa-shopping-cart"></i>
                                                                         </button>
                                                                     </form>
@@ -754,7 +756,7 @@
                         <!--Footer Widget start-->
                         <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
                             <h4 class="title"><span class="text">Poly Shop</span></h4>
-                            <p>Poly Shop là website kinh doanh mỹ phẩm chính hãng, mang đến những sản phẩm chăm sóc sắc đẹp chất lượng cao, phù hợp với mọi loại da. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
+                             <p>Poly Shop là website kinh doanh mỹ phẩm chính hãng, mang đến những sản phẩm đồng hồ, phù hợp với mọi người. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
                             <div class="footer-social">
                                 <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
                                 <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -800,7 +802,7 @@
                         <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
                             <h4 class="title"><span class="text">Liên hệ</span></h4>
                             <ul class="address">
-                                <li><i class="fa fa-home"></i><span>FPT Polytechnic</span>
+                                <li><i class="fa fa-home"></i><span></span>
                                 </li>
                                 <li><i class="fa fa-phone"></i><span><a href="#">(08) 123 456 7890</a></span></li>
                                 <li><i class="fa fa-envelope-o"></i><span><a href="#">yourmail@domain.com</a></span>

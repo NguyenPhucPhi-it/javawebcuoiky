@@ -79,7 +79,13 @@
 <body>
 <div class="wrapper">
     <div class="page-title"><i class="fa fa-history" style="color:#e91e63;"></i> Lịch sử mua hàng</div>
-
+    <div style="text-align:right; margin-top:20px;">
+                    <a href="${pageContext.request.contextPath}/user/product"
+                       style="padding:10px 20px; background:#555; color:white; text-decoration:none; margin-right:10px;">
+                        Tiếp tục mua sắm
+                    </a>
+                 
+    </div>
     <c:choose>
         <c:when test="${empty items}">
             <div class="empty">
@@ -94,16 +100,12 @@
         </c:when>
         <c:otherwise>
 
-            <%-- Nhóm theo đơn hàng: dùng biến theo dõi orderId --%>
             <c:set var="currentOrderId" value="-1"/>
             <c:set var="orderTotal"     value="0"/>
 
             <c:forEach items="${items}" var="item" varStatus="loop">
 
-                <%-- Mở card mới khi gặp đơn mới --%>
                 <c:if test="${item.order.id != currentOrderId}">
-
-                    <%-- Đóng card trước (nếu không phải lần đầu) --%>
                     <c:if test="${currentOrderId != -1}">
                         <div class="order-footer">
                             <div>
@@ -119,14 +121,12 @@
                                 </a>
                             </div>
                         </div>
-                        </div><%-- đóng .order-card --%>
+                        </div>
                     </c:if>
 
-                    <%-- Reset tổng cho đơn mới --%>
                     <c:set var="orderTotal" value="0"/>
                     <c:set var="currentOrderId" value="${item.order.id}"/>
 
-                    <%-- Xác định badge class --%>
                     <c:set var="badgeClass" value="s-cho"/>
                     <c:if test="${item.order.status == 'Đang giao hàng'}">
                         <c:set var="badgeClass" value="s-ship"/>
@@ -140,8 +140,6 @@
                     <c:if test="${item.order.status == 'Đã hủy'}">
                         <c:set var="badgeClass" value="s-huy"/>
                     </c:if>
-
-                    <%-- Mở card mới --%>
                     <div class="order-card">
                         <div class="order-header">
                             <div>
@@ -175,8 +173,6 @@
                             </span>
                         </div>
                 </c:if>
-
-                <%-- Dòng sản phẩm --%>
                 <c:set var="lineTotal" value="${item.lineTotal}"/>
                 <c:set var="orderTotal" value="${orderTotal + lineTotal}"/>
                 <div class="product-row">
@@ -198,7 +194,7 @@
                     </div>
                 </div>
 
-                <%-- Đóng card ở vòng lặp cuối --%>
+    
                 <c:if test="${loop.last}">
                     <div class="order-footer">
                         <div>
@@ -209,7 +205,6 @@
                         </div>
                         <div style="display:flex; gap:8px; align-items:center;">
 
-                            <%-- Nút hủy --%>
                             <c:if test="${item.order.status == 'Chờ xác nhận'}">
                                 <form action="${pageContext.request.contextPath}/user/orders/cancel"
                                       method="post"
@@ -221,7 +216,6 @@
                                 </form>
                             </c:if>
 
-                            <%-- Nút đã nhận hàng --%>
                             <c:if test="${item.order.status == 'Thành công'}">
                                 <form action="${pageContext.request.contextPath}/user/orders/confirm"
                                       method="post">
@@ -238,7 +232,7 @@
                             </a>
                         </div>
                     </div>
-                    </div><%-- đóng .order-card --%>
+                    </div>
                 </c:if>
 
             </c:forEach>
@@ -246,7 +240,11 @@
         </c:otherwise>
     </c:choose>
 </div>
-
+ <div style="margin-bottom:40px;">
+        <a href="${pageContext.request.contextPath}/user/home" class="btn-back">
+            <i class="fa fa-angle-left"></i> Home
+        </a>
+    </div>
 <script src="${pageContext.request.contextPath}/assets/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/vendor/bootstrap.min.js"></script>
 </body>

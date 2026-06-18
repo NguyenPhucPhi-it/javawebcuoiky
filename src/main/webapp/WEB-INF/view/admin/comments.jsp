@@ -26,18 +26,14 @@
         .filter-bar select, .filter-bar input {
             border:1px solid #ddd; border-radius:5px;
             padding:6px 12px; font-size:13px; }
-        .btn-approve { background:#4caf50; color:#fff; border:none;
-                       padding:5px 12px; border-radius:5px; font-size:12px;
-                       font-weight:600; cursor:pointer; white-space:nowrap; }
-        .btn-approve:hover { background:#388e3c; }
+        .btn-show { background:#4caf50; color:#fff; border:none;
+                    padding:5px 12px; border-radius:5px; font-size:12px;
+                    font-weight:600; cursor:pointer; white-space:nowrap; }
+        .btn-show:hover { background:#388e3c; }
         .btn-hide { background:#f44336; color:#fff; border:none;
                     padding:5px 12px; border-radius:5px; font-size:12px;
                     font-weight:600; cursor:pointer; white-space:nowrap; }
         .btn-hide:hover { background:#d32f2f; }
-        .btn-show { background:#2196f3; color:#fff; border:none;
-                    padding:5px 12px; border-radius:5px; font-size:12px;
-                    font-weight:600; cursor:pointer; white-space:nowrap; }
-        .btn-show:hover { background:#1565c0; }
         .stats-row { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
         .stat-card { background:#fff; border-radius:8px; padding:14px 20px;
                      box-shadow:0 1px 4px rgba(0,0,0,.08);
@@ -70,6 +66,7 @@
                     Quản lý bình luận
                 </h3>
 
+                <!-- Thống kê -->
                 <div class="stats-row">
                     <div class="stat-card">
                         <div class="num" style="color:#555;">${totalCount}</div>
@@ -81,7 +78,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="num" style="color:#2e7d32;">${approvedCount}</div>
-                        <div class="lbl">Đã duyệt</div>
+                        <div class="lbl">Đang hiển thị</div>
                     </div>
                     <div class="stat-card">
                         <div class="num" style="color:#c62828;">${hiddenCount}</div>
@@ -89,13 +86,13 @@
                     </div>
                 </div>
 
-  
+                <!-- Bộ lọc -->
                 <div class="filter-bar">
                     <label style="font-weight:600; font-size:14px;">Lọc:</label>
                     <select id="filterStatus" onchange="filterTable()">
                         <option value="all">Tất cả</option>
                         <option value="0">Chờ duyệt</option>
-                        <option value="1">Đã duyệt</option>
+                        <option value="1">Đang hiển thị</option>
                         <option value="2">Đã ẩn</option>
                     </select>
                     <input type="text" id="filterSearch"
@@ -103,7 +100,7 @@
                            oninput="filterTable()" style="width:260px;">
                 </div>
 
-    
+                <!-- Bảng -->
                 <div style="background:#fff; border-radius:8px;
                             box-shadow:0 1px 6px rgba(0,0,0,.08); overflow:hidden;">
                     <table class="table table-hover mb-0" id="commentTable" style="font-size:14px;">
@@ -115,8 +112,8 @@
                                 <th style="width:110px; text-align:center;">Đánh giá</th>
                                 <th style="width:90px;">Người dùng</th>
                                 <th style="width:140px;">Thời gian</th>
-                                <th style="width:100px; text-align:center;">Trạng thái</th>
-                                <th style="width:160px; text-align:center;">Hành động</th>
+                                <th style="width:110px; text-align:center;">Trạng thái</th>
+                                <th style="width:120px; text-align:center;">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,7 +123,7 @@
 
                                     <td style="color:#aaa;">${st.index + 1}</td>
 
-                                
+                                    <!-- Sản phẩm -->
                                     <td>
                                         <div class="prod-cell">
                                             <img src="${pageContext.request.contextPath}/assets/uploads/${c.productImage}"
@@ -136,14 +133,14 @@
                                         </div>
                                     </td>
 
-                                   
+                                    <!-- Nội dung -->
                                     <td>
                                         <div class="message-cell" title="${c.message}">
                                             ${c.message}
                                         </div>
                                     </td>
 
-                          
+                                    <!-- Đánh giá sao -->
                                     <td style="text-align:center;">
                                         <div class="star-display">
                                             <c:forEach begin="1" end="5" var="i">
@@ -156,22 +153,22 @@
                                         <div style="font-size:12px; color:#888;">${c.rating}/5</div>
                                     </td>
 
-                                    
+                                    <!-- Người dùng -->
                                     <td style="color:#666;">
                                         <i class="fa fa-user-circle-o"></i> #${c.id_user}
                                     </td>
 
-                               
+                                    <!-- Thời gian -->
                                     <td style="font-size:12px; color:#999;">
                                         ${c.created_at}
                                     </td>
 
-                                    
+                                    <!-- Trạng thái -->
                                     <td style="text-align:center;">
                                         <c:choose>
                                             <c:when test="${c.status == 1}">
                                                 <span class="badge-approved">
-                                                    <i class="fa fa-check"></i> Đã duyệt
+                                                    <i class="fa fa-eye"></i> Hiển thị
                                                 </span>
                                             </c:when>
                                             <c:when test="${c.status == 2}">
@@ -187,16 +184,18 @@
                                         </c:choose>
                                     </td>
 
+                                    <!-- Hành động -->
                                     <td style="text-align:center;">
                                         <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
 
+                                        
                                             <c:if test="${c.status != 1}">
                                                 <form action="${pageContext.request.contextPath}/admin/comments/updateStatus"
                                                       method="post">
                                                     <input type="hidden" name="commentId" value="${c.id}">
                                                     <input type="hidden" name="status" value="1">
-                                                    <button type="submit" class="btn-approve">
-                                                        <i class="fa fa-check"></i> Duyệt
+                                                    <button type="submit" class="btn-show">
+                                                        <i class="fa fa-eye"></i> Hiện
                                                     </button>
                                                 </form>
                                             </c:if>
@@ -235,8 +234,8 @@
 
 <script>
 function filterTable() {
-    const status  = document.getElementById('filterStatus').value;
-    const search  = document.getElementById('filterSearch').value.toLowerCase();
+    const status = document.getElementById('filterStatus').value;
+    const search = document.getElementById('filterSearch').value.toLowerCase();
     document.querySelectorAll('#commentTable tbody tr').forEach(function(row) {
         const rowStatus = row.getAttribute('data-status');
         const rowSearch = row.getAttribute('data-search').toLowerCase();

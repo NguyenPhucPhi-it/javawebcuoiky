@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,7 +11,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/8c204d0fdf.js" crossorigin="anonymous"></script>
     <style>
-        /* Stat cards */
         .stat-grid { display:grid; grid-template-columns:repeat(4,1fr);
                      gap:16px; margin-bottom:24px; }
         @media(max-width:900px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -28,7 +28,6 @@
         .card-green  { background: linear-gradient(135deg,#4caf50,#2e7d32); }
         .card-orange { background: linear-gradient(135deg,#ff9800,#e65100); }
 
-        /* Order status row */
         .order-status-grid { display:grid; grid-template-columns:repeat(4,1fr);
                              gap:12px; margin-bottom:24px; }
         @media(max-width:800px){ .order-status-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -40,7 +39,30 @@
         .os-card .num  { font-size:22px; font-weight:700; color:#333; }
         .os-card .lbl  { font-size:12px; color:#888; }
 
-        /* Section card */
+        .revenue-grid { display:grid; grid-template-columns:repeat(4,1fr);
+                        gap:16px; margin-bottom:24px; }
+        @media(max-width:900px){ .revenue-grid{ grid-template-columns:repeat(2,1fr); } }
+        @media(max-width:500px){ .revenue-grid{ grid-template-columns:1fr; } }
+
+        .revenue-card { background:#fff; border-radius:10px; padding:18px 20px;
+                        box-shadow:0 1px 6px rgba(0,0,0,.08);
+                        border-left:4px solid #ddd; position:relative; overflow:hidden; }
+        .revenue-card .rev-lbl { font-size:12px; color:#999; font-weight:600;
+                                  text-transform:uppercase; letter-spacing:.5px; }
+        .revenue-card .rev-num { font-size:18px; font-weight:700; margin-top:8px; word-break:break-all; }
+        .revenue-card .rev-icon { font-size:40px; position:absolute;
+                                   right:14px; top:50%; transform:translateY(-50%);
+                                   opacity:.08; }
+
+        .rev-today  { border-left-color:#2196f3; }
+        .rev-today .rev-num   { color:#2196f3; }
+        .rev-week   { border-left-color:#4caf50; }
+        .rev-week .rev-num    { color:#4caf50; }
+        .rev-month  { border-left-color:#ff9800; }
+        .rev-month .rev-num   { color:#ff9800; }
+        .rev-year   { border-left-color:#e91e63; }
+        .rev-year .rev-num    { color:#e91e63; }
+
         .section-card { background:#fff; border-radius:10px;
                         box-shadow:0 1px 6px rgba(0,0,0,.08);
                         margin-bottom:20px; overflow:hidden; }
@@ -50,7 +72,6 @@
                                   align-items:center; }
         .section-card .sc-body { padding:0; }
 
-        /* Badge */
         .badge-cho  { background:#fff3e0; color:#e65100; padding:3px 10px;
                       border-radius:12px; font-size:12px; font-weight:600; }
         .badge-ship { background:#f3e5f5; color:#6a1b9a; padding:3px 10px;
@@ -108,7 +129,7 @@
                     Tổng quan hệ thống
                 </h3>
 
-    
+                <!-- Thống kê tổng -->
                 <div class="stat-grid">
                     <div class="stat-card card-pink">
                         <div class="icon"><i class="fa-solid fa-box"></i></div>
@@ -140,7 +161,62 @@
                     </div>
                 </div>
 
-  
+                <!-- Doanh thu -->
+                <div class="section-card" style="margin-bottom:20px;">
+                    <div class="sc-head">
+                        <span>
+                            <i class="fa fa-money" style="color:#e91e63;"></i>
+                            Doanh thu
+                        </span>
+                    </div>
+                    <div class="sc-body" style="padding:16px;">
+                        <div class="revenue-grid">
+
+                            <div class="revenue-card rev-today">
+                                <div class="rev-lbl">
+                                    <i class="fa fa-calendar-o"></i> Hôm nay
+                                </div>
+                                <i class="fa fa-money rev-icon"></i>
+                                <div class="rev-num">
+                                    <fmt:formatNumber value="${revenueToday}" type="number"/> đ
+                                </div>
+                            </div>
+
+                            <div class="revenue-card rev-week">
+                                <div class="rev-lbl">
+                                    <i class="fa fa-calendar-o"></i> Tuần này (7 ngày)
+                                </div>
+                                <i class="fa fa-money rev-icon"></i>
+                                <div class="rev-num">
+                                    <fmt:formatNumber value="${revenueThisWeek}" type="number"/> đ
+                                </div>
+                            </div>
+
+                            <div class="revenue-card rev-month">
+                                <div class="rev-lbl">
+                                    <i class="fa fa-calendar-o"></i> Tháng này
+                                </div>
+                                <i class="fa fa-money rev-icon"></i>
+                                <div class="rev-num">
+                                    <fmt:formatNumber value="${revenueThisMonth}" type="number"/> đ
+                                </div>
+                            </div>
+
+                            <div class="revenue-card rev-year">
+                                <div class="rev-lbl">
+                                    <i class="fa fa-calendar-o"></i> Năm ${currentYear}
+                                </div>
+                                <i class="fa fa-money rev-icon"></i>
+                                <div class="rev-num">
+                                    <fmt:formatNumber value="${revenueThisYear}" type="number"/> đ
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trạng thái đơn hàng -->
                 <div class="section-card">
                     <div class="sc-head">
                         <span><i class="fa-solid fa-chart-pie" style="color:#e91e63;"></i>
@@ -180,7 +256,7 @@
                     </div>
                 </div>
 
-     
+                <!-- Đơn hàng mới nhất -->
                 <div class="section-card">
                     <div class="sc-head">
                         <span><i class="fa-solid fa-clock-rotate-left"
@@ -257,12 +333,11 @@
                     </div>
                 </div>
 
-             
+                <!-- Bình luận chờ duyệt -->
                 <c:if test="${pendingComments > 0}">
                     <div class="section-card">
                         <div class="sc-head">
-                            <span><i class="fa-solid fa-comments"
-                                     style="color:#e91e63;"></i>
+                            <span><i class="fa-solid fa-comments" style="color:#e91e63;"></i>
                                 Bình luận chờ duyệt
                                 <span class="alert-badge" style="margin-left:6px;">
                                     ${pendingComments}

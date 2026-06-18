@@ -36,47 +36,55 @@
     <!-- Header -->
     <header class="header header-transparent header-sticky">
         <div class="header-top">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-xl-6 col-lg-8 d-flex flex-wrap justify-content-lg-start justify-content-center align-items-center">
-                        <div class="header-top-links">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-phone"></i>(08) 123 456 7890</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-open-o"></i>yourmail@domain.com</a></li>
-                            </ul>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div
+                            class="col-xl-6 col-lg-8 d-flex flex-wrap justify-content-lg-start justify-content-center align-items-center">
+                            <!--Links start-->
+                            <div class="header-top-links">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-phone"></i>(08) 123 456 7890</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope-open-o"></i>yourmail@domain.com</a></li>
+                                </ul>
+                            </div>
+                            <!--Links end-->
+                        </div>
+                        <div class="col-xl-6 col-lg-4">
+                            <div class="ht-right d-flex justify-content-lg-end justify-content-center">
+                                <ul class="ht-us-menu d-flex">
+                            <c:choose>
+                                <c:when test="${loggedUser != null}">
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
+                                        <ul class="ht-dropdown right">
+                                            <c:if test="${loggedUser.role == 1}">
+                                                <li><a href="/admin/dashboard">Quản trị</a></li>
+                                            </c:if>
+                                            <li><a href="/auth/logout">Đăng xuất</a></li>
+                                            <li><a href="/user/orders">Lịch sử đặt hàng</a></li>
+                                            <li><a href="/user/pending-reviews">Bình luận/ đánh giá</a></li>
+                                        </ul>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                                        <ul class="ht-dropdown right">
+                                            <li><a href="/auth/register">Đăng ký</a></li>
+                                            <li><a href="/auth/login">Đăng nhập</a></li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-4">
-                        <div class="ht-right d-flex justify-content-lg-end justify-content-center">
-                            <ul class="ht-us-menu d-flex">
-                                <c:choose>
-                                    <c:when test="${loggedUser != null}">
-                                        <li>
-                                            <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
-                                            <ul class="ht-dropdown right">
-                                                <c:if test="${loggedUser.role == 1}">
-                                                    <li><a href="/admin/dashboard">Quản trị</a></li>
-                                                </c:if>
-                                                <li><a href="/auth/logout">Đăng xuất</a></li>
-                                            </ul>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li>
-                                            <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
-                                            <ul class="ht-dropdown right">
-                                                <li><a href="/auth/register">Đăng ký</a></li>
-                                                <li><a href="/auth/login">Đăng nhập</a></li>
-                                            </ul>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
             </div>
-        </div>
         <div class="header-bottom menu-right">
             <div class="container">
                 <div class="row align-items-center">

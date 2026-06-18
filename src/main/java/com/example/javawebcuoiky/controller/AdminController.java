@@ -296,14 +296,21 @@ public String listComments(Model model, HttpSession session) {
     return "admin/comments";
 }
     @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-public String showDashboard(Model model, HttpSession session) {
+     public String showDashboard(Model model, HttpSession session) {
     if (!isAdmin(session)) return "redirect:/auth/login";
 
     // Thống kê
     model.addAttribute("totalProducts", productService.getAllProducts().size());
-    model.addAttribute("totalOrders",   orderService.getAllOrders().size());
-    model.addAttribute("totalBrands",   brandService.getAllBrands().size());
+    model.addAttribute("totalOrders", orderService.getAllOrders().size());
+    model.addAttribute("totalBrands", brandService.getAllBrands().size());
     model.addAttribute("totalComments", commentService.getAllComments().size());
+
+    model.addAttribute("totalRevenue", orderService.getTotalRevenue());
+
+    model.addAttribute("revenueToday", orderService.getRevenueThisDay());
+    model.addAttribute("revenueThisWeek", orderService.getRevenueThisWeek());
+    model.addAttribute("revenueThisMonth", orderService.getRevenueThisMonth());
+    model.addAttribute("revenueThisYear", orderService.getRevenueThisYear());
 
     // Đơn hàng theo trạng thái
     long choXacNhan  = orderService.getAllOrders().stream()
@@ -336,4 +343,14 @@ public String showDashboard(Model model, HttpSession session) {
 
     return "admin/dashboard";
 }
+    @PostMapping("/admin/comments/updateStatus")
+    public String updateCommentStatus(@RequestParam int commentId,
+                                    @RequestParam int status,
+                                    HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/auth/login";
+        commentService.updateStatus(commentId, status);
+        return "redirect:/admin/comments";
+    }
+
+    
 }

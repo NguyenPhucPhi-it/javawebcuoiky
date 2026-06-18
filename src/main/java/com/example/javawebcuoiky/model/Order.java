@@ -1,6 +1,6 @@
 package com.example.javawebcuoiky.model;
 
-import java.sql.Time;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="Orders")
@@ -15,7 +17,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private int id;
-    private Time orderDate;
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date order_date;
     private String status;
     private String receiverName;
     private String receiverEmail;
@@ -31,12 +34,12 @@ public class Order {
     public void setId(int id) {
         this.id = id;
     }
-    public Time getOrderDate() {
-        return orderDate;
+   public Date getOrderDate() {
+     return order_date; 
     }
-    public void setOrderDate(Time orderDate) {
-        this.orderDate = orderDate;
-    }
+   public void setOrderDate(Date order_date) { 
+    this.order_date = order_date;
+ }
     public String getStatus() {
         return status;
     }

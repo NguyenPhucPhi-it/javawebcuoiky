@@ -23,7 +23,7 @@ public class AuthController {
         this.cartService = cartService;
     }
 
-    // ───── Login ─────
+   
     @GetMapping("/auth/login")
     public String showLogin(HttpSession session) {
         User u = (User) session.getAttribute("loggedUser");
