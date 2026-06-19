@@ -83,8 +83,7 @@
                     <a href="${pageContext.request.contextPath}/user/product"
                        style="padding:10px 20px; background:#555; color:white; text-decoration:none; margin-right:10px;">
                         Tiếp tục mua sắm
-                    </a>
-                 
+                    </a>                
     </div>
     <c:choose>
         <c:when test="${empty items}">
@@ -205,7 +204,7 @@
                         </div>
                         <div style="display:flex; gap:8px; align-items:center;">
 
-                            <c:if test="${item.order.status == 'Chờ xác nhận'}">
+                            <!-- <c:if test="${item.order.status == 'Chờ xác nhận'}">
                                 <form action="${pageContext.request.contextPath}/user/orders/cancel"
                                       method="post"
                                       onsubmit="return confirm('Hủy đơn hàng #${item.order.id}?')">
@@ -224,7 +223,7 @@
                                         <i class="fa fa-check"></i> Đã nhận hàng
                                     </button>
                                 </form>
-                            </c:if>
+                            </c:if> -->
 
                             <a href="${pageContext.request.contextPath}/user/orders/${item.order.id}"
                                class="btn-detail">

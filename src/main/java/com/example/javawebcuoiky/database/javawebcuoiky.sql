@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2026 at 09:52 AM
+-- Generation Time: Jun 19, 2026 at 02:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,7 +68,8 @@ INSERT INTO `comment` (`id`, `created_at`, `id_order`, `id_product`, `id_user`, 
 (1, '2026-06-11 20:37:42.000000', 1, 9, 2, 'sp tot', 5, 1),
 (2, '2026-06-12 15:57:10.000000', 7, 12, 2, 'ok', 4, 1),
 (3, '2026-06-16 16:46:27.000000', 1, 8, 2, 'qua ok', 5, 1),
-(4, '2026-06-18 14:33:05.000000', 9, 1, 2, 'sản phầm quá chất lượng', 5, 1);
+(4, '2026-06-18 14:33:05.000000', 9, 1, 2, 'sản phầm quá chất lượng', 5, 1),
+(5, '2026-06-18 17:12:35.000000', 13, 3, 4, 'ok', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,8 @@ INSERT INTO `orders` (`id`, `address`, `id_user`, `order_date`, `receiver_email`
 (9, 'so 112, Dien Ban, Quang Nam', 2, '2026-06-16 16:32:29', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận'),
 (10, 'xom 13, xa cong thanh, tinh nghe an', 2, '2026-06-16 22:29:49', 'anh@gmail.com', 'Anh', '0567748576', 'Chờ xác nhận'),
 (11, 'xóm 1 , cong thanh, yen thanh, nghe an', 2, '2026-06-17 07:46:48', 'anh@gmail.com', 'Anh', '0328859476', 'Chờ xác nhận'),
-(12, 'nhà 11, tỉnh Quảng Nam', 2, '2026-06-18 14:32:26', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận');
+(12, 'nhà 11, tỉnh Quảng Nam', 2, '2026-06-18 14:32:26', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận'),
+(13, 'xóm 5, điện bàn', 4, '2026-06-18 17:00:24', 'duc@gmail.com', 'Duc', '0567748576', 'Chờ xác nhận');
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,9 @@ INSERT INTO `order_detail` (`id`, `discount`, `id_order`, `id_product`, `quantit
 (21, 0, 10, 1, 1, 0, 869000, 'Đang giao'),
 (22, 0, 10, 2, 1, 0, 3000000, 'Đã hủy'),
 (23, 0, 11, 7, 1, 0, 2000000, 'Chờ xác nhận'),
-(24, 0, 12, 7, 1, 0, 2000000, 'Hoàn thành');
+(24, 0, 12, 7, 1, 0, 2000000, 'Hoàn thành'),
+(25, 0, 13, 8, 1, 0, 1000000, 'Đã xác nhận'),
+(26, 0, 13, 3, 1, 0, 2000000, 'Hoàn thành');
 
 -- --------------------------------------------------------
 
@@ -182,7 +186,8 @@ INSERT INTO `payment` (`id`, `amount`, `created_at`, `id_order`, `note`, `paymen
 (5, 869000, '2026-06-16 16:32:29', 9, '', '2026-06-16 16:32:29', 'COD', 'Chờ thu tiền', 'TXN-9-1781602349197'),
 (6, 3869000, '2026-06-16 22:29:49', 10, '', '2026-06-16 22:29:49', 'COD', 'Chờ thu tiền', 'TXN-10-1781623789455'),
 (7, 2000000, '2026-06-17 07:46:48', 11, '', '2026-06-17 07:46:48', 'COD', 'Chờ thu tiền', 'TXN-11-1781657208106'),
-(8, 2000000, '2026-06-18 14:32:26', 12, '', '2026-06-18 14:32:26', 'COD', 'Chờ thu tiền', 'TXN-12-1781767946196');
+(8, 2000000, '2026-06-18 14:32:26', 12, '', '2026-06-18 14:32:26', 'COD', 'Chờ thu tiền', 'TXN-12-1781767946196'),
+(9, 3000000, '2026-06-18 17:00:24', 13, '', '2026-06-18 17:00:24', 'COD', 'Chờ thu tiền', 'TXN-13-1781776824256');
 
 -- --------------------------------------------------------
 
@@ -275,7 +280,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -284,9 +289,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `username`, `password`, `role`) VALUES
-(1, 'nguyenphucphi210@gmail.com', 'Phi', '123456', 1),
-(2, 'anh@gmail.com', 'Anh', '123456', 0),
-(3, 'ly@gmail.com', 'Ly', '123456', 0);
+(2, 'anh@gmail.com', 'Anh', '$2a$10$vC2ltpinJLt7Ih5RGIwYHe8ddl.K3/YXLMajjK2oyDCv/VMzKTH7i', 0),
+(3, 'ly@gmail.com', 'Ly', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lkq.', 0),
+(4, 'duc@gmail.com', 'Duc', '$2a$10$vC2ltpinJLt7Ih5RGIwYHe8ddl.K3/YXLMajjK2oyDCv/VMzKTH7i', 0),
+(5, 'nguyenphucphi210@gmail.com', 'Phi', '$2a$10$5QjftkwKMEY.4o/l.WzNp.VWuGDhv8MsJqB8A3hCowNGODKIdFPWq', 1);
 
 --
 -- Indexes for dumped tables
@@ -370,25 +376,25 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `post`
@@ -406,13 +412,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shopping_cart`
 --
 ALTER TABLE `shopping_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
