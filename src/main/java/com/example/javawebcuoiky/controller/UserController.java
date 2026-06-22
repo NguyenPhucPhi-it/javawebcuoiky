@@ -393,5 +393,8 @@ public String buyNow(@RequestParam int productId,
     session.setAttribute("selectedCartIds", java.util.List.of(cart.getId()));
     return "redirect:/user/checkout";
 }
-
+@RequestMapping(value="/user/introduce", method=RequestMethod.GET)
+public String showIntro() {
+    return "user/introduce";
+}
 }

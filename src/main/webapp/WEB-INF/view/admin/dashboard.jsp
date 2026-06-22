@@ -216,45 +216,67 @@
                     </div>
                 </div>
 
-                <!-- Trạng thái đơn hàng -->
-                <div class="section-card">
-                    <div class="sc-head">
-                        <span><i class="fa-solid fa-chart-pie" style="color:#e91e63;"></i>
-                            Trạng thái đơn hàng</span>
-                    </div>
-                    <div class="sc-body" style="padding:16px;">
-                        <div class="order-status-grid">
-                            <div class="os-card">
-                                <div class="os-dot" style="background:#ff9800;"></div>
-                                <div>
-                                    <div class="num">${choXacNhan}</div>
-                                    <div class="lbl">Chờ xác nhận</div>
-                                </div>
-                            </div>
-                            <div class="os-card">
-                                <div class="os-dot" style="background:#9c27b0;"></div>
-                                <div>
-                                    <div class="num">${dangGiao}</div>
-                                    <div class="lbl">Đang giao hàng</div>
-                                </div>
-                            </div>
-                            <div class="os-card">
-                                <div class="os-dot" style="background:#4caf50;"></div>
-                                <div>
-                                    <div class="num">${thanhCong}</div>
-                                    <div class="lbl">Thành công</div>
-                                </div>
-                            </div>
-                            <div class="os-card">
-                                <div class="os-dot" style="background:#f44336;"></div>
-                                <div>
-                                    <div class="num">${daHuy}</div>
-                                    <div class="lbl">Đã hủy</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:24px;">
+    <div class="os-card">
+        <div class="os-dot" style="background:#ff9800;"></div>
+        <div>
+            <div class="num">${choXacNhan}</div>
+            <div class="lbl">Chờ xác nhận</div>
+        </div>
+    </div>
+    <div class="os-card">
+        <div class="os-dot" style="background:#3f51b5;"></div>
+        <div>
+            <div class="num">${daXacNhan}</div>
+            <div class="lbl">Đã xác nhận</div>
+        </div>
+    </div>
+    <div class="os-card">
+        <div class="os-dot" style="background:#9c27b0;"></div>
+        <div>
+            <div class="num">${dangGiao}</div>
+            <div class="lbl">Đang giao</div>
+        </div>
+    </div>
+    <div class="os-card">
+        <div class="os-dot" style="background:#4caf50;"></div>
+        <div>
+            <div class="num">${thanhCong}</div>
+            <div class="lbl">Thành công</div>
+        </div>
+    </div>
+    <div class="os-card">
+        <div class="os-dot" style="background:#f44336;"></div>
+        <div>
+            <div class="num">${daHuy}</div>
+            <div class="lbl">Đã hủy</div>
+        </div>
+    </div>
+</div>
+
+
+<c:choose>
+    <c:when test="${o.status == 'Chờ xác nhận'}">
+        <span class="badge-cho"><i class="fa fa-clock-o"></i> ${o.status}</span>
+    </c:when>
+    <c:when test="${o.status == 'Đã xác nhận'}">
+        <span style="background:#e8eaf6;color:#283593;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;">
+            <i class="fa fa-check"></i> ${o.status}
+        </span>
+    </c:when>
+    <c:when test="${o.status == 'Đang giao'}"> 
+        <span class="badge-ship"><i class="fa fa-truck"></i> ${o.status}</span>
+    </c:when>
+    <c:when test="${o.status == 'Thành công'}">
+        <span class="badge-ok"><i class="fa fa-check-circle"></i> ${o.status}</span>
+    </c:when>
+    <c:when test="${o.status == 'Đã hủy'}">
+        <span class="badge-huy"><i class="fa fa-times-circle"></i> ${o.status}</span>
+    </c:when>
+    <c:otherwise>
+        <span class="badge-cho">${o.status}</span>
+    </c:otherwise>
+</c:choose>
 
                 <!-- Đơn hàng mới nhất -->
                 <div class="section-card">

@@ -154,7 +154,7 @@
                                     </li>
                                     <li><a href="/user/blog">Bài viết</a>
                                     </li>
-                                    <li><a href="about.html">GIỚI THIỆU</a></li>
+                                    <li><a href="/user/introduce">GIỚI THIỆU</a></li>
                                     <li><a href="/user/contact">LIÊN HỆ</a></li>
                                 </ul>
                             </nav>
@@ -299,7 +299,7 @@
                                         </ul> -->
                                     </div>
                                     <!--Toolbar Short Area Start-->
-                                    <div class="toolbar-short-area d-md-flex align-items-center">
+                                    <!-- <div class="toolbar-short-area d-md-flex align-items-center">
                                         <div class="toolbar-shorter ">
                                             <label>Sắp xếp:</label>
                                             <select class="wide">
@@ -320,7 +320,7 @@
                                             <span>trên trang</span>
                                         </div>
 
-                                    </div>
+                                    </div> -->
                                     <!--Toolbar Short Area End-->
                                 </div>
                                 <!-- Grid & List View End -->

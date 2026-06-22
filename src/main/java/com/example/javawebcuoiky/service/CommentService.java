@@ -57,7 +57,7 @@ public class CommentService {
         }
     }
     public List<CommentAdminItem> getAllCommentItems(
-        com.example.javawebcuoiky.repository.ProductRepository productRepository) {
+        com.example.javawebcuoiky.repository.ProductRepository productRepository) { 
 
     List<Comment> comments = commentRepository.findAll();
     List<CommentAdminItem> items = new java.util.ArrayList<>();

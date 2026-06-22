@@ -318,48 +318,52 @@ public String listComments(Model model, HttpSession session) {
     return "admin/comments";
 }
     @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-     public String showDashboard(Model model, HttpSession session) {
+public String showDashboard(Model model, HttpSession session) {
     if (!isAdmin(session)) return "redirect:/auth/login";
 
-    // Thống kê
     model.addAttribute("totalProducts", productService.getAllProducts().size());
-    model.addAttribute("totalOrders", orderService.getAllOrders().size());
-    model.addAttribute("totalBrands", brandService.getAllBrands().size());
+    model.addAttribute("totalOrders",   orderService.getAllOrders().size());
+    model.addAttribute("totalBrands",   brandService.getAllBrands().size());
     model.addAttribute("totalComments", commentService.getAllComments().size());
 
-    model.addAttribute("totalRevenue", orderService.getTotalRevenue());
-
-    model.addAttribute("revenueToday", orderService.getRevenueThisDay());
-    model.addAttribute("revenueThisWeek", orderService.getRevenueThisWeek());
+    model.addAttribute("totalRevenue",     orderService.getTotalRevenue());
+    model.addAttribute("revenueToday",     orderService.getRevenueThisDay());
+    model.addAttribute("revenueThisWeek",  orderService.getRevenueThisWeek());
     model.addAttribute("revenueThisMonth", orderService.getRevenueThisMonth());
-    model.addAttribute("revenueThisYear", orderService.getRevenueThisYear());
+    model.addAttribute("revenueThisYear",  orderService.getRevenueThisYear());
 
-    // Đơn hàng theo trạng thái
-    long choXacNhan  = orderService.getAllOrders().stream()
+    // ── Thêm năm hiện tại ──
+    model.addAttribute("currentYear",
+            java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
+
+    // ── Đồng bộ tên status với thực tế ──
+    List<Order> allOrders = orderService.getAllOrders();
+
+    long choXacNhan = allOrders.stream()
             .filter(o -> "Chờ xác nhận".equals(o.getStatus())).count();
-    long dangGiao    = orderService.getAllOrders().stream()
-            .filter(o -> "Đang giao hàng".equals(o.getStatus())).count();
-    long thanhCong   = orderService.getAllOrders().stream()
+    long daXacNhan  = allOrders.stream()
+            .filter(o -> "Đã xác nhận".equals(o.getStatus())).count();
+    long dangGiao   = allOrders.stream()
+            .filter(o -> "Đang giao".equals(o.getStatus())).count();   // ← sửa ở đây
+    long thanhCong  = allOrders.stream()
             .filter(o -> "Thành công".equals(o.getStatus())).count();
-    long daHuy       = orderService.getAllOrders().stream()
+    long daHuy      = allOrders.stream()
             .filter(o -> "Đã hủy".equals(o.getStatus())).count();
 
     model.addAttribute("choXacNhan", choXacNhan);
+    model.addAttribute("daXacNhan",  daXacNhan);
     model.addAttribute("dangGiao",   dangGiao);
     model.addAttribute("thanhCong",  thanhCong);
     model.addAttribute("daHuy",      daHuy);
 
-    // Bình luận chờ duyệt
     long pendingComments = commentService.getAllComments().stream()
             .filter(c -> c.getStatus() == 0).count();
     model.addAttribute("pendingComments", pendingComments);
 
-    // 5 đơn hàng mới nhất
-    java.util.List<com.example.javawebcuoiky.model.Order> recentOrders =
-            orderService.getAllOrders();
+    List<Order> recentOrders = orderService.getAllOrders();
     int fromIndex = Math.max(0, recentOrders.size() - 5);
-    java.util.List<com.example.javawebcuoiky.model.Order> last5 =
-            new java.util.ArrayList<>(recentOrders.subList(fromIndex, recentOrders.size()));
+    List<Order> last5 = new java.util.ArrayList<>(
+            recentOrders.subList(fromIndex, recentOrders.size()));
     java.util.Collections.reverse(last5);
     model.addAttribute("recentOrders", last5);
 

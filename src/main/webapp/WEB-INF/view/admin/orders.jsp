@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+    <script src="https://kit.fontawesome.com/8c204d0fdf.js" crossorigin="anonymous"></script>
     <style>
         .badge-pending  { background:#ff9800; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
         .badge-confirm  { background:#2196f3; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }

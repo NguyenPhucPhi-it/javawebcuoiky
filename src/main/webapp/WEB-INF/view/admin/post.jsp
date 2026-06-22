@@ -6,12 +6,14 @@
     <meta charset="UTF-8">
     <title>Quản lý bài viết</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/8c204d0fdf.js" crossorigin="anonymous"></script>
   
 </head>
 <body>
 <div class="container-fluid main-page">
     <div class="app-main">
-        <nav class="sidebar bg-primary">
+        <nav class="sidebar ">
             <ul>
                  <li>
                         <a href="/admin/dashboard"><i class="fa-solid fa-house ico-side"></i>Dashboards</a>

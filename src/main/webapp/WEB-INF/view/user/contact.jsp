@@ -94,7 +94,7 @@
                                     </li>
                                     <li><a href="/user/blog">Bài viết</a>
                                     </li>
-                                    <li><a href="about.html">GIỚI THIỆU</a></li>
+                                    <li><a href="/user/introduce">GIỚI THIỆU</a></li>
                                     <li><a href="/user/contact">LIÊN HỆ</a></li>
                                 </ul>
                             </nav>
