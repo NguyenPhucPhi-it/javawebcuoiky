@@ -112,8 +112,10 @@
                                 </div>
                             </div>
                             <div class="header-cart">
-                                <a href="/user/shoppingcart"><i class="fa fa-shopping-cart"></i><span>3</span></a>
-                            </div>
+                            <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                            </a>
+                        </div>
                         </div>
                         <!--Search Cart End-->
                     </div>
@@ -279,10 +281,11 @@
                                                   
                                                     <span class="sticker">New</span>
                                                     <div class="product-action d-flex justify-content-between">
-                                                        <a class="product-btn" href="/user/productdetail/${p.id}">Mua hàng</a>
+                                                        <a class="product-btn" href="${pageContext.request.contextPath}/user/productDetails/${p.id}">Mua hàng</a>
                                                         <ul class="d-flex">
-                                                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
+                                                            <!-- <li><a href="#"><i class="fa fa-eye"></i></a></li> -->
                                                           <li>
+                                                            <a>
                                                             <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
                                                                 <input type="hidden" name="productId" value="${p.id}"/>
                                                                 <input type="hidden" name="quantity" value="1"/>
@@ -290,8 +293,9 @@
                                                                     <i class="fa fa-shopping-cart"></i>
                                                                 </button>
                                                             </form>
+                                                            </a>
                                                         </li>
-                                                            <li><a href="#"><i class="fa fa-exchange"></i></a></li>
+                                                            <!-- <li><a href="#"><i class="fa fa-exchange"></i></a></li> -->
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -352,7 +356,7 @@
                                                     </c:if>
                                                     <span class="sticker">Sale</span>
                                                     <div class="product-action d-flex justify-content-between">
-                                                        <a class="product-btn" href="/user/product/${p.id}">Mua hàng</a>
+                                                        <a class="product-btn" href="${pageContext.request.contextPath}/user/productDetails/${p.id}">Mua hàng</a>
                                                         <ul class="d-flex">
                                                             <li><a href="#"><i class="fa fa-eye"></i></a></li>
 <li>

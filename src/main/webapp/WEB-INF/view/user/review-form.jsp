@@ -56,7 +56,6 @@
     <div class="card-box">
         <h4><i class="fa fa-star" style="color:#ff9800;"></i> Đánh giá sản phẩm</h4>
 
-        <%-- Preview sản phẩm --%>
         <div class="prod-preview">
             <img src="${pageContext.request.contextPath}/assets/uploads/${product.image}"
                  onerror="this.src='${pageContext.request.contextPath}/assets/images/product/product-1.jpg'"
@@ -72,7 +71,7 @@
             <input type="hidden" name="productId" value="${product.id}">
             <input type="hidden" name="orderId"   value="${detail.id_order}">
 
-            <%-- Chọn sao --%>
+           
             <div class="mb-3">
                 <label class="form-label">Đánh giá của bạn <span style="color:red">*</span></label>
                 <div class="star-group">
@@ -90,7 +89,7 @@
                 <div id="ratingText" style="font-size:13px; color:#ff9800; margin-top:4px; min-height:18px;"></div>
             </div>
 
-            <%-- Nội dung --%>
+      
             <div class="mb-3">
                 <label class="form-label">Nhận xét <span style="color:red">*</span></label>
                 <textarea name="message" class="form-control"

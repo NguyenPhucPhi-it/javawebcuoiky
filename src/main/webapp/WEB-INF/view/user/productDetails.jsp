@@ -22,8 +22,8 @@
                 <div class="page-banner text-center">
                     <h1>Chi tiết sản phẩm</h1>
                     <ul class="page-breadcrumb">
-                        <li><a href="/user/home">Trang chủ</a></li>
-                        <li><a href="/user/product">Sản phẩm</a></li>
+                        <li><a href="${pageContext.request.contextPath}/user/home">Trang chủ</a></li>
+                        <li><a href="${pageContext.request.contextPath}/user/product">Sản phẩm</a></li>
                         <li>${product.name}</li>
                     </ul>
                 </div>
@@ -107,29 +107,30 @@
                     </div>
 
            
-                    <form action="${pageContext.request.contextPath}/user/cart/add" method="post" style="margin:20px 0;">
-                        <input type="hidden" name="productId" value="${product.id}"/>
-                        <div class="single-product-quantity d-flex align-items-center" style="gap:10px;">
-                            <div class="product-quantity">
-                                <input type="number" name="quantity" value="1" min="1"
-                                       max="${product.quantity}"
-                                       style="width:70px; padding:8px; border:1px solid #ddd; text-align:center;">
-                            </div>
-                            <button type="submit" class="product-add-btn"
-                                    style="padding:10px 25px; background:#cea679; color:white; border:none; cursor:pointer; font-size:15px;">
-                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
-                            </button>
-                        </div>
-                    </form>
+                    <div class="d-flex align-items-center" style="gap:10px; margin:20px 0;">
+    <label style="margin:0;">Số lượng:</label>
+    <input type="number" id="sharedQuantity" value="1" min="1"
+           max="${product.quantity}"
+           style="width:70px; padding:8px; border:1px solid #ddd; text-align:center;">
+</div>
 
-       
-                    <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
-                        <input type="hidden" name="productId" value="${product.id}"/>
-                        <input type="hidden" name="quantity" value="1"/>
-                        <button type="submit" style="width:100%; padding:12px; background:#333333; color:white; border:none; cursor:pointer; font-size:16px; margin-bottom:15px;">
-                            <i class="fa fa-bolt"></i> Mua ngay
-                        </button>
-                    </form>
+<!-- Form Thêm vào giỏ -->
+<form action="${pageContext.request.contextPath}/user/cart/add" method="post" id="addCartForm" style="margin-bottom:10px;">
+    <input type="hidden" name="productId" value="${product.id}"/>
+    <input type="hidden" name="quantity" id="addCartQty" value="1"/>
+    <button type="submit" class="product-add-btn" style="width:100%; padding:10px 25px; background:#cea679; color:white; border:none; cursor:pointer; font-size:15px;">
+        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+    </button>
+</form>
+
+<!-- Form Mua ngay -->
+<form action="${pageContext.request.contextPath}/user/buy-now" method="post" id="buyNowForm" style="margin-bottom:15px;">
+    <input type="hidden" name="productId" value="${product.id}"/>
+    <input type="hidden" name="quantity" id="buyNowQty" value="1"/>
+    <button type="submit" style="width:100%; padding:12px; background:#333333; color:white; border:none; cursor:pointer; font-size:16px;">
+        <i class="fa fa-bolt"></i> Mua ngay
+    </button>
+</form>
 
             
                     <div class="wishlist-compare-btn" style="margin:10px 0;">
@@ -271,6 +272,16 @@ document.querySelectorAll('.tab-link').forEach(function(link) {
         document.querySelector(target).style.display = 'block';
     });
 });
+var sharedQty = document.getElementById('sharedQuantity');
+    var addCartForm = document.getElementById('addCartForm');
+    var buyNowForm = document.getElementById('buyNowForm');
+
+    addCartForm.addEventListener('submit', function() {
+        document.getElementById('addCartQty').value = sharedQty.value;
+    });
+    buyNowForm.addEventListener('submit', function() {
+        document.getElementById('buyNowQty').value = sharedQty.value;
+    });
 </script>
 </body>
 </html>

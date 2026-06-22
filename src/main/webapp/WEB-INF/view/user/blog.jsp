@@ -33,9 +33,8 @@
 <body>
 <div id="main-wrapper">
 
-    <!-- Header -->
     <header class="header header-transparent header-sticky">
-        <div class="header-top">
+            <div class="header-top">
                 <div class="container">
                     <div class="row align-items-center">
                         <div
@@ -85,36 +84,66 @@
 
                 </div>
             </div>
-        <div class="header-bottom menu-right">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-3 col-6 order-lg-1 order-md-1 order-1">
-                        <div class="logo"><h1><strong>Poly</strong> Shop</h1></div>
+            <div class="header-bottom menu-right">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <!--Logo start-->
+                        <div class="col-lg-3 col-md-3 col-6 order-lg-1 order-md-1 order-1">
+                            <div class="logo">
+                                <h1><strong>Poly</strong> Shop</h1>
+                            </div>
+                        </div>
+                        <!--Logo end-->
+
+                        <!--Menu start-->
+                        <div
+                            class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-3 d-flex justify-content-center">
+                            <nav class="main-menu">
+                                <ul>
+                                    <li><a href="/user/home">TRANG CHỦ</a>
+                                    </li>
+                                    <li><a href="/user/product">CỬA HÀNG</a>                            
+                                    </li>
+                                    <li><a href="/user/blog">Bài viết</a>
+                                    </li>
+                                    <li><a href="about.html">GIỚI THIỆU</a></li>
+                                    <li><a href="/user/contact">LIÊN HỆ</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!--Menu end-->
+
+                        <!--Search Cart Start-->
+                        <div class="col-lg-3 col-md-3 col-6 order-lg-3 order-md-3 order-2 d-flex justify-content-end">
+                            <div class="header-search">
+                                <button class="header-search-toggle"><i class="fa fa-search"></i></button>
+                                <div class="header-search-form">
+                                    <form action="#">
+                                        <input type="text" placeholder="Nhập từ khóa ...">
+                                        <button><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="header-cart">
+                            <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                            </a>
+                        </div>
+                        </div>
+                        <!--Search Cart End-->
                     </div>
-                    <div class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-3 d-flex justify-content-center">
-                        <nav class="main-menu">
-                            <ul>
-                                <li><a href="/user/home">TRANG CHỦ</a></li>
-                                <li><a href="/user/product">CỬA HÀNG</a></li>
-                                <li><a href="/user/blog" style="color:#e91e63;">BÀI VIẾT</a></li>
-                                <li><a href="/user/contact">LIÊN HỆ</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-6 order-lg-3 order-md-3 order-2 d-flex justify-content-end">
-                        <div class="header-cart">
-                            <a href="/user/shoppingcart"><i class="fa fa-shopping-cart"></i></a>
+
+                    <!--Mobile Menu start-->
+                    <div class="row">
+                        <div class="col-12 d-flex d-lg-none">
+                            <div class="mobile-menu"></div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 d-flex d-lg-none">
-                        <div class="mobile-menu"></div>
-                    </div>
+                    <!--Mobile Menu end-->
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
     <!-- Banner -->
     <div class="page-banner-section section bg-gray" style="padding:30px 0; text-align:center;">
@@ -171,23 +200,98 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer-section section bg-dark">
-        <div class="footer-bottom section">
-            <div class="container ft-border pt-30 pb-30">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-6">
-                        <p style="color:#aaa;margin:0;">Copyright &copy;2025
-                            <a href="#" style="color:#e91e63;">Poly Shop</a>. All rights reserved.
-                        </p>
-                    </div>
-                    <div class="col-lg-6 text-right">
-                        <h3><a href="/user/home" style="color:white">Poly Shop</a></h3>
+
+            <!--Footer Top start-->
+            <div
+                class="footer-top section pt-100 pt-lg-80 pt-md-70 pt-sm-60 pt-xs-50 pb-45 pb-lg-25 pb-md-15 pb-sm-5 pb-xs-0">
+                <div class="container">
+                    <div class="row row-25">
+
+                        <!--Footer Widget start-->
+                        <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
+                            <h4 class="title"><span class="text">Poly Shop</span></h4>
+                             <p>Poly Shop là website kinh doanh đồng hồ chính hãng, mang đến những sản phẩm đồng hồ, phù hợp với mọi người. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
+                            <div class="footer-social">
+                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                                <a href="#" class="linkedin"><i class="fa fa-instagram"></i></a>
+                                <a href="#" class="pinterest"><i class="fa fa-pinterest-p"></i></a>
+                                <a href="#" class="pinterest"><i class="fa fa-vimeo"></i></a>
+                            </div>
+                        </div>
+                        <!--Footer Widget end-->
+
+
+                        <!--Footer Widget start-->
+                        <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
+                            <h4 class="title"><span class="text">Thông tin</span></h4>
+                            <ul class="ft-menu">
+                                <li><a href="#">Giới thiệu</a></li>
+                                <li><a href="#">Liên hệ</a></li>
+                                <li><a href="#">Dịch vụ</a></li>
+                                <li><a href="#">Điều khoản</a></li>
+                                <li><a href="#">Đại lý</a></li>
+                                <li><a href="#">Đăng ký nhận tin</a></li>
+                            </ul>
+                        </div>
+                        <!--Footer Widget end-->
+
+
+                        <!--Footer Widget start-->
+                        <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
+                            <h4 class="title"><span class="text">Dành cho bạn</span></h4>
+                            <ul class="ft-menu">
+                                <li><a href="#">Sản phẩm mới</a></li>
+                                <li><a href="#">Bán chạy</a></li>
+                                <li><a href="#">Sản phẩm đặc biệt</a></li>
+                                <li><a href="#">Sản phẩm nhiều người xem</a></li>
+                                <li><a href="#">Sản phẩm sắp về</a></li>
+                                <li><a href="#">Bộ sưu tập</a></li>
+                            </ul>
+                        </div>
+                        <!--Footer Widget end-->
+
+                        <!--Footer Widget start-->
+                        <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
+                            <h4 class="title"><span class="text">Liên hệ</span></h4>
+                            <ul class="address">
+                                <li><i class="fa fa-home"></i><span></span>
+                                </li>
+                                <li><i class="fa fa-phone"></i><span><a href="#">(08) 123 456 7890</a></span></li>
+                                <li><i class="fa fa-envelope-o"></i><span><a href="#">yourmail@domain.com</a></span>
+                                </li>
+                            </ul>
+                            <div class="payment-box mt-15 mb-15">
+                                <a href="#"><img src="./assets/images/payment.png" alt=""></a>
+                            </div>
+                        </div>
+                        <!--Footer Widget end-->
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+            <!--Footer Top end-->
+
+            <!--Footer bottom start-->
+            <div class="footer-bottom section">
+                <div class="container ft-border pt-40 pb-40 pt-xs-20 pb-xs-20">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-6 col-md-6 col-sm-8">
+                            <div class="copyright text-left">
+                                <p>Copyright &copy;2025 <a href="#">Poly Shop</a>. All rights reserved.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <div class="footer-logo text-right">
+                                <h3><a href="index.html" style="color:white">Poly Shop</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Footer bottom end-->
+        </footer>
 
 </div>
 

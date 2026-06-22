@@ -48,40 +48,42 @@
                             class="btn btn-primary mb-2">Thêm sản phẩm</a>
                     </div>
                     <table id="example" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Hình </th>
-                                <th>Tên sản phẩm</th>
-                                <th>Giá</th>
-                                <th>Khuyến mãi</th>
-                                <th>Danh mục</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                       <tbody>
-                        <c:forEach var="p" items="${products}">
-                            <tr>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
-                                        width="60" height="60" style="object-fit:cover; border-radius:6px;"
-                                        onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
-                                </td>
-                                <td>${p.name}</td>
-                                <td>${p.price}đ</td>
-                                <td>${p.discount}%</td>
-                                <td>${brandMap[p.id_brand]}</td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/admin/products/update/${p.id}" class="btn btn-warning btn-sm">
-                                        <i class="fa-solid fa-pen-to-square"></i> Sửa
-                                    </a>
-                                    <a href="${pageContext.request.contextPath}/admin/products/delete/${p.id}" class="btn btn-danger btn-sm"
-                                         onclick="return confirm('Xóa sản phẩm này?')">
-                                        <i class="fa-solid fa-trash"></i> Xóa
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
+                       <thead>
+    <tr>
+        <th>Hình </th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Khuyến mãi</th>
+        <th>Số lượng</th>
+        <th>Danh mục</th>
+        <th>Hành động</th>
+    </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="p" items="${products}">
+                <tr>
+                    <td>
+                        <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
+                            width="60" height="60" style="object-fit:cover; border-radius:6px;"
+                            onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'"/>
+                    </td>
+                    <td>${p.name}</td>
+                    <td>${p.price}đ</td>
+                    <td>${p.discount}%</td>
+                    <td>${p.quantity}</td>
+                    <td>${brandMap[p.id_brand]}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/products/update/${p.id}" class="btn btn-warning btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i> Sửa
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/products/delete/${p.id}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Xóa sản phẩm này?')">
+                            <i class="fa-solid fa-trash"></i> Xóa
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
                         
                     </table>
                 </div>

@@ -173,7 +173,9 @@
                                 </div>
                             </div>
                             <div class="header-cart">
-                                <a href="/user/shoppingcart"><i class="fa fa-shopping-cart"></i><span>3</span></a>
+                                <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                    <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                                </a>
                             </div>
                         </div>
                         <!--Search Cart End-->

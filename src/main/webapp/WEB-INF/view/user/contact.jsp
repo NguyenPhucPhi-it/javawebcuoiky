@@ -20,8 +20,8 @@
 <body>
     <!--Header section start-->
     <div id="main-wrapper">
-        <header class="header header-transparent header-sticky">
-             <div class="header-top">
+         <header class="header header-transparent header-sticky">
+            <div class="header-top">
                 <div class="container">
                     <div class="row align-items-center">
                         <div
@@ -88,65 +88,9 @@
                             class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-3 d-flex justify-content-center">
                             <nav class="main-menu">
                                 <ul>
-                                   <li><a href="/user/home">TRANG CHỦ</a>
+                                    <li><a href="/user/home">TRANG CHỦ</a>
                                     </li>
-                                    <li><a href="shop.html">CỬA HÀNG</a>
-                                        <!-- 
-                                            <ul class="mega-menu four-column">
-                                                <li><a href="#" class="item-link">Pages</a>
-                                                    <ul>
-                                                        <li><a href="compare.html">Compare</a></li>
-                                                        <li><a href="cart.html">Shopping Cart</a></li>
-                                                        <li><a href="checkout.html">Checkout</a></li>
-                                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                                        <li><a href="my-account.html">My Account</a></li>
-                                                        <li><a href="login-register.html">Login Register</a></li>
-                                                        <li><a href="faq.html">Frequently Questions</a></li>
-                                                        <li><a href="404.html">Error 404</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#" class="item-link">Shop Layout</a>
-                                                    <ul>
-                                                        <li><a href="shop.html">Shop</a></li>
-                                                        <li><a href="shop-three-column.html">Shop Three Column</a></li>
-                                                        <li><a href="shop-four-column.html">Shop Four Column</a></li>
-                                                        <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                        <li><a href="shop-list-nosidebar.html">Shop List No Sidebar</a></li>
-                                                        <li><a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a>
-                                                        </li>
-                                                        <li><a href="shop-list-right-sidebar.html">Shop List Right
-                                                                Sidebar</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#" class="item-link">Product Details</a>
-                                                    <ul>
-                                                        <li><a href="single-product.html">Single Product</a></li>
-                                                        <li><a href="single-product-variable.html">Variable Product</a></li>
-                                                        <li><a href="single-product-affiliate.html">Affiliate Product</a>
-                                                        </li>
-                                                        <li><a href="single-product-group.html">Group Product</a></li>
-                                                        <li><a href="single-product-tabstyle-2.html">Product Left Tab</a>
-                                                        </li>
-                                                        <li><a href="single-product-tabstyle-3.html">Product Right Tab</a>
-                                                        </li>
-                                                        <li><a href="single-product-gallery-left.html">Product Gallery
-                                                                Left</a></li>
-                                                        <li><a href="single-product-gallery-right.html">Product Gallery
-                                                                Right</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#" class="item-link">Product Details</a>
-                                                    <ul>
-                                                        <li><a href="single-product-sticky-left.html">Product Sticky
-                                                                Left</a></li>
-                                                        <li><a href="single-product-sticky-right.html">Product Sticky
-                                                                Right</a></li>
-                                                        <li><a href="single-product-slider-box.html">Product Box Slider</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                         -->
+                                    <li><a href="/user/product">CỬA HÀNG</a>                            
                                     </li>
                                     <li><a href="/user/blog">Bài viết</a>
                                     </li>
@@ -163,13 +107,15 @@
                                 <button class="header-search-toggle"><i class="fa fa-search"></i></button>
                                 <div class="header-search-form">
                                     <form action="#">
-                                        <input type="text" placeholder="Type and hit enter">
+                                        <input type="text" placeholder="Nhập từ khóa ...">
                                         <button><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>
                             <div class="header-cart">
-                                <a href="cart.html"><i class="fa fa-shopping-cart"></i><span>3</span></a>
+                                <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                    <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                                </a>
                             </div>
                         </div>
                         <!--Search Cart End-->
@@ -314,7 +260,7 @@
             </div>
         </div>
         <!--Brand section end-->
-        <footer class="footer-section section bg-dark">
+         <footer class="footer-section section bg-dark">
 
             <!--Footer Top start-->
             <div
@@ -325,7 +271,7 @@
                         <!--Footer Widget start-->
                         <div class="footer-widget col-lg-3 col-md-6 col-sm-6 col-12 mb-40 mb-xs-35">
                             <h4 class="title"><span class="text">Poly Shop</span></h4>
-                              <p>Poly Shop là website kinh doanh mỹ phẩm chính hãng, mang đến những sản phẩm đồng hồ, phù hợp với mọi người. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
+                             <p>Poly Shop là website kinh doanh đồng hồ chính hãng, mang đến những sản phẩm đồng hồ, phù hợp với mọi người. Hãy ghé thăm Poly Shop để khám phá ngay những sản phẩm dành cho bạn!</p>
                             <div class="footer-social">
                                 <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
                                 <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>

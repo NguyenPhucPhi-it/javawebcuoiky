@@ -233,9 +233,6 @@ public class AdminController {
         postService.deletePost(id);
         return "redirect:/admin/post";
     }
-
-
-    
     // quan ly don hang 
     
     @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
@@ -256,16 +253,41 @@ public class AdminController {
         model.addAttribute("details", details);
         return "admin/orderDetail";
     }
+@PostMapping("/admin/orders/updateStatus")
+public String updateStatus(@RequestParam int orderId,
+                           @RequestParam String status,
+                           HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
 
-    @PostMapping("/admin/orders/updateStatus")
-    public String updateStatus(@RequestParam int orderId,
-                            @RequestParam String status,
-                            HttpSession session) {
-        if (!isAdmin(session)) return "redirect:/auth/login";
-        orderService.updateStatus(orderId, status);
-        return "redirect:/admin/orders";
+    Order order = orderService.getOrderById(orderId);
+    if (order == null) return "redirect:/admin/orders";
+
+    String current = order.getStatus();
+    boolean valid = false;
+
+    switch (current) {
+        case "Chờ xác nhận": valid = "Đã xác nhận".equals(status) || "Đã hủy".equals(status); break;
+        case "Đã xác nhận":  valid = "Đang giao".equals(status)   || "Đã hủy".equals(status); break;
+        case "Đang giao":    valid = "Thành công".equals(status);  break;
+        default: valid = false;
     }
-        
+
+    if (valid) {
+        orderService.updateStatus(orderId, status);
+
+        // Đồng bộ trạng thái xuống từng OrderDetail trong đơn
+        List<com.example.javawebcuoiky.model.OrderDetail> details =
+                orderDetailService.getByOrderId(orderId);
+        for (com.example.javawebcuoiky.model.OrderDetail d : details) {
+            // Chỉ cascade khi sản phẩm chưa bị hủy riêng lẻ
+            if (!"Đã hủy".equals(d.getStatus())) {
+                orderDetailService.updateStatus(d.getId(), status);
+            }
+        }
+    }
+
+    return "redirect:/admin/orders";
+}
     @PostMapping("/admin/orders/detail/updateStatus")
     public String updateDetailStatus(@RequestParam int detailId,
                                     @RequestParam String status,

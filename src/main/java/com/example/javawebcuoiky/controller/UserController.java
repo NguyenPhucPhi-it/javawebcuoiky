@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.javawebcuoiky.model.Order;
 import com.example.javawebcuoiky.model.Post;
 import com.example.javawebcuoiky.model.Product;
+import com.example.javawebcuoiky.model.ShoppingCart;
 import com.example.javawebcuoiky.model.ShoppingCartItem;
 import com.example.javawebcuoiky.model.User;
 import com.example.javawebcuoiky.service.BrandService;
@@ -65,7 +66,7 @@ public class UserController {
                               @RequestParam(required = false) Double maxPrice)
                                {
 
-           Page<Product> productPage = productService.getProductByPage(page, size, brandId, minPrice, maxPrice);
+        Page<Product> productPage = productService.getProductByPage(page, size, brandId, minPrice, maxPrice);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
@@ -120,32 +121,42 @@ public String addToCart(@RequestParam int productId,
     }
 
 
-    // ───── Checkout – hiển thị form ─────
-    @RequestMapping(value = "/user/checkout", method = RequestMethod.GET)
-    public String showCheckout(Model model, HttpSession session) {
-        User loggedUser = (User) session.getAttribute("loggedUser");
-        if (loggedUser == null) return "redirect:/auth/login";
+   // ───── Checkout – hiển thị form ─────
+@RequestMapping(value = "/user/checkout", method = RequestMethod.GET)
+public String showCheckout(Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
 
-        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
-        if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
+    List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+    if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
 
-        double total = cartItems.stream()
-                .mapToDouble(ShoppingCartItem::getSubtotal)
-                .sum();
-
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("total", total);
-        model.addAttribute("loggedUser", loggedUser);
-        return "user/checkout";
+    // Lọc theo sản phẩm đã chọn (nếu có)
+    @SuppressWarnings("unchecked")
+    List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
+    if (selectedIds != null && !selectedIds.isEmpty()) {
+        cartItems = cartItems.stream()
+                .filter(i -> selectedIds.contains(i.getCart().getId()))
+                .collect(java.util.stream.Collectors.toList());
+        if (cartItems.isEmpty()) return "redirect:/user/shoppingcart";
     }
 
-    // ───── Checkout – xử lý đặt hàng ─────
-  @PostMapping("/user/checkout")
+    double total = cartItems.stream()
+            .mapToDouble(ShoppingCartItem::getSubtotal)
+            .sum();
+
+    model.addAttribute("cartItems", cartItems);
+    model.addAttribute("total", total);
+    model.addAttribute("loggedUser", loggedUser);
+    return "user/checkout";
+}
+
+// ───── Checkout – xử lý đặt hàng ─────
+@PostMapping("/user/checkout")
 public String placeOrder(@RequestParam String receiverName,
                          @RequestParam String receiverEmail,
                          @RequestParam String receiverPhone,
                          @RequestParam String address,
-                         @RequestParam(defaultValue = "COD") String paymentMethod, 
+                         @RequestParam(defaultValue = "COD") String paymentMethod,
                          HttpSession session,
                          Model model) {
 
@@ -155,14 +166,26 @@ public String placeOrder(@RequestParam String receiverName,
     List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
     if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
 
+    // Lọc theo sản phẩm đã chọn (nếu có) — y hệt logic ở showCheckout
+    @SuppressWarnings("unchecked")
+    List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
+    if (selectedIds != null && !selectedIds.isEmpty()) {
+        cartItems = cartItems.stream()
+                .filter(i -> selectedIds.contains(i.getCart().getId()))
+                .collect(java.util.stream.Collectors.toList());
+        if (cartItems.isEmpty()) return "redirect:/user/shoppingcart";
+    }
+
     Order savedOrder = orderService.placeOrder(
             receiverName, receiverEmail, receiverPhone, address,
-            paymentMethod,       // ← thêm
+            paymentMethod,
             loggedUser.getId(), cartItems
     );
 
+    session.removeAttribute("selectedCartIds"); // dùng 1 lần rồi xóa
+
     model.addAttribute("order", savedOrder);
-    model.addAttribute("paymentMethod", paymentMethod); // ← để hiển thị ở order-success
+    model.addAttribute("paymentMethod", paymentMethod);
     return "user/order-success";
 }
 
@@ -255,7 +278,7 @@ public String confirmItem(@RequestParam int detailId,
                           HttpSession session) {
     User loggedUser = (User) session.getAttribute("loggedUser");
     if (loggedUser == null) return "redirect:/auth/login";
-    orderDetailService.updateStatus(detailId, "Đã nhận hàng");
+    orderDetailService.updateStatus(detailId, "Thành công");
     return "redirect:/user/orders/" + orderId;
 }
 
@@ -265,16 +288,17 @@ public String showReviewForm(@PathVariable int detailId, Model model, HttpSessio
     User loggedUser = (User) session.getAttribute("loggedUser");
     if (loggedUser == null) return "redirect:/auth/login";
 
-    // Lấy OrderDetailItem để biết sản phẩm và đơn hàng
-    com.example.javawebcuoiky.model.OrderDetail detail =
-            orderDetailService.getById(detailId);
+    com.example.javawebcuoiky.model.OrderDetail detail = orderDetailService.getById(detailId);
     if (detail == null) return "redirect:/user/orders";
 
-    // Chỉ cho review khi Hoàn thành
-    if (!"Hoàn thành".equals(detail.getStatus()))
+    // Lấy Order tương ứng để kiểm tra trạng thái
+    Order order = orderService.getOrderById(detail.getId_order());
+    if (order == null) return "redirect:/user/orders";
+
+    // Chỉ cho review khi Order đã "Đã nhận hàng"
+    if (!"Thành công".equals(order.getStatus()))
         return "redirect:/user/orders/" + detail.getId_order();
 
-    // Kiểm tra đã review chưa
     if (commentService.hasReviewed(loggedUser.getId(),
             detail.getId_product(), detail.getId_order()))
         return "redirect:/user/orders/" + detail.getId_order() + "?reviewed=true";
@@ -308,14 +332,13 @@ public String showPendingReviews(Model model, HttpSession session) {
     User loggedUser = (User) session.getAttribute("loggedUser");
     if (loggedUser == null) return "redirect:/auth/login";
 
-    // Lấy tất cả sản phẩm đã hoàn thành
     List<com.example.javawebcuoiky.model.OrderDetailItem> allItems =
             orderService.getPurchasedItems(loggedUser.getId());
 
-    // Lọc ra những sản phẩm Hoàn thành và chưa đánh giá
     List<com.example.javawebcuoiky.model.OrderDetailItem> pendingItems = new java.util.ArrayList<>();
     for (com.example.javawebcuoiky.model.OrderDetailItem item : allItems) {
-        if ("Hoàn thành".equals(item.getDetail().getStatus())) {
+        // Dựa vào trạng thái của Order, không phải OrderDetail
+        if ("Thành công".equals(item.getOrder().getStatus())) {
             boolean reviewed = commentService.hasReviewed(
                 loggedUser.getId(),
                 item.getDetail().getId_product(),
@@ -330,4 +353,45 @@ public String showPendingReviews(Model model, HttpSession session) {
     model.addAttribute("pendingItems", pendingItems);
     return "user/pending-reviews";
 }
+    @PostMapping("/user/cart/update")
+    public String updateCartQuantity(@RequestParam int cartId,
+                                    @RequestParam int quantity) {
+        cartService.updateQuantity(cartId, quantity);
+        return "redirect:/user/shoppingcart";
+    }
+
+    // Mua ngay 1 sản phẩm trong giỏ (không cần thanh toán hết giỏ)
+    @PostMapping("/user/cart/buy-single")
+    public String buySingleItem(@RequestParam int cartId, HttpSession session) {
+        session.setAttribute("selectedCartIds", java.util.List.of(cartId));
+        return "redirect:/user/checkout";
+    }
+
+    // Mua các sản phẩm được tick chọn
+    @PostMapping("/user/cart/buy-selected")
+public String buySelectedItems(@RequestParam(required = false) List<Integer> selectedIds,
+                                HttpSession session) {
+    if (selectedIds == null || selectedIds.isEmpty()) {
+        // Không chọn gì → xóa filter cũ (nếu có), thanh toán toàn bộ giỏ
+        session.removeAttribute("selectedCartIds");
+    } else {
+        session.setAttribute("selectedCartIds", selectedIds);
+    }
+    return "redirect:/user/checkout";
+}
+   @PostMapping("/user/buy-now")
+public String buyNow(@RequestParam int productId,
+                     @RequestParam(defaultValue = "1") int quantity,
+                     HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    // Set đúng số lượng (không cộng dồn)
+    ShoppingCart cart = cartService.addToCartExact(loggedUser, session.getId(), productId, quantity);
+
+    // Chỉ checkout đúng sản phẩm này
+    session.setAttribute("selectedCartIds", java.util.List.of(cart.getId()));
+    return "redirect:/user/checkout";
+}
+
 }

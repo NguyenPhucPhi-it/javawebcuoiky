@@ -114,15 +114,24 @@ public class OrderService {
         return true;
     }
 
-    public boolean confirmReceived(int orderId, int userId) {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        if (order == null) return false;
-        if (order.getId_user() != userId) return false;
-        if (!"Thành công".equals(order.getStatus())) return false;
-        order.setStatus("Đã nhận hàng");
-        orderRepository.save(order);
-        return true;
+   public boolean confirmReceived(int orderId, int userId) {
+    Order order = orderRepository.findById(orderId).orElse(null);
+    if (order == null) return false;
+    if (order.getId_user() != userId) return false;
+    if (!"Thành công".equals(order.getStatus())) return false;
+    order.setStatus("Đã nhận hàng");
+    orderRepository.save(order);
+
+    // Cascade xuống OrderDetail
+    List<OrderDetail> details = orderDetailService.getByOrderId(orderId);
+    for (OrderDetail d : details) {
+        if (!"Đã hủy".equals(d.getStatus())) {
+            orderDetailService.updateStatus(d.getId(), "Đã nhận hàng");
+        }
     }
+
+    return true;
+}
     public List<com.example.javawebcuoiky.model.OrderDetailItem> getDetailItemsByOrderId(int orderId) {
     Order order = orderRepository.findById(orderId).orElse(null);
     List<OrderDetail> details = orderDetailService.getByOrderId(orderId);
@@ -271,6 +280,43 @@ public double getRevenueThisYear(){
         )
 
         .sum();
+}
+// Mua ngay - không qua giỏ hàng
+public Order placeOrderDirect(String receiverName, String receiverEmail,
+                               String receiverPhone, String address,
+                               String paymentMethod, int userId,
+                               int productId, int quantity) {
+    Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
+
+    Order order = new Order();
+    order.setReceiverName(receiverName);
+    order.setReceiverEmail(receiverEmail);
+    order.setReceiverPhone(receiverPhone);
+    order.setAddress(address);
+    order.setStatus("Chờ xác nhận");
+    order.setId_user(userId);
+    order.setOrderDate(new java.util.Date());
+    Order savedOrder = orderRepository.save(order);
+
+    double price = (product.getDiscount() != null && product.getDiscount() > 0)
+            ? product.getPrice() * (100 - product.getDiscount()) / 100.0
+            : product.getPrice();
+
+    OrderDetail detail = new OrderDetail();
+    detail.setId_order(savedOrder.getId());
+    detail.setId_product(productId);
+    detail.setQuantity(quantity);
+    detail.setUnitPrice(price);
+    detail.setDiscount(0);
+    detail.setShippingFee(0);
+    orderDetailService.save(detail);
+
+    paymentService.createPayment(savedOrder.getId(), paymentMethod, price * quantity);
+
+    // KHÔNG xóa giỏ hàng, KHÔNG đụng giỏ hàng
+
+    return savedOrder;
 }
 
 }

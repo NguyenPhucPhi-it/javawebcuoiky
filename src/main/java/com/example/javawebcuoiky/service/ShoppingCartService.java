@@ -119,4 +119,39 @@ public class ShoppingCartService {
             }
         }
     }
+   
+public int countCartItems(User loggedUser, String sessionId) {
+    List<ShoppingCartItem> items = getCartItemsWithProduct(loggedUser, sessionId);
+    return items.stream().mapToInt(i -> i.getCart().getQuantity()).sum();
+}
+
+public void updateQuantity(int cartId, int quantity) {
+    final int finalQuantity = (quantity < 1) ? 1 : quantity;
+    cartRepo.findById(cartId).ifPresent(c -> {
+        c.setQuantity(finalQuantity);
+        cartRepo.save(c);
+    });
+}
+public ShoppingCart addToCartExact(User loggedUser, String sessionId, int productId, int quantity) {
+    Product product = productRepo.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
+
+    if (quantity < 1) quantity = 1;
+
+    // Luôn tạo dòng MỚI — không gộp vào dòng đã có trong giỏ
+    // Tránh ghi đè số lượng sản phẩm khách đã thêm vào giỏ từ trước
+    ShoppingCart cart = new ShoppingCart();
+    if (loggedUser != null) {
+        cart.setIdUser(loggedUser.getId());
+    } else {
+        cart.setSessionId(sessionId);
+        cart.setIdUser(0);
+    }
+    cart.setIdProduct(productId);
+    cart.setPrice(product.getPrice());
+    cart.setQuantity(quantity);
+
+    return cartRepo.save(cart);
+}
+
 }

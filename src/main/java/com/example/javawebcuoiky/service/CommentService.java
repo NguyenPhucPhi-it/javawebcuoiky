@@ -39,7 +39,7 @@ public class CommentService {
         c.setMessage(message);
         c.setRating(rating);
         c.setCreated_at(LocalDateTime.now());
-        c.setStatus(0);
+        c.setStatus(1);
         commentRepository.save(c);
     }
 

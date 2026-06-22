@@ -52,6 +52,11 @@
                         <input type="number" class="form-control" name="discount"
                                value="${product.discount}" min="0" max="100" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" name="quantity"
+                            value="${product.quantity}" min="0" required />
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
