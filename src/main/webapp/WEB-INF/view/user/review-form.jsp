@@ -70,8 +70,6 @@
             <input type="hidden" name="detailId"  value="${detail.id}">
             <input type="hidden" name="productId" value="${product.id}">
             <input type="hidden" name="orderId"   value="${detail.id_order}">
-
-           
             <div class="mb-3">
                 <label class="form-label">Đánh giá của bạn <span style="color:red">*</span></label>
                 <div class="star-group">

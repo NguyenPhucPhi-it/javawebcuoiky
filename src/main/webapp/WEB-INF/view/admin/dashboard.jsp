@@ -104,17 +104,17 @@
                     <i class="fa-solid fa-mug-hot ico-side"></i>Quản lí sản phẩm</a></li>
                 <li><a href="/admin/comments">
                     <i class="fa-solid fa-comments ico-side"></i>Quản lí bình luận
-                    <c:if test="${pendingComments > 0}">
+                    <!-- <c:if test="${pendingComments > 0}">
                         <span class="alert-badge">${pendingComments}</span>
-                    </c:if>
+                    </c:if> -->
                 </a></li>
                 <li><a href="/admin/post">
                     <i class="fa-solid fa-newspaper ico-side"></i>Quản lý bài viết</a></li>
                 <li><a href="/admin/orders">
                     <i class="fa-solid fa-cart-shopping ico-side"></i>Quản lý đơn hàng
-                    <c:if test="${choXacNhan > 0}">
+                    <!-- <c:if test="${choXacNhan > 0}">
                         <span class="alert-badge">${choXacNhan}</span>
-                    </c:if>
+                    </c:if> -->
                 </a></li>
                 <li><a href="/auth/logout">
                     <i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li>

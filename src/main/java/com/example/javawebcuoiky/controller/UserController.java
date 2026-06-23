@@ -325,7 +325,7 @@ public String submitReview(@RequestParam int detailId,
     if (!commentService.hasReviewed(loggedUser.getId(), productId, orderId)) {
         commentService.saveComment(loggedUser.getId(), productId, orderId, message, rating);
     }
-    return "redirect:/user/orders/" + orderId + "?reviewed=true";
+   return "redirect:/user/review/" + detailId + "?success=true";
 }
 @RequestMapping(value = "/user/pending-reviews", method = RequestMethod.GET)
 public String showPendingReviews(Model model, HttpSession session) {
@@ -396,5 +396,21 @@ public String buyNow(@RequestParam int productId,
 @RequestMapping(value="/user/introduce", method=RequestMethod.GET)
 public String showIntro() {
     return "user/introduce";
+}
+@PostMapping("/user/cart/add-ajax")
+@org.springframework.web.bind.annotation.ResponseBody
+public java.util.Map<String, Object> addToCartAjax(@RequestParam int productId,
+                                                    @RequestParam(defaultValue = "1") int quantity,
+                                                    HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+
+    List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+    int cartCount = cartItems.stream().mapToInt(i -> i.getCart().getQuantity()).sum();
+
+    java.util.Map<String, Object> result = new java.util.HashMap<>();
+    result.put("success", true);
+    result.put("cartCount", cartCount);
+    return result;
 }
 }

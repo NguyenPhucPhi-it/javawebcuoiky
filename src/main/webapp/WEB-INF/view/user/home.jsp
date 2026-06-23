@@ -286,13 +286,13 @@
                                                             <!-- <li><a href="#"><i class="fa fa-eye"></i></a></li> -->
                                                           <li>
                                                             <a>
-                                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
-                                                                <input type="hidden" name="productId" value="${p.id}"/>
-                                                                <input type="hidden" name="quantity" value="1"/>
-                                                                <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; color:white; font-size:14px; line-height:1;">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                </button>
-                                                            </form>
+                                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="post" class="ajax-add-cart-form">
+                                                            <input type="hidden" name="productId" value="${p.id}"/>
+                                                            <input type="hidden" name="quantity" value="1"/>
+                                                            <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; color:white; font-size:14px; line-height:1;">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </form>
                                                             </a>
                                                         </li>
                                                             <!-- <li><a href="#"><i class="fa fa-exchange"></i></a></li> -->
@@ -358,17 +358,19 @@
                                                     <div class="product-action d-flex justify-content-between">
                                                         <a class="product-btn" href="${pageContext.request.contextPath}/user/productDetails/${p.id}">Mua hàng</a>
                                                         <ul class="d-flex">
-                                                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-<li>
-                                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="post">
-                                                                <input type="hidden" name="productId" value="${p.id}"/>
-                                                                <input type="hidden" name="quantity" value="1"/>
-                                                                <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; color:white; font-size:14px; line-height:1;">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                </button>
-                                                            </form>
+                                                            <!-- <li><a href="#"><i class="fa fa-eye"></i></a></li> -->
+                                                          <li>
+                                                            <a>
+                                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="post" class="ajax-add-cart-form">
+                                                            <input type="hidden" name="productId" value="${p.id}"/>
+                                                            <input type="hidden" name="quantity" value="1"/>
+                                                            <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; color:white; font-size:14px; line-height:1;">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </form>
+                                                            </a>
                                                         </li>
-                                                            <li><a href="#"><i class="fa fa-exchange"></i></a></li>
+                                                            <!-- <li><a href="#"><i class="fa fa-exchange"></i></a></li> -->
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1453,6 +1455,40 @@ document.querySelectorAll('.price-vnd').forEach(function(el) {
     } else {
         el.textContent = '---';
     }
+});
+document.querySelectorAll('.ajax-add-cart-form').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+        e.preventDefault(); // chặn load lại trang
+
+        var formData = new FormData(form);
+        var btn = form.querySelector('button');
+        btn.disabled = true;
+
+        fetch('${pageContext.request.contextPath}/user/cart/add-ajax', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (data.success) {
+                // Cập nhật số trên icon giỏ hàng ở header
+                var badge = document.querySelector('.header-cart span');
+                if (badge) badge.textContent = data.cartCount;
+
+                // Hiệu ứng nhỏ báo đã thêm thành công (tùy chọn)
+                btn.innerHTML = '<i class="fa fa-check"></i>';
+                setTimeout(function () {
+                    btn.innerHTML = '<i class="fa fa-shopping-cart"></i>';
+                    btn.disabled = false;
+                }, 800);
+            } else {
+                btn.disabled = false;
+            }
+        })
+        .catch(function () {
+            btn.disabled = false;
+        });
+    });
 });
 </script>
 </body>

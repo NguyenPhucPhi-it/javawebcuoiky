@@ -11,9 +11,125 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/productDetails.css">
+     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/helper.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/iconfont.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+            <script src="${pageContext.request.contextPath}assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
+<div id="main-wrapper">
+        <header class="header header-transparent header-sticky">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div
+                            class="col-xl-6 col-lg-8 d-flex flex-wrap justify-content-lg-start justify-content-center align-items-center">
+                            <!--Links start-->
+                            <div class="header-top-links">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-phone"></i>(08) 123 456 7890</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope-open-o"></i>yourmail@domain.com</a></li>
+                                </ul>
+                            </div>
+                            <!--Links end-->
+                        </div>
+                        <div class="col-xl-6 col-lg-4">
+                            <div class="ht-right d-flex justify-content-lg-end justify-content-center">
+                                <ul class="ht-us-menu d-flex">
+                            <c:choose>
+                                <c:when test="${loggedUser != null}">
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
+                                        <ul class="ht-dropdown right">
+                                            <c:if test="${loggedUser.role == 1}">
+                                                <li><a href="/admin/dashboard">Quản trị</a></li>
+                                            </c:if>
+                                            <li><a href="/auth/logout">Đăng xuất</a></li>
+                                            <li><a href="/user/orders">Lịch sử đặt hàng</a></li>
+                                            <li><a href="/user/pending-reviews">Bình luận/ đánh giá</a></li>
+                                        </ul>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                
+                                    <li>
+                                        <a href="#"><i class="fa fa-user-circle-o"></i>Tài khoản</a>
+                                        <ul class="ht-dropdown right">
+                                            <li><a href="/auth/register">Đăng ký</a></li>
+                                            <li><a href="/auth/login">Đăng nhập</a></li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+            <div class="header-bottom menu-right">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <!--Logo start-->
+                        <div class="col-lg-3 col-md-3 col-6 order-lg-1 order-md-1 order-1">
+                            <div class="logo">
+                                <h1><strong>Poly</strong> Shop</h1>
+                            </div>
+                        </div>
+                        <!--Logo end-->
+
+                        <!--Menu start-->
+                        <div
+                            class="col-lg-6 col-md-6 col-12 order-lg-2 order-md-2 order-3 d-flex justify-content-center">
+                            <nav class="main-menu">
+                                <ul>
+                                    <li><a href="/user/home">TRANG CHỦ</a>
+                                    </li>
+                                    <li><a href="/user/product">CỬA HÀNG</a>                            
+                                    </li>
+                                    <li><a href="/user/blog">Bài viết</a>
+                                    </li>
+                                    <li><a href="/user/introduce">GIỚI THIỆU</a></li>
+                                    <li><a href="/user/contact">LIÊN HỆ</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!--Menu end-->
+
+                        <!--Search Cart Start-->
+                        <div class="col-lg-3 col-md-3 col-6 order-lg-3 order-md-3 order-2 d-flex justify-content-end">
+                            <div class="header-search">
+                                <button class="header-search-toggle"><i class="fa fa-search"></i></button>
+                                <div class="header-search-form">
+                                    <form action="#">
+                                        <input type="text" placeholder="Nhập từ khóa ...">
+                                        <button><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="header-cart">
+                            <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                            </a>
+                        </div>
+                        </div>
+                        <!--Search Cart End-->
+                    </div>
+
+                    <!--Mobile Menu start-->
+                    <div class="row">
+                        <div class="col-12 d-flex d-lg-none">
+                            <div class="mobile-menu"></div>
+                        </div>
+                    </div>
+                    <!--Mobile Menu end-->
+                </div>
+            </div>
+        </header>
+</div>
 <!-- Page Banner -->
 <div class="page-banner-section section bg-gray">
     <div class="container">

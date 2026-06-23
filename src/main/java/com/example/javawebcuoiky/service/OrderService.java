@@ -71,8 +71,10 @@ public class OrderService {
     }
 
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
+    List<Order> orders = orderRepository.findAll();
+    orders.sort((a, b) -> Integer.compare(b.getId(), a.getId())); // ORDER BY id DESC
+    return orders;
+}
 
     public Order getOrderById(int id) {
         return orderRepository.findById(id).orElse(null);
@@ -146,7 +148,7 @@ private double calculateOrderRevenue(int orderId) {
     return orderDetailService.getByOrderId(orderId)
             .stream()
             .filter(d -> 
-                "Hoàn thành".equals(d.getStatus())
+                "Thành công".equals(d.getStatus())
             )
             .mapToDouble(d ->
                     d.getUnitPrice() * d.getQuantity()
