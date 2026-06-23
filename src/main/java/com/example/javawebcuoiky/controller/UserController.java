@@ -21,6 +21,7 @@ import com.example.javawebcuoiky.service.BrandService;
 import com.example.javawebcuoiky.service.CommentService;
 import com.example.javawebcuoiky.service.OrderDetailService;
 import com.example.javawebcuoiky.service.OrderService;
+import com.example.javawebcuoiky.service.PaymentService;
 import com.example.javawebcuoiky.service.PostService;
 import com.example.javawebcuoiky.service.ProductService;
 import com.example.javawebcuoiky.service.ShoppingCartService;
@@ -39,7 +40,9 @@ public class UserController {
       private final PostService postService;
       private final OrderDetailService orderDetailService;
       private final CommentService commentService;
-    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService, OrderService orderService,PostService postService,OrderDetailService orderDetailService,CommentService commentService){
+      private final PaymentService paymentService;
+    public UserController(ProductService productService,ShoppingCartService cartService, BrandService brandService,
+         OrderService orderService,PostService postService,OrderDetailService orderDetailService,CommentService commentService,PaymentService paymentService){
         this.productService=productService;
         this.cartService = cartService;
         this.brandService=brandService;
@@ -47,6 +50,7 @@ public class UserController {
         this.postService=postService;
         this.orderDetailService = orderDetailService;
         this.commentService=commentService;
+        this.paymentService = paymentService;
         
     }
     @RequestMapping(value="/user/home", method=RequestMethod.GET)
@@ -166,7 +170,6 @@ public String placeOrder(@RequestParam String receiverName,
     List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
     if (cartItems == null || cartItems.isEmpty()) return "redirect:/user/shoppingcart";
 
-    // Lọc theo sản phẩm đã chọn (nếu có) — y hệt logic ở showCheckout
     @SuppressWarnings("unchecked")
     List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
     if (selectedIds != null && !selectedIds.isEmpty()) {
@@ -182,12 +185,59 @@ public String placeOrder(@RequestParam String receiverName,
             loggedUser.getId(), cartItems
     );
 
-    session.removeAttribute("selectedCartIds"); // dùng 1 lần rồi xóa
+    session.removeAttribute("selectedCartIds");
 
+    // ── BANK → sang trang QR giả lập, chưa coi là thành công ──
+    if ("BANK".equals(paymentMethod)) {
+        return "redirect:/user/payment-qr/" + savedOrder.getId();
+    }
+
+    // COD → vào thẳng trang thành công
     model.addAttribute("order", savedOrder);
     model.addAttribute("paymentMethod", paymentMethod);
     return "user/order-success";
 }
+
+// Hiển thị trang QR giả lập
+@RequestMapping(value = "/user/payment-qr/{orderId}", method = RequestMethod.GET)
+public String showPaymentQr(@PathVariable int orderId, Model model, HttpSession session) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    Order order = orderService.getOrderById(orderId);
+    if (order == null || order.getId_user() != loggedUser.getId())
+        return "redirect:/user/orders";
+
+    com.example.javawebcuoiky.model.Payment payment = paymentService.getByOrderId(orderId);
+    if (payment == null) return "redirect:/user/orders";
+
+    if ("Đã thanh toán".equals(payment.getPayment_status())) {
+        return "redirect:/user/orders/" + orderId;
+    }
+
+    model.addAttribute("order", order);
+    model.addAttribute("payment", payment);
+    model.addAttribute("loggedUser", loggedUser); // ← cần cho ${loggedUser.username} trong JSP
+    return "user/payment-qr";
+}
+
+// Xác nhận đã thanh toán (giả lập)
+@PostMapping("/user/payment-qr/confirm")
+public String confirmPaymentQr(@RequestParam int orderId, HttpSession session, Model model) {
+    User loggedUser = (User) session.getAttribute("loggedUser");
+    if (loggedUser == null) return "redirect:/auth/login";
+
+    Order order = orderService.getOrderById(orderId);
+    if (order == null || order.getId_user() != loggedUser.getId())
+        return "redirect:/user/orders";
+
+    paymentService.updatePaymentStatus(orderId, "Đã thanh toán");
+
+    model.addAttribute("order", order);
+    model.addAttribute("paymentMethod", "BANK");
+    return "user/order-success";
+}
+
 
     // ───── Liên hệ ─────
     @RequestMapping(value = "/user/contact", method = RequestMethod.GET)

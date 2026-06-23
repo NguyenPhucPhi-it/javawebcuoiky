@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.javawebcuoiky.model.Brand;
 import com.example.javawebcuoiky.model.Order;
+import com.example.javawebcuoiky.model.Payment;
 import com.example.javawebcuoiky.model.Post;
 import com.example.javawebcuoiky.model.Product;
 import com.example.javawebcuoiky.model.User;
@@ -30,6 +31,7 @@ import com.example.javawebcuoiky.service.BrandService;
 import com.example.javawebcuoiky.service.CommentService;
 import com.example.javawebcuoiky.service.OrderDetailService;
 import com.example.javawebcuoiky.service.OrderService;
+import com.example.javawebcuoiky.service.PaymentService;
 import com.example.javawebcuoiky.service.PostService;
 import com.example.javawebcuoiky.service.ProductService;
 
@@ -45,16 +47,18 @@ public class AdminController {
     private final OrderDetailService orderDetailService;
     private final CommentService commentService;
     private final ProductRepository productRepository;
+     private final PaymentService paymentService;
 
     public AdminController(ProductService productService, BrandService brandService,PostService postService,OrderService orderService,CommentService commentService,
-                       OrderDetailService orderDetailService,ProductRepository productRepository) {
+                       OrderDetailService orderDetailService,ProductRepository productRepository,PaymentService paymentService) {
         this.productService = productService;
         this.brandService = brandService;
         this.postService = postService;
         this.orderService = orderService;
         this.orderDetailService = orderDetailService;
         this.commentService=commentService;
-            this.productRepository  = productRepository;
+        this.productRepository  = productRepository;
+        this.paymentService = paymentService;
     }
 
     private boolean isAdmin(HttpSession session) {
@@ -235,24 +239,39 @@ public class AdminController {
     }
     // quan ly don hang 
     
-    @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
-    public String listOrders(Model model, HttpSession session) {
-        if (!isAdmin(session)) return "redirect:/auth/login";
-        model.addAttribute("orders", orderService.getAllOrders());
-        return "admin/orders";
+   @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
+public String listOrders(Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+
+    List<Order> orders = orderService.getAllOrders();
+
+    Map<Integer, Payment> paymentMap = new HashMap<>();
+    for (Order o : orders) {
+        Payment p = paymentService.getByOrderId(o.getId());
+        if (p != null) paymentMap.put(o.getId(), p);
     }
 
-    @RequestMapping(value = "/admin/orders/{id}", method = RequestMethod.GET)
-    public String orderDetail(@PathVariable int id, Model model, HttpSession session) {
-        if (!isAdmin(session)) return "redirect:/auth/login";
-        Order order = orderService.getOrderById(id);
-        if (order == null) return "redirect:/admin/orders";
-       List<com.example.javawebcuoiky.model.OrderDetailItem> details =
+    model.addAttribute("orders", orders);
+    model.addAttribute("paymentMap", paymentMap); 
+    return "admin/orders";
+}
+
+  @RequestMapping(value = "/admin/orders/{id}", method = RequestMethod.GET)
+public String orderDetail(@PathVariable int id, Model model, HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    Order order = orderService.getOrderById(id);
+    if (order == null) return "redirect:/admin/orders";
+
+    List<com.example.javawebcuoiky.model.OrderDetailItem> details =
             orderService.getDetailItemsByOrderId(id);
-        model.addAttribute("order", order);
-        model.addAttribute("details", details);
-        return "admin/orderDetail";
-    }
+
+    Payment payment = paymentService.getByOrderId(id); // ← thêm
+
+    model.addAttribute("order", order);
+    model.addAttribute("details", details);
+    model.addAttribute("payment", payment); // ← thêm
+    return "admin/orderDetail";
+}
 @PostMapping("/admin/orders/updateStatus")
 public String updateStatus(@RequestParam int orderId,
                            @RequestParam String status,

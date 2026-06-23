@@ -36,4 +36,18 @@ public class PaymentService {
 
         return paymentRepository.save(payment);
     }
+
+    // Lấy payment theo orderId — dùng cho trang QR
+    public Payment getByOrderId(int orderId) {
+        return paymentRepository.findByIdOrder(orderId);
+    }
+
+    // Cập nhật trạng thái thanh toán — dùng khi xác nhận QR giả lập
+    public void updatePaymentStatus(int orderId, String status) {
+        Payment payment = paymentRepository.findByIdOrder(orderId);
+        if (payment != null) {
+            payment.setPayment_status(status);
+            paymentRepository.save(payment);
+        }
+    }
 }
