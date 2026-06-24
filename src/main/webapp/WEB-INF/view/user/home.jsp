@@ -1267,6 +1267,21 @@
             </div>
         </div>
         <!--Brand section end-->
+<c:if test="${not empty sessionScope.loggedUser}">
+<div id="chatWidget" style="position:fixed;bottom:20px;right:20px;z-index:9999;">
+    <button id="chatToggleBtn" style="width:55px;height:55px;border-radius:50%;background:#0d6efd;color:#fff;border:none;font-size:22px;">💬</button>
+    <div id="chatPanel" style="display:none;width:300px;height:400px;background:#fff;border:1px solid #ccc;border-radius:8px;position:absolute;bottom:65px;right:0;box-shadow:0 0 10px rgba(0,0,0,.2);flex-direction:column;">
+        <div style="background:#0d6efd;color:#fff;padding:8px;border-radius:8px 8px 0 0;">Hỗ trợ khách hàng</div>
+        <div id="userMessages" style="flex:1;overflow-y:auto;padding:8px;height:300px;"></div>
+        <div style="display:flex;border-top:1px solid #ddd;">
+            <input id="userMsgInput" type="text" placeholder="Nhập tin nhắn..." style="flex:1;padding:8px;border:none;"/>
+            <button id="userSendBtn" style="border:none;background:#0d6efd;color:#fff;padding:0 12px;">Gửi</button>
+        </div>
+    </div>
+</div>
+
+
+</c:if>
 
         <footer class="footer-section section bg-dark">
 
@@ -1368,6 +1383,8 @@
 <script src="${pageContext.request.contextPath}/assets/js/vendor/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/vendor/plugins.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/vendor/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
 <script>
 function formatVND(price) {
     return new Intl.NumberFormat('vi-VN').format(Math.round(price)) + '₫';
@@ -1414,6 +1431,66 @@ document.querySelectorAll('.ajax-add-cart-form').forEach(function (form) {
         });
     });
 });
+
+
+const ctx = "${pageContext.request.contextPath}";
+const myUserId = "${sessionScope.loggedUser.id}";
+let stompClient = null;
+
+document.getElementById("chatToggleBtn").onclick = function() {
+    const panel = document.getElementById("chatPanel");
+    panel.style.display = panel.style.display === "none" ? "flex" : "none";
+    if (panel.style.display === "flex" && !stompClient) connect();
+};
+
+function connect() {
+    const socket = new SockJS(ctx + "/ws-chat");
+    stompClient = new StompJs.Client({
+        webSocketFactory: () => socket,
+        onConnect: () => {
+            fetch(ctx + "/api/chat/history/" + myUserId)
+                .then(res => res.json())
+                .then(list => list.forEach(appendMessage));
+
+            stompClient.subscribe("/topic/chat/" + myUserId, (msg) => {
+                appendMessage(JSON.parse(msg.body));
+            });
+        }
+    });
+    stompClient.activate();
+}
+
+function appendMessage(m) {
+    const box = document.getElementById("userMessages");
+    const div = document.createElement("div");
+    div.style.margin = "5px 0";
+    div.style.maxWidth = "75%";
+    div.style.padding = "6px 10px";
+    div.style.borderRadius = "8px";
+    if (m.senderRole === "USER") {
+        div.style.background = "#0d6efd"; div.style.color = "#fff"; div.style.marginLeft = "auto";
+    } else {
+        div.style.background = "#f1f1f1";
+    }
+    div.innerText = m.content;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
+
+document.getElementById("userSendBtn").onclick = sendMsg;
+document.getElementById("userMsgInput").addEventListener("keypress", e => { if (e.key === "Enter") sendMsg(); });
+
+function sendMsg() {
+    const input = document.getElementById("userMsgInput");
+    const content = input.value.trim();
+    if (!content) return;
+    stompClient.publish({
+        destination: "/app/chat/" + myUserId,
+        body: JSON.stringify({ senderRole: "USER", content: content })
+    });
+    input.value = "";
+}
+
 </script>
 </body>
       </html>

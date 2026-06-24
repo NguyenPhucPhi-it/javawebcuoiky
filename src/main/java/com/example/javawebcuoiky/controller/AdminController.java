@@ -397,5 +397,9 @@ public String showDashboard(Model model, HttpSession session) {
         return "redirect:/admin/comments";
     }
 
-    
+    @RequestMapping(value = "/admin/chat", method = RequestMethod.GET)
+public String adminChat(HttpSession session) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    return "admin/chat";
+}
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2026 at 04:00 PM
+-- Generation Time: Jun 24, 2026 at 05:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,6 +42,34 @@ INSERT INTO `brand` (`id`, `brand_name`) VALUES
 (3, 'BENYAR'),
 (4, 'Carnival'),
 (6, 'heheh');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat_message`
+--
+
+CREATE TABLE `chat_message` (
+  `id` bigint(20) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `sender_role` varchar(255) DEFAULT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chat_message`
+--
+
+INSERT INTO `chat_message` (`id`, `user_id`, `sender_role`, `content`, `created_at`) VALUES
+(1, 2, 'USER', 'xin chào', '2026-06-24 22:11:56'),
+(2, 2, 'ADMIN', 'chào bạn', '2026-06-24 22:12:28'),
+(3, 4, 'USER', 'xin chào bạn', '2026-06-24 22:18:35'),
+(4, 2, 'USER', 'có chiếc nào giá rẻ hơn không ạ', '2026-06-24 22:19:04'),
+(5, 4, 'ADMIN', 'xin chào,bạn cần giúp gì ko?', '2026-06-24 22:19:54'),
+(6, 2, 'ADMIN', 'bên mình hiện chưa có ạ!', '2026-06-24 22:25:39'),
+(7, 4, 'USER', 'có', '2026-06-24 22:26:02'),
+(8, 2, 'USER', 'thanhs!', '2026-06-24 22:26:29');
 
 -- --------------------------------------------------------
 
@@ -348,7 +376,8 @@ CREATE TABLE `shopping_cart` (
 --
 
 INSERT INTO `shopping_cart` (`id`, `id_product`, `id_user`, `price`, `quantity`, `session_id`) VALUES
-(132, 13, 4, 200000, 1, NULL);
+(132, 13, 4, 200000, 1, NULL),
+(133, 1, 4, 869000, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -382,6 +411,12 @@ INSERT INTO `user` (`id`, `email`, `username`, `password`, `role`) VALUES
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chat_message`
+--
+ALTER TABLE `chat_message`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -453,6 +488,12 @@ ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `chat_message`
+--
+ALTER TABLE `chat_message`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
@@ -492,7 +533,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shopping_cart`
 --
 ALTER TABLE `shopping_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `user`
