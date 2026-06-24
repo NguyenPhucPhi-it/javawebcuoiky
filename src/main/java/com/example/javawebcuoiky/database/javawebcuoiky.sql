@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2026 at 02:23 PM
+-- Generation Time: Jun 24, 2026 at 11:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -69,7 +69,16 @@ INSERT INTO `comment` (`id`, `created_at`, `id_order`, `id_product`, `id_user`, 
 (2, '2026-06-12 15:57:10.000000', 7, 12, 2, 'ok', 4, 1),
 (3, '2026-06-16 16:46:27.000000', 1, 8, 2, 'qua ok', 5, 1),
 (4, '2026-06-18 14:33:05.000000', 9, 1, 2, 'sản phầm quá chất lượng', 5, 1),
-(5, '2026-06-18 17:12:35.000000', 13, 3, 4, 'ok', 5, 0);
+(5, '2026-06-18 17:12:35.000000', 13, 3, 4, 'ok', 5, 1),
+(6, '2026-06-22 18:46:36.000000', 17, 8, 2, 'quá tốt', 5, 1),
+(7, '2026-06-22 18:47:17.000000', 17, 5, 2, 'sp tốt ', 5, 1),
+(8, '2026-06-22 18:47:52.000000', 1, 1, 2, 'cũng được', 4, 1),
+(9, '2026-06-22 18:52:01.000000', 5, 1, 2, 'sp tốt chất lượng ', 5, 1),
+(10, '2026-06-22 18:53:58.000000', 16, 13, 2, 'đáng đồng tiền ', 5, 1),
+(11, '2026-06-22 21:30:08.000000', 13, 8, 4, 'ok', 5, 1),
+(12, '2026-06-23 08:34:43.000000', 20, 2, 2, 'được', 4, 1),
+(13, '2026-06-23 08:36:38.000000', 19, 3, 2, 'ổn trong tầm giá', 5, 1),
+(14, '2026-06-23 08:38:12.000000', 19, 13, 2, 'đẹp', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -93,19 +102,34 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `address`, `id_user`, `order_date`, `receiver_email`, `receiver_name`, `receiver_phone`, `status`) VALUES
-(1, 'nha 11,xom An Lac, tinh Dong Nai', 2, '2026-06-16 08:25:31', 'anh@gmail.com', 'Anh', '0328859476', 'Đang giao'),
-(2, 'xom 3, xa Van Tu, tinh Nghe An', 3, '2026-06-16 14:22:22', 'ly@gmail.com', 'Ly', '0356654345', 'Chờ xác nhận'),
-(3, 'xom 12, huyen Ky Anh, tinh Vung Tau', 3, '2026-06-16 14:24:49', 'ly@gmail.com', 'Ly', '0328859476', 'Chờ xác nhận'),
-(4, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '2026-06-16 20:46:55', 'anh@gmail.com', 'Anh', '0567748576', 'Chờ xác nhận'),
-(5, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '2026-06-16 20:48:39', 'anh@gmail.com', 'Anh', '098754676', 'Chờ xác nhận'),
+(1, 'nha 11,xom An Lac, tinh Dong Nai', 2, '2026-06-16 08:25:31', 'anh@gmail.com', 'Anh', '0328859476', 'Thành công'),
+(2, 'xom 3, xa Van Tu, tinh Nghe An', 3, '2026-06-16 14:22:22', 'ly@gmail.com', 'Ly', '0356654345', 'Thành công'),
+(3, 'xom 12, huyen Ky Anh, tinh Vung Tau', 3, '2026-06-16 14:24:49', 'ly@gmail.com', 'Ly', '0328859476', 'Thành công'),
+(4, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '2026-06-16 20:46:55', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(5, 'số 113, Ngũ Hành Sơn, Đà Nẵng', 2, '2026-06-16 20:48:39', 'anh@gmail.com', 'Anh', '098754676', 'Thành công'),
 (6, 'số 114, Hà Nội', 2, '2026-06-16 20:50:45', 'anh@gmail.com', 'Anh', '0356654345', 'Đã hủy'),
-(7, 'xom 11, van tu, nghe an', 2, '2026-06-16 15:55:36', 'anh@gmail.com', 'Anh', '035223067', 'Chờ xác nhận'),
-(8, 'xom12, xa Tan An, Tinh Ha Tinh', 2, '2026-06-16 16:31:52', 'anh@gmail.com', 'Anh', '0328859476', 'Chờ xác nhận'),
-(9, 'so 112, Dien Ban, Quang Nam', 2, '2026-06-16 16:32:29', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận'),
-(10, 'xom 13, xa cong thanh, tinh nghe an', 2, '2026-06-16 22:29:49', 'anh@gmail.com', 'Anh', '0567748576', 'Chờ xác nhận'),
-(11, 'xóm 1 , cong thanh, yen thanh, nghe an', 2, '2026-06-17 07:46:48', 'anh@gmail.com', 'Anh', '0328859476', 'Chờ xác nhận'),
-(12, 'nhà 11, tỉnh Quảng Nam', 2, '2026-06-18 14:32:26', 'anh@gmail.com', 'Anh', '0356654345', 'Chờ xác nhận'),
-(13, 'xóm 5, điện bàn', 4, '2026-06-18 17:00:24', 'duc@gmail.com', 'Duc', '0567748576', 'Chờ xác nhận');
+(7, 'xom 11, van tu, nghe an', 2, '2026-06-16 15:55:36', 'anh@gmail.com', 'Anh', '035223067', 'Thành công'),
+(8, 'xom12, xa Tan An, Tinh Ha Tinh', 2, '2026-06-16 16:31:52', 'anh@gmail.com', 'Anh', '0328859476', 'Thành công'),
+(9, 'so 112, Dien Ban, Quang Nam', 2, '2026-06-16 16:32:29', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
+(10, 'xom 13, xa cong thanh, tinh nghe an', 2, '2026-06-16 22:29:49', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(11, 'xóm 1 , cong thanh, yen thanh, nghe an', 2, '2026-06-17 07:46:48', 'anh@gmail.com', 'Anh', '0328859476', 'Thành công'),
+(12, 'nhà 11, tỉnh Quảng Nam', 2, '2026-06-18 14:32:26', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
+(13, 'xóm 5, điện bàn', 4, '2026-06-18 17:00:24', 'duc@gmail.com', 'Duc', '0567748576', 'Thành công'),
+(14, 'sdfsdfsdf', 2, '2026-06-22 15:53:43', 'anh@gmail.com', 'Anh', '0343356475', 'Đã hủy'),
+(15, 'xom 11, xa Van Đu, Tinh Nghe An', 2, '2026-06-22 16:03:54', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(16, 'xom 12, xa jkdn, tinh Da Nang', 2, '2026-06-22 17:41:07', 'anh@gmail.com', 'Anh', '0328859476', 'Thành công'),
+(17, 'pho cau ha, dien ban dong, da nang', 2, '2026-06-22 18:07:35', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
+(18, 'xóm 5, quan 1, Ha Noi', 4, '2026-06-22 21:30:43', 'duc@gmail.com', 'Duc', '0567748576', 'Thành công'),
+(19, 'xóm 1, Tân An, Tân Kỳ', 2, '2026-06-23 07:34:46', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(20, 'xom 5 , Liên Thành, Bình Dương', 2, '2026-06-23 07:55:35', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
+(21, 'so 113, Đà Nẵng', 4, '2026-06-23 08:00:15', 'duc@gmail.com', 'Duc', '0567748576', 'Đã xác nhận'),
+(22, 'số 11, đường Lê Thiện Trị, Đà Nẵng', 4, '2026-06-23 09:58:01', 'duc@gmail.com', 'Duc', '0328859476', 'Đang giao'),
+(23, 'số 112, Phường Hoà Hải, Quận Ngũ Hành Sơn, Thành phố Đà Nẵng', 2, '2026-06-23 10:28:00', 'anh@gmail.com', 'Anh', '0328859476', 'Đã hủy'),
+(24, 'số 112, Phường Hoàng Quế, Thành phố Đông Triều, Tỉnh Quảng Ninh', 2, '2026-06-23 14:33:46', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(25, 'số 12, Xã Liên Chung, Huyện Tân Yên, Tỉnh Bắc Giang', 2, '2026-06-24 09:24:57', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
+(26, 'xóm 11, Xã Vân Tụ, Huyện Yên Thành, Tỉnh Nghệ An', 2, '2026-06-24 09:25:52', 'anh@gmail.com', 'Anh', '0343356475', 'Thành công'),
+(27, 'số 12, Phường Vân Dương, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-24 09:31:34', 'duc@gmail.com', 'Duc', '0328859476', 'Đã xác nhận'),
+(28, 'xóm 11, Phường Khắc Niệm, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-24 15:59:57', 'duc@gmail.com', 'Duc', '0343356475', 'Thành công');
 
 -- --------------------------------------------------------
 
@@ -129,32 +153,64 @@ CREATE TABLE `order_detail` (
 --
 
 INSERT INTO `order_detail` (`id`, `discount`, `id_order`, `id_product`, `quantity`, `shipping_fee`, `unit_price`, `status`) VALUES
-(1, 0, 1, 8, 2, 0, 1234567890, 'Hoàn thành'),
-(2, 0, 1, 6, 1, 0, 123456789, 'Hoàn thành'),
-(3, 0, 1, 9, 2, 0, 1234567879, 'Hoàn thành'),
+(1, 0, 1, 8, 2, 0, 1234567890, 'Thành công'),
+(2, 0, 1, 6, 1, 0, 123456789, 'Thành công'),
+(3, 0, 1, 9, 2, 0, 1234567879, 'Thành công'),
 (4, 0, 1, 12, 1, 0, 174000, 'Đã hủy'),
-(5, 0, 1, 1, 2, 0, 869000, 'Đã xác nhận'),
-(6, 0, 2, 12, 1, 0, 174000, 'Hoàn thành'),
-(7, 0, 3, 2, 3, 0, 3000000, 'Hoàn thành'),
-(8, 0, 4, 1, 1, 0, 869000, 'Chờ xác nhận'),
-(9, 0, 4, 4, 2, 0, 15900000, 'Chờ xác nhận'),
-(10, 0, 4, 7, 1, 0, 1234567890, 'Chờ xác nhận'),
-(11, 0, 5, 1, 1, 0, 869000, 'Chờ xác nhận'),
-(12, 0, 5, 4, 2, 0, 15900000, 'Hoàn thành'),
-(13, 0, 5, 7, 1, 0, 1234567890, 'Hoàn thành'),
+(5, 0, 1, 1, 2, 0, 869000, 'Thành công'),
+(6, 0, 2, 12, 1, 0, 174000, 'Thành công'),
+(7, 0, 3, 2, 3, 0, 3000000, 'Thành công'),
+(8, 0, 4, 1, 1, 0, 869000, 'Thành công'),
+(9, 0, 4, 4, 2, 0, 15900000, 'Thành công'),
+(10, 0, 4, 7, 1, 0, 1234567890, 'Thành công'),
+(11, 0, 5, 1, 1, 0, 869000, 'Thành công'),
+(12, 0, 5, 4, 2, 0, 15900000, 'Thành công'),
+(13, 0, 5, 7, 1, 0, 1234567890, 'Thành công'),
 (14, 0, 6, 2, 1, 0, 3000000, 'Hoàn thành'),
 (15, 0, 7, 12, 1, 0, 174000, 'Hoàn thành'),
 (16, 0, 7, 2, 1, 0, 3000000, 'Chờ xác nhận'),
-(17, 0, 8, 12, 1, 0, 174000, 'Chờ xác nhận'),
-(18, 0, 8, 8, 1, 0, 1000000, 'Hoàn thành'),
-(19, 0, 8, 6, 1, 0, 500000, 'Hoàn thành'),
+(17, 0, 8, 12, 1, 0, 174000, 'Thành công'),
+(18, 0, 8, 8, 1, 0, 1000000, 'Thành công'),
+(19, 0, 8, 6, 1, 0, 500000, 'Thành công'),
 (20, 0, 9, 1, 1, 0, 869000, 'Hoàn thành'),
-(21, 0, 10, 1, 1, 0, 869000, 'Đang giao'),
+(21, 0, 10, 1, 1, 0, 869000, 'Thành công'),
 (22, 0, 10, 2, 1, 0, 3000000, 'Đã hủy'),
-(23, 0, 11, 7, 1, 0, 2000000, 'Chờ xác nhận'),
-(24, 0, 12, 7, 1, 0, 2000000, 'Hoàn thành'),
-(25, 0, 13, 8, 1, 0, 1000000, 'Đã xác nhận'),
-(26, 0, 13, 3, 1, 0, 2000000, 'Hoàn thành');
+(23, 0, 11, 7, 1, 0, 2000000, 'Thành công'),
+(24, 0, 12, 7, 1, 0, 2000000, 'Thành công'),
+(25, 0, 13, 8, 1, 0, 1000000, 'Thành công'),
+(26, 0, 13, 3, 1, 0, 2000000, 'Thành công'),
+(27, 0, 14, 10, 3, 0, 450000, 'Chờ xác nhận'),
+(28, 0, 15, 10, 2, 0, 450000, 'Chờ xác nhận'),
+(29, 0, 16, 2, 1, 0, 3000000, 'Chờ xác nhận'),
+(30, 0, 16, 3, 2, 0, 2000000, 'Chờ xác nhận'),
+(31, 0, 16, 13, 1, 0, 200000, 'Chờ xác nhận'),
+(32, 0, 16, 10, 2, 0, 450000, 'Chờ xác nhận'),
+(33, 0, 17, 8, 1, 0, 1000000, 'Thành công'),
+(34, 0, 17, 5, 1, 0, 123123, 'Thành công'),
+(35, 0, 17, 6, 1, 0, 500000, 'Thành công'),
+(36, 0, 18, 5, 1, 0, 123123, 'Thành công'),
+(37, 0, 18, 6, 1, 0, 500000, 'Thành công'),
+(38, 0, 19, 3, 1, 0, 2000000, 'Thành công'),
+(39, 0, 19, 13, 2, 0, 200000, 'Thành công'),
+(40, 0, 19, 10, 2, 0, 450000, 'Thành công'),
+(41, 0, 20, 2, 1, 0, 3000000, 'Thành công'),
+(42, 0, 20, 3, 1, 0, 2000000, 'Thành công'),
+(43, 0, 21, 13, 1, 0, 200000, 'Đã xác nhận'),
+(44, 0, 22, 8, 1, 0, 1000000, 'Đang giao'),
+(45, 0, 23, 10, 1, 0, 450000, 'Đã hủy'),
+(46, 0, 23, 2, 1, 0, 3000000, 'Đã hủy'),
+(47, 0, 23, 3, 1, 0, 2000000, 'Đã hủy'),
+(48, 0, 23, 1, 3, 0, 869000, 'Đã hủy'),
+(49, 0, 24, 2, 1, 0, 3000000, 'Thành công'),
+(50, 0, 25, 5, 1, 0, 123123, 'Thành công'),
+(51, 0, 26, 8, 1, 0, 1000000, 'Thành công'),
+(52, 0, 26, 10, 1, 0, 450000, 'Thành công'),
+(53, 0, 26, 9, 1, 0, 3000000, 'Thành công'),
+(54, 0, 26, 2, 1, 0, 3000000, 'Thành công'),
+(55, 0, 27, 5, 1, 0, 123123, 'Đã xác nhận'),
+(56, 0, 27, 7, 1, 0, 2000000, 'Đã xác nhận'),
+(57, 0, 28, 6, 1, 0, 500000, 'Thành công'),
+(58, 0, 28, 7, 1, 0, 2000000, 'Thành công');
 
 -- --------------------------------------------------------
 
@@ -187,7 +243,22 @@ INSERT INTO `payment` (`id`, `amount`, `created_at`, `id_order`, `note`, `paymen
 (6, 3869000, '2026-06-16 22:29:49', 10, '', '2026-06-16 22:29:49', 'COD', 'Chờ thu tiền', 'TXN-10-1781623789455'),
 (7, 2000000, '2026-06-17 07:46:48', 11, '', '2026-06-17 07:46:48', 'COD', 'Chờ thu tiền', 'TXN-11-1781657208106'),
 (8, 2000000, '2026-06-18 14:32:26', 12, '', '2026-06-18 14:32:26', 'COD', 'Chờ thu tiền', 'TXN-12-1781767946196'),
-(9, 3000000, '2026-06-18 17:00:24', 13, '', '2026-06-18 17:00:24', 'COD', 'Chờ thu tiền', 'TXN-13-1781776824256');
+(9, 3000000, '2026-06-18 17:00:24', 13, '', '2026-06-18 17:00:24', 'COD', 'Chờ thu tiền', 'TXN-13-1781776824256'),
+(10, 1350000, '2026-06-22 15:53:43', 14, '', '2026-06-22 15:53:43', 'COD', 'Chờ thu tiền', 'TXN-14-1782118423396'),
+(11, 900000, '2026-06-22 16:03:54', 15, '', '2026-06-22 16:03:54', 'COD', 'Chờ thu tiền', 'TXN-15-1782119034061'),
+(12, 8100000, '2026-06-22 17:41:07', 16, '', '2026-06-22 17:41:07', 'COD', 'Chờ thu tiền', 'TXN-16-1782124867223'),
+(13, 1623123, '2026-06-22 18:07:35', 17, '', '2026-06-22 18:07:35', 'COD', 'Chờ thu tiền', 'TXN-17-1782126455088'),
+(14, 623123, '2026-06-22 21:30:43', 18, '', '2026-06-22 21:30:43', 'COD', 'Chờ thu tiền', 'TXN-18-1782138643925'),
+(15, 3300000, '2026-06-23 07:34:46', 19, '', '2026-06-23 07:34:46', 'COD', 'Chờ thu tiền', 'TXN-19-1782174886691'),
+(16, 5000000, '2026-06-23 07:55:35', 20, '', '2026-06-23 07:55:35', 'COD', 'Chờ thu tiền', 'TXN-20-1782176135914'),
+(17, 200000, '2026-06-23 08:00:15', 21, '', '2026-06-23 08:00:15', 'COD', 'Chờ thu tiền', 'TXN-21-1782176415024'),
+(18, 1000000, '2026-06-23 09:58:01', 22, '', '2026-06-23 09:58:01', 'BANK', 'Đã thanh toán', 'TXN-22-1782183481967'),
+(19, 8057000, '2026-06-23 10:28:00', 23, '', '2026-06-23 10:28:00', 'BANK', 'Đã thanh toán', 'TXN-23-1782185280817'),
+(20, 3000000, '2026-06-23 14:33:46', 24, '', '2026-06-23 14:33:46', 'BANK', 'Chờ chuyển khoản', 'TXN-24-1782200026229'),
+(21, 123123, '2026-06-24 09:24:57', 25, '', '2026-06-24 09:24:57', 'COD', 'Chờ thu tiền', 'TXN-25-1782267897533'),
+(22, 7450000, '2026-06-24 09:25:52', 26, '', '2026-06-24 09:25:52', 'BANK', 'Đã thanh toán', 'TXN-26-1782267952192'),
+(23, 2123123, '2026-06-24 09:31:34', 27, '', '2026-06-24 09:31:34', 'BANK', 'Đã thanh toán', 'TXN-27-1782268294654'),
+(24, 2500000, '2026-06-24 15:59:57', 28, '', '2026-06-24 15:59:57', 'COD', 'Chờ thu tiền', 'TXN-28-1782291597851');
 
 -- --------------------------------------------------------
 
@@ -235,16 +306,16 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `description`, `discount`, `hot`, `id_brand`, `image`, `name`, `price`, `quantity`) VALUES
-(1, 'Theo dõi sức khỏe, chống nước 5ATM', 10, 0, 2, '1779801781825_dongho2.webp', 'Vòng Đồng Hồ Thông Minh 2026', 869000, 0),
-(2, 'Giá ưu đãi online', 12, 0, 3, '1779801801860_istockphoto-890822072-612x612.webp', 'Đồng Hồ Đeo Tay Nữ Pindow PDS-2109-N9', 3000000, 0),
-(3, 'sdafsdfsdfdsfsdvxcvxcvxcvxcvx', 10, 0, 2, '1779808185902_photo-1732679005773-f2ef48b724c7.avif', 'đồng hồ 1', 2000000, 0),
-(4, 'Ghi âm 24h, lọc âm', 2, 0, 2, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 0),
-(5, 'ềasfesdafsdfds', 10, 0, 1, '1780019780217_photo-1624106159879-8a16d53c54ff.avif', 'ưefgewfgwe', 123123, 0),
-(6, 'qưertyuiop[ádfghjkl;zxcvbnm,', 3, 0, 1, '1779808253524_photo-1631031354362-b1fd73f89e19.avif', 'ưerfewfwe', 500000, 0),
-(7, 'sdfsasdfghjklxcvbnmrtyuio', 12, 0, 2, '1779808283436_photo-1624106159879-8a16d53c54ff.avif', 'ádfghjklr', 2000000, 0),
-(8, 'ưertyuuioplokijhgfvbnm,', 10, 0, 3, '1779808317074_photo-1610888968213-4f6d2c068108.avif', 'ádfghjkl', 1000000, 0),
-(9, 'êfsdvxcvsvsdvsdvsd', 12, 0, 3, '1779808345735_photo-1588748543198-cd1afaf858ff.avif', 'dèagdahdjnjasmdak', 3000000, 0),
-(10, 'gfsklmnmsgjfugfdbdfd', 2, 0, 2, '1779808381920_photo-1751437774882-deeea4352018.avif', 'adasfdasdfsdfsdfsdf', 450000, 0),
+(1, 'Theo dõi sức khỏe, chống nước 5ATM', 10, 0, 2, '1779801781825_dongho2.webp', 'Vòng Đồng Hồ Thông Minh 2026', 869000, 3),
+(2, 'Giá ưu đãi online', 12, 0, 3, '1779801801860_istockphoto-890822072-612x612.webp', 'Đồng Hồ Đeo Tay Nữ Pindow PDS-2109-N9', 3000000, 30),
+(3, 'sdafsdfsdfdsfsdvxcvxcvxcvxcvx', 10, 0, 2, '1779808185902_photo-1732679005773-f2ef48b724c7.avif', 'đồng hồ 1', 2000000, 50),
+(4, 'Ghi âm 24h, lọc âm', 2, 0, 2, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 12),
+(5, 'ềasfesdafsdfds', 10, 0, 1, '1780019780217_photo-1624106159879-8a16d53c54ff.avif', 'ưefgewfgwe', 123123, 20),
+(6, 'qưertyuiop[ádfghjkl;zxcvbnm,', 3, 0, 1, '1779808253524_photo-1631031354362-b1fd73f89e19.avif', 'ưerfewfwe', 500000, 12),
+(7, 'sdfsasdfghjklxcvbnmrtyuio', 12, 0, 2, '1779808283436_photo-1624106159879-8a16d53c54ff.avif', 'ádfghjklr', 2000000, 22),
+(8, 'ưertyuuioplokijhgfvbnm,', 10, 0, 3, '1779808317074_photo-1610888968213-4f6d2c068108.avif', 'ádfghjkl', 1000000, 12),
+(9, 'êfsdvxcvsvsdvsdvsd', 12, 0, 3, '1779808345735_photo-1588748543198-cd1afaf858ff.avif', 'dèagdahdjnjasmdak', 3000000, 12),
+(10, 'gfsklmnmsgjfugfdbdfd', 2, 0, 2, '1779808381920_photo-1751437774882-deeea4352018.avif', 'adasfdasdfsdfsdfsdf', 450000, 24),
 (12, 'Phiên bản cao cấp 1', 2, 0, 3, '1780019945191_premium_photo-1728012217493-b0bfdc0c389a.avif', 'Đồng hồ điện tử chống nước huyền thoại 1', 174000, 0),
 (13, 'dxv', 2, 0, 4, '1781766029250_photo-1585123334904-845d60e97b29.avif', 'dfcv', 200000, 12);
 
@@ -268,7 +339,7 @@ CREATE TABLE `shopping_cart` (
 --
 
 INSERT INTO `shopping_cart` (`id`, `id_product`, `id_user`, `price`, `quantity`, `session_id`) VALUES
-(43, 13, 2, 200000, 4, NULL);
+(110, 8, 2, 1000000, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -376,25 +447,25 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `post`
@@ -412,7 +483,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shopping_cart`
 --
 ALTER TABLE `shopping_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `user`

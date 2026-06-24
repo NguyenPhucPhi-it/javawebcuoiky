@@ -102,7 +102,7 @@
 
                         <!--Search Cart Start-->
                         <div class="col-lg-3 col-md-3 col-6 order-lg-3 order-md-3 order-2 d-flex justify-content-end">
-                            <div class="header-search">
+                            <!-- <div class="header-search">
                                 <button class="header-search-toggle"><i class="fa fa-search"></i></button>
                                 <div class="header-search-form">
                                     <form action="#">
@@ -110,7 +110,7 @@
                                         <button><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="header-cart">
                             <a href="${pageContext.request.contextPath}/user/shoppingcart">
                                 <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
@@ -1145,157 +1145,81 @@
     </div>
 
 </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 mb-40 mb-sm-30 mb-xs-20">
-                        <div class="row">
-                            <div class="col-12">
-                                <!--List Product Section Title Start-->
-                                <div class="list-product-section-title mb-30">
-                                    <h2>Trending items</h2>
-                                </div>
-                                <!--List Product Section Title End-->
+                  <div class="col-lg-4 col-md-6 col-sm-6 mb-40 mb-sm-30 mb-xs-20">
+    <div class="row">
+        <div class="col-12">
+            <!--List Product Section Title Start-->
+            <div class="list-product-section-title mb-30">
+                <h2>HOT</h2>
+            </div>
+            <!--List Product Section Title End-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="tf-element-carousel" data-slick-options='{
+                "slidesToShow": 1,
+                "slidesToScroll": 1,
+                "infinite": true,
+                "arrows": true,
+                "prevArrow": {"buttonClass": "slick-btn slick-prev", "iconClass": "fa fa-angle-left" },
+                "nextArrow": {"buttonClass": "slick-btn slick-next", "iconClass": "fa fa-angle-right" }
+                }' data-slick-responsive='[
+                {"breakpoint":768, "settings": {
+                "slidesToShow": 1,
+                "arrows": false,
+                "autoplay": true
+                }},
+                {"breakpoint":575, "settings": {
+                "slidesToShow": 1,
+                "arrows": false,
+                "autoplay": true
+                }}
+                ]'>
+
+                <c:forEach var="p" items="${hotProducts}" varStatus="status">
+
+                    <c:if test="${status.index % 3 == 0}">
+                        <div class="list-product-group">
+                    </c:if>
+
+                        <!-- Single List Product Start -->
+                        <div class="single-list-product">
+                            <div class="product-image">
+                                <a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">
+                                    <img src="${pageContext.request.contextPath}/assets/uploads/${p.image}"
+                                         alt="${p.name}"
+                                         onerror="this.src='${pageContext.request.contextPath}/assets/images/no-image.png'">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <h3><a href="${pageContext.request.contextPath}/user/productDetails/${p.id}">${p.name}</a></h3>
+                                <h4 class="price">
+                                    <c:choose>
+                                        <c:when test="${p.discount != null && p.discount > 0 && p.discount <= 100}">
+                                            <c:set var="hotPrice" value="${p.price * (100 - p.discount) / 100}"/>
+                                            <span class="new price-vnd" data-price="${hotPrice}">---</span>
+                                            <span class="old price-vnd" data-price="${p.price}">---</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="new price-vnd" data-price="${p.price}">---</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h4>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="tf-element-carousel" data-slick-options='{
-                                    "slidesToShow": 1,
-                                    "slidesToScroll": 1,
-                                    "infinite": true,
-                                    "arrows": true,
-                                    "prevArrow": {"buttonClass": "slick-btn slick-prev", "iconClass": "fa fa-angle-left" },
-                                    "nextArrow": {"buttonClass": "slick-btn slick-next", "iconClass": "fa fa-angle-right" }
-                                    }' data-slick-responsive='[
-                                    {"breakpoint":768, "settings": {
-                                    "slidesToShow": 1,
-                                    "arrows": false,
-                                    "autoplay": true
-                                    }},
-                                    {"breakpoint":575, "settings": {
-                                    "slidesToShow": 1,
-                                    "arrows": false,
-                                    "autoplay": true
-                                    }}
-                                    ]'>
-                                    <div class="list-product-group">
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-4.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">Aftershave Savlon </a></h3>
-                                                <h4 class="price"><span class="new">70.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-5.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">Brass Acces1 </a></h3>
-                                                <h4 class="price"><span class="new">150.00</span><span
-                                                        class="old">187.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-6.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">Brass Accessory </a></h3>
-                                                <h4 class="price"><span class="new">187.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                    </div>
-                                    <div class="list-product-group">
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-7.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">White Shave Bruw</a></h3>
-                                                <h4 class="price"><span class="new">125.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-8.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">White Shave Brum </a></h3>
-                                                <h4 class="price"><span class="new">60.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-9.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">White Shave Brun </a></h3>
-                                                <h4 class="price"><span class="new">53.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                    </div>
-                                    <div class="list-product-group">
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-1.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">Aftershave Lotion </a></h3>
-                                                <h4 class="price"><span class="new">110.00</span><span
-                                                        class="old">130.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">White Shave Bruh </a></h3>
-                                                <h4 class="price"><span class="new">130.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                        <!-- Single List Product Start -->
-                                        <div class="single-list-product">
-                                            <div class="product-image">
-                                                <a href="single-product.html"><img
-                                                        src="./assets/images/product/product-3.jpg" alt=""></a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="single-product.html">White Shave Brux </a></h3>
-                                                <h4 class="price"><span class="new">130.00</span></h4>
-                                            </div>
-                                        </div>
-                                        <!-- Single List Product End -->
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Single List Product End -->
+
+                    <c:if test="${status.index % 3 == 2 || status.last}">
                         </div>
-                    </div>
+                    </c:if>
+
+                </c:forEach>
+
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
         </div>
@@ -1423,7 +1347,7 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-6 col-md-6 col-sm-8">
                             <div class="copyright text-left">
-                                <p>Copyright &copy;2025 <a href="#">Poly Shop</a>. All rights reserved.</p>
+                                <p>Copyright &copy;2026 <a href="#">Poly Shop</a>. All rights reserved.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">

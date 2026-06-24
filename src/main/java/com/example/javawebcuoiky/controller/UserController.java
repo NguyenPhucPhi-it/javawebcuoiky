@@ -57,29 +57,32 @@ public class UserController {
     public String showHome(Model model) {
         List<Product> newProducts =productService.getNewProducts();
         List<Product> saleProducts = productService.getSaleProducts();
+        List<Product> hotProducts = productService.getHotProducts();
         model.addAttribute("newProducts", newProducts);
         model.addAttribute("saleProducts",saleProducts);
+         model.addAttribute("hotProducts", hotProducts);
         return "user/home";
     }
-    @RequestMapping(value = "/user/product", method = RequestMethod.GET)
-    public String showProduct(Model model,
-                              @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "9") int size,
-                              @RequestParam(required = false) Integer brandId,     
-                              @RequestParam(required = false) Double minPrice,      
-                              @RequestParam(required = false) Double maxPrice)
-                               {
+   @RequestMapping(value = "/user/product", method = RequestMethod.GET)
+public String showProduct(Model model,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "9") int size,
+                          @RequestParam(required = false) Integer brandId,     
+                          @RequestParam(required = false) Double minPrice,      
+                          @RequestParam(required = false) Double maxPrice,
+                          @RequestParam(required = false) String keyword) {
 
-        Page<Product> productPage = productService.getProductByPage(page, size, brandId, minPrice, maxPrice);
-        model.addAttribute("products", productPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", productPage.getTotalPages());
-        model.addAttribute("brands", brandService.getAllBrands());
-        model.addAttribute("selectedBrand", brandId);             
-        model.addAttribute("minPrice", minPrice);              
-        model.addAttribute("maxPrice", maxPrice);   
-        return "user/product";
-    }
+    Page<Product> productPage = productService.getProductByPage(page, size, brandId, minPrice, maxPrice, keyword);
+    model.addAttribute("products", productPage.getContent());
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", productPage.getTotalPages());
+    model.addAttribute("brands", brandService.getAllBrands());
+    model.addAttribute("selectedBrand", brandId);             
+    model.addAttribute("minPrice", minPrice);              
+    model.addAttribute("maxPrice", maxPrice);
+    model.addAttribute("keyword", keyword);
+    return "user/product";
+}
 
     @RequestMapping(value = "/user/shoppingcart", method = RequestMethod.GET)
     public String showGioHang(Model model, HttpSession session) {
@@ -97,7 +100,7 @@ public class UserController {
     }
 
     @PostMapping("/user/cart/add")
-public String addToCart(@RequestParam int productId,
+    public String addToCart(@RequestParam int productId,
                         @RequestParam(defaultValue = "1") int quantity,
                         @RequestParam(defaultValue = "") String returnUrl,
                         HttpSession session) {
@@ -126,8 +129,8 @@ public String addToCart(@RequestParam int productId,
 
 
    // ───── Checkout – hiển thị form ─────
-@RequestMapping(value = "/user/checkout", method = RequestMethod.GET)
-public String showCheckout(Model model, HttpSession session) {
+    @RequestMapping(value = "/user/checkout", method = RequestMethod.GET)
+    public String showCheckout(Model model, HttpSession session) {
     User loggedUser = (User) session.getAttribute("loggedUser");
     if (loggedUser == null) return "redirect:/auth/login";
 
@@ -463,4 +466,5 @@ public java.util.Map<String, Object> addToCartAjax(@RequestParam int productId,
     result.put("cartCount", cartCount);
     return result;
 }
+
 }

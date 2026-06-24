@@ -166,11 +166,12 @@
                             <div class="header-search">
                                 <button class="header-search-toggle"><i class="fa fa-search"></i></button>
                                 <div class="header-search-form">
-                                    <form action="#">
-                                        <input type="text" placeholder="Type and hit enter">
-                                        <button><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
+    <form action="${pageContext.request.contextPath}/user/product" method="get">
+        <input type="text" name="keyword" placeholder="Nhập từ khóa ..."
+               value="${keyword != null ? keyword : ''}">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+</div>
                             </div>
                             <div class="header-cart">
                                 <a href="${pageContext.request.contextPath}/user/shoppingcart">
@@ -834,7 +835,7 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-6 col-md-6 col-sm-8">
                             <div class="copyright text-left">
-                                <p>Copyright &copy;2025 <a href="#">Poly Shop</a>. All rights reserved.</p>
+                                <p>Copyright &copy;2026 <a href="#">Poly Shop</a>. All rights reserved.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">

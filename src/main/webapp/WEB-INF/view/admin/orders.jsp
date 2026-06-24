@@ -299,9 +299,9 @@
                                                     🚚 Bắt đầu giao
                                                 </option>
 
-                                                <option value="Đã hủy">
+                                                <!-- <option value="Đã hủy">
                                                     ✘ Hủy đơn
-                                                </option>
+                                                </option> -->
                                             </c:when>
 
                                             <c:when test="${o.status == 'Đang giao'}">

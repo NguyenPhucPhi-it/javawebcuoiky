@@ -269,7 +269,7 @@ public String orderDetail(@PathVariable int id, Model model, HttpSession session
 
     model.addAttribute("order", order);
     model.addAttribute("details", details);
-    model.addAttribute("payment", payment); // ← thêm
+    model.addAttribute("payment", payment); 
     return "admin/orderDetail";
 }
 @PostMapping("/admin/orders/updateStatus")

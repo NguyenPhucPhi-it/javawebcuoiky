@@ -19,6 +19,17 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     // san pham khuyen mai 
     @Query("SELECT p FROM Product p WHERE p.discount>0")
     List<Product> findSaleProducts(Pageable pageable);
+
+
+    @Query(value = """
+    SELECT p.* FROM product p
+    JOIN order_detail od ON od.id_product = p.id
+    JOIN orders o ON o.id = od.id_order
+    WHERE o.status NOT IN ('Đã hủy')
+    GROUP BY p.id
+    ORDER BY SUM(od.quantity) DESC
+    """, nativeQuery = true)
+    List<Product> findHotProducts(Pageable pageable);
   
     @Query("SELECT p FROM Product p WHERE p.id_brand = :brandId")
     Page<Product> findByBrandId(@Param("brandId") int brandId, Pageable pageable);
@@ -33,5 +44,26 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                                Pageable pageable);
     
     
+// ===== Tìm kiếm theo tên (keyword) =====
 
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Product> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) AND p.id_brand = :brandId")
+    Page<Product> searchByKeywordAndBrand(@Param("keyword") String keyword,
+                                           @Param("brandId") int brandId,
+                                           Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) AND p.price BETWEEN :min AND :max")
+    Page<Product> searchByKeywordAndPrice(@Param("keyword") String keyword,
+                                           @Param("min") double min,
+                                           @Param("max") double max,
+                                           Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) AND p.id_brand = :brandId AND p.price BETWEEN :min AND :max")
+    Page<Product> searchByKeywordAndBrandAndPrice(@Param("keyword") String keyword,
+                                                   @Param("brandId") int brandId,
+                                                   @Param("min") double min,
+                                                   @Param("max") double max,
+                                                   Pageable pageable);
 }

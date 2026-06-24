@@ -14,13 +14,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/iconfont.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
-    <title>Trang chủ</title>
+    <title>Liên hệ</title>
 </head>
 
 <body>
     <!--Header section start-->
     <div id="main-wrapper">
-         <header class="header header-transparent header-sticky">
+          <header class="header header-transparent header-sticky">
             <div class="header-top">
                 <div class="container">
                     <div class="row align-items-center">
@@ -39,7 +39,7 @@
                             <div class="ht-right d-flex justify-content-lg-end justify-content-center">
                                 <ul class="ht-us-menu d-flex">
                             <c:choose>
-                                <c:when test="${loggedUser != null}">
+                                <!-- <c:when test="${loggedUser != null}">
                                 
                                     <li>
                                         <a href="#"><i class="fa fa-user-circle-o"></i>${loggedUser.username}</a>
@@ -52,7 +52,7 @@
                                             <li><a href="/user/pending-reviews">Bình luận/ đánh giá</a></li>
                                         </ul>
                                     </li>
-                                </c:when>
+                                </c:when> -->
                                 <c:otherwise>
                                 
                                     <li>
@@ -103,20 +103,12 @@
 
                         <!--Search Cart Start-->
                         <div class="col-lg-3 col-md-3 col-6 order-lg-3 order-md-3 order-2 d-flex justify-content-end">
-                            <div class="header-search">
-                                <button class="header-search-toggle"><i class="fa fa-search"></i></button>
-                                <div class="header-search-form">
-                                    <form action="#">
-                                        <input type="text" placeholder="Nhập từ khóa ...">
-                                        <button><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
+                            
                             <div class="header-cart">
-                                <a href="${pageContext.request.contextPath}/user/shoppingcart">
-                                    <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
-                                </a>
-                            </div>
+                            <a href="${pageContext.request.contextPath}/user/shoppingcart">
+                                <i class="fa fa-shopping-cart"></i><span>${cartCount}</span>
+                            </a>
+                        </div>
                         </div>
                         <!--Search Cart End-->
                     </div>
@@ -339,7 +331,7 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-6 col-md-6 col-sm-8">
                             <div class="copyright text-left">
-                                <p>Copyright &copy;2025 <a href="#">Poly Shop</a>. All rights reserved.</p>
+                                <p>Copyright &copy;2026 <a href="#">Poly Shop</a>. All rights reserved.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">

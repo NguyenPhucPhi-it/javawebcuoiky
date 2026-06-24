@@ -46,18 +46,41 @@ public class ProductService {
     public Product getProductById(int id){
         return productRepository.findById(id).orElse(null);
     }
-
-
-    public Page<Product> getProductByPage(int page, int size, Integer brandId, Double minPrice, Double maxPrice) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        if (brandId != null && minPrice != null && maxPrice != null) {
-            return productRepository.findByBrandIdAndPriceBetween(brandId, minPrice, maxPrice, pageable);
-        } else if (brandId != null) {
-            return productRepository.findByBrandId(brandId, pageable);
-        } else if (minPrice != null && maxPrice != null) {
-            return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
-        }
-        return productRepository.findAll(pageable);
+    
+// san pham hot (ban chay)
+public List<Product> getHotProducts(){
+    List<Product> hot = productRepository.findHotProducts(PageRequest.of(0, 8));
+    if (hot == null || hot.isEmpty()) {
+        // fallback: chưa có đơn hàng -> lấy sản phẩm mới nhất thay thế
+        hot = productRepository.findNewProducts(PageRequest.of(0, 8));
     }
+    return hot;
+}
+
+   public Page<Product> getProductByPage(int page, int size, Integer brandId, Double minPrice, Double maxPrice, String keyword) {
+    Pageable pageable = PageRequest.of(page, size);
+    boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+
+    if (hasKeyword) {
+        String kw = keyword.trim();
+        if (brandId != null && minPrice != null && maxPrice != null) {
+            return productRepository.searchByKeywordAndBrandAndPrice(kw, brandId, minPrice, maxPrice, pageable);
+        } else if (brandId != null) {
+            return productRepository.searchByKeywordAndBrand(kw, brandId, pageable);
+        } else if (minPrice != null && maxPrice != null) {
+            return productRepository.searchByKeywordAndPrice(kw, minPrice, maxPrice, pageable);
+        }
+        return productRepository.searchByKeyword(kw, pageable);
+    }
+
+    if (brandId != null && minPrice != null && maxPrice != null) {
+        return productRepository.findByBrandIdAndPriceBetween(brandId, minPrice, maxPrice, pageable);
+    } else if (brandId != null) {
+        return productRepository.findByBrandId(brandId, pageable);
+    } else if (minPrice != null && maxPrice != null) {
+        return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+    }
+    return productRepository.findAll(pageable);
+}
+    
 }

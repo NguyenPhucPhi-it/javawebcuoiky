@@ -261,7 +261,7 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-6 col-md-6 col-sm-8">
                             <div class="copyright text-left">
-                                <p>Copyright &copy;2025 <a href="#">Poly Shop</a>. All rights reserved.</p>
+                                <p>Copyright &copy;2026 <a href="#">Poly Shop</a>. All rights reserved.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">
