@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.javawebcuoiky.model.Order;
 import com.example.javawebcuoiky.model.Post;
@@ -99,17 +100,22 @@ public String showProduct(Model model,
         return "user/shoppingcart";
     }
 
-    @PostMapping("/user/cart/add")
-    public String addToCart(@RequestParam int productId,
-                        @RequestParam(defaultValue = "1") int quantity,
-                        @RequestParam(defaultValue = "") String returnUrl,
-                        HttpSession session) {
+   @PostMapping("/user/cart/add")
+public String addToCart(@RequestParam int productId,
+                    @RequestParam(defaultValue = "1") int quantity,
+                    @RequestParam(defaultValue = "") String returnUrl,
+                    HttpSession session,
+                    RedirectAttributes redirectAttributes) {
     User loggedUser = (User) session.getAttribute("loggedUser");
-    cartService.addToCart(loggedUser, session.getId(), productId, quantity);
-
-    if (!returnUrl.isEmpty()) {
-        return "redirect:" + returnUrl;
+    try {
+        cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+    } catch (RuntimeException e) {
+        redirectAttributes.addFlashAttribute("errorMsg", e.getMessage());
+        if (!returnUrl.isEmpty()) return "redirect:" + returnUrl;
+        return "redirect:/user/product";
     }
+
+    if (!returnUrl.isEmpty()) return "redirect:" + returnUrl;
     return "redirect:/user/shoppingcart";
 }
     // Xóa khỏi giỏ 
@@ -456,14 +462,17 @@ public java.util.Map<String, Object> addToCartAjax(@RequestParam int productId,
                                                     @RequestParam(defaultValue = "1") int quantity,
                                                     HttpSession session) {
     User loggedUser = (User) session.getAttribute("loggedUser");
-    cartService.addToCart(loggedUser, session.getId(), productId, quantity);
-
-    List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
-    int cartCount = cartItems.stream().mapToInt(i -> i.getCart().getQuantity()).sum();
-
     java.util.Map<String, Object> result = new java.util.HashMap<>();
-    result.put("success", true);
-    result.put("cartCount", cartCount);
+    try {
+        cartService.addToCart(loggedUser, session.getId(), productId, quantity);
+        List<ShoppingCartItem> cartItems = cartService.getCartItemsWithProduct(loggedUser, session.getId());
+        int cartCount = cartItems.stream().mapToInt(i -> i.getCart().getQuantity()).sum();
+        result.put("success", true);
+        result.put("cartCount", cartCount);
+    } catch (RuntimeException e) {
+        result.put("success", false);
+        result.put("message", e.getMessage());
+    }
     return result;
 }
 

@@ -34,41 +34,50 @@ public class OrderService {
         this.productRepository  = productRepository; // ← thêm
     }
 
-    public Order placeOrder(String receiverName, String receiverEmail,
-                            String receiverPhone, String address,
-                            String paymentMethod, int userId,
-                            List<ShoppingCartItem> cartItems) {
-        Order order = new Order();
-        order.setReceiverName(receiverName);
-        order.setReceiverEmail(receiverEmail);
-        order.setReceiverPhone(receiverPhone);
-        order.setAddress(address);
-        order.setStatus("Chờ xác nhận");
-        order.setId_user(userId);
-        order.setOrderDate(new java.util.Date());
-        Order savedOrder = orderRepository.save(order);
+  public Order placeOrder(String receiverName, String receiverEmail,
+                        String receiverPhone, String address,
+                        String paymentMethod, int userId,
+                        List<ShoppingCartItem> cartItems) {
+    Order order = new Order();
+    order.setReceiverName(receiverName);
+    order.setReceiverEmail(receiverEmail);
+    order.setReceiverPhone(receiverPhone);
+    order.setAddress(address);
+    order.setStatus("Chờ xác nhận");
+    order.setId_user(userId);
+    order.setOrderDate(new java.util.Date());
+    Order savedOrder = orderRepository.save(order);
 
-        double total = 0;
-        for (ShoppingCartItem item : cartItems) {
-            OrderDetail detail = new OrderDetail();
-            detail.setId_order(savedOrder.getId());
-            detail.setId_product(item.getProduct().getId());
-            detail.setQuantity(item.getCart().getQuantity());
-            detail.setUnitPrice(item.getCart().getPrice());
-            detail.setDiscount(0);
-            detail.setShippingFee(0);
-            orderDetailService.save(detail);
-            total += item.getSubtotal();
+    double total = 0;
+    for (ShoppingCartItem item : cartItems) {
+        OrderDetail detail = new OrderDetail();
+        detail.setId_order(savedOrder.getId());
+        detail.setId_product(item.getProduct().getId());
+        detail.setQuantity(item.getCart().getQuantity());
+        detail.setUnitPrice(item.getCart().getPrice());
+        detail.setDiscount(0);
+        detail.setShippingFee(0);
+        orderDetailService.save(detail);
+        total += item.getSubtotal();
+
+        // Trừ tồn kho sau khi đặt hàng
+        Product product = productRepository.findById(item.getProduct().getId())
+                .orElse(null);
+        if (product != null) {
+            int newQty = product.getQuantity() - item.getCart().getQuantity();
+            product.setQuantity(Math.max(0, newQty));
+            productRepository.save(product);
         }
-
-        paymentService.createPayment(savedOrder.getId(), paymentMethod, total);
-
-        for (ShoppingCartItem item : cartItems) {
-            cartService.removeFromCart(item.getCart().getId());
-        }
-
-        return savedOrder;
     }
+
+    paymentService.createPayment(savedOrder.getId(), paymentMethod, total);
+
+    for (ShoppingCartItem item : cartItems) {
+        cartService.removeFromCart(item.getCart().getId());
+    }
+
+    return savedOrder;
+}
 
     public List<Order> getAllOrders() {
     List<Order> orders = orderRepository.findAll();
@@ -313,6 +322,10 @@ public Order placeOrderDirect(String receiverName, String receiverEmail,
     detail.setDiscount(0);
     detail.setShippingFee(0);
     orderDetailService.save(detail);
+  //  Trừ tồn kho
+    int newStock = product.getQuantity() - quantity;
+    product.setQuantity(Math.max(0, newStock));
+    productRepository.save(product);
 
     paymentService.createPayment(savedOrder.getId(), paymentMethod, price * quantity);
 

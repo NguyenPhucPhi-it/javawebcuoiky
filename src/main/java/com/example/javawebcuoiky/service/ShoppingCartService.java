@@ -24,49 +24,70 @@ public class ShoppingCartService {
         this.productRepo = productRepo;
     }
 
-    // ───── Thêm vào giỏ ─────
-    public void addToCart(User loggedUser, String sessionId, int productId, int quantity) {
-        Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
+   // ───── Thêm vào giỏ ─────
+public void addToCart(User loggedUser, String sessionId, int productId, int quantity) {
+    Product product = productRepo.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
 
-        if (loggedUser != null) {
-            // Đã đăng nhập → lưu theo idUser
-            Optional<ShoppingCart> existing =
-                    cartRepo.findByIdUserAndIdProduct(loggedUser.getId(), productId);
+    //  Kiểm tra hết hàng
+    if (product.getQuantity() <= 0) {
+        throw new RuntimeException("Sản phẩm đã hết hàng");
+    }
 
-            if (existing.isPresent()) {
-                ShoppingCart cart = existing.get();
-                cart.setQuantity(cart.getQuantity() + quantity);
-                cartRepo.save(cart);
-            } else {
-                ShoppingCart cart = new ShoppingCart();
-                cart.setIdUser(loggedUser.getId());
-                cart.setIdProduct(productId);
-                cart.setPrice(product.getPrice());
-                cart.setQuantity(quantity);
-                cartRepo.save(cart);
+    if (loggedUser != null) {
+        Optional<ShoppingCart> existing =
+                cartRepo.findByIdUserAndIdProduct(loggedUser.getId(), productId);
+
+        if (existing.isPresent()) {
+            ShoppingCart cart = existing.get();
+            int newQty = cart.getQuantity() + quantity;
+            // Không được vượt quá tồn kho
+            if (newQty > product.getQuantity()) {
+                throw new RuntimeException("Số lượng trong giỏ vượt quá tồn kho (" 
+                    + product.getQuantity() + " sản phẩm)");
             }
-
+            cart.setQuantity(newQty);
+            cartRepo.save(cart);
         } else {
-            // Chưa đăng nhập → lưu theo sessionId
-            Optional<ShoppingCart> existing =
-                    cartRepo.findBySessionIdAndIdProduct(sessionId, productId);
-
-            if (existing.isPresent()) {
-                ShoppingCart cart = existing.get();
-                cart.setQuantity(cart.getQuantity() + quantity);
-                cartRepo.save(cart);
-            } else {
-                ShoppingCart cart = new ShoppingCart();
-                cart.setSessionId(sessionId);
-                cart.setIdProduct(productId);
-                cart.setPrice(product.getPrice());
-                cart.setQuantity(quantity);
-                cart.setIdUser(0); // 0 = chưa đăng nhập
-                cartRepo.save(cart);
+            if (quantity > product.getQuantity()) {
+                throw new RuntimeException("Số lượng vượt quá tồn kho (" 
+                    + product.getQuantity() + " sản phẩm)");
             }
+            ShoppingCart cart = new ShoppingCart();
+            cart.setIdUser(loggedUser.getId());
+            cart.setIdProduct(productId);
+            cart.setPrice(product.getPrice());
+            cart.setQuantity(quantity);
+            cartRepo.save(cart);
+        }
+    } else {
+        Optional<ShoppingCart> existing =
+                cartRepo.findBySessionIdAndIdProduct(sessionId, productId);
+
+        if (existing.isPresent()) {
+            ShoppingCart cart = existing.get();
+            int newQty = cart.getQuantity() + quantity;
+            if (newQty > product.getQuantity()) {
+                throw new RuntimeException("Số lượng trong giỏ vượt quá tồn kho (" 
+                    + product.getQuantity() + " sản phẩm)");
+            }
+            cart.setQuantity(newQty);
+            cartRepo.save(cart);
+        } else {
+            if (quantity > product.getQuantity()) {
+                throw new RuntimeException("Số lượng vượt quá tồn kho (" 
+                    + product.getQuantity() + " sản phẩm)");
+            }
+            ShoppingCart cart = new ShoppingCart();
+            cart.setSessionId(sessionId);
+            cart.setIdProduct(productId);
+            cart.setPrice(product.getPrice());
+            cart.setQuantity(quantity);
+            cart.setIdUser(0);
+            cartRepo.save(cart);
         }
     }
+}
 
     // ───── Lấy danh sách giỏ ─────
     public List<ShoppingCart> getCartItems(User loggedUser, String sessionId) {
@@ -136,10 +157,15 @@ public ShoppingCart addToCartExact(User loggedUser, String sessionId, int produc
     Product product = productRepo.findById(productId)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
 
+    if (product.getQuantity() <= 0) {
+        throw new RuntimeException("Sản phẩm đã hết hàng");
+    }
     if (quantity < 1) quantity = 1;
+    //  Giới hạn theo tồn kho
+    if (quantity > product.getQuantity()) {
+        quantity = product.getQuantity();
+    }
 
-    // Luôn tạo dòng MỚI — không gộp vào dòng đã có trong giỏ
-    // Tránh ghi đè số lượng sản phẩm khách đã thêm vào giỏ từ trước
     ShoppingCart cart = new ShoppingCart();
     if (loggedUser != null) {
         cart.setIdUser(loggedUser.getId());
@@ -150,7 +176,6 @@ public ShoppingCart addToCartExact(User loggedUser, String sessionId, int produc
     cart.setIdProduct(productId);
     cart.setPrice(product.getPrice());
     cart.setQuantity(quantity);
-
     return cartRepo.save(cart);
 }
 
