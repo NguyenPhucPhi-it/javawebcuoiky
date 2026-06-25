@@ -26,6 +26,8 @@ public class Product {
     private String image;
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
     public Product() {}
 
@@ -92,5 +94,6 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }

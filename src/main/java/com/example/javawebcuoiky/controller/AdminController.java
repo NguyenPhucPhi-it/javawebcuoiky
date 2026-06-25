@@ -179,18 +179,25 @@ public class AdminController {
     productService.saveProduct(product);
     return "redirect:/admin/products";
     }
-    @RequestMapping(value="/admin/products/delete/{id}", method=RequestMethod.GET)
-    public String deleteProduct(@PathVariable int id, HttpSession session) {
-        if (!isAdmin(session)) return "redirect:/auth/login";
-        productService.deletProducts(id);
-        return "redirect:/admin/products";
-    }
-    @RequestMapping(value="/admin/brands/delete/{id}", method=RequestMethod.GET)
-    public String deleteBrand(@PathVariable int id, HttpSession session) {
-         if (!isAdmin(session)) return "redirect:/auth/login";
-         brandService.deleteBrand(id);
-        return "redirect:/admin/brands";
-    }
+
+   @RequestMapping(value="/admin/products/delete/{id}", method=RequestMethod.GET)
+    public String deleteProduct(@PathVariable int id, HttpSession session,
+                             org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    boolean ok = productService.deletProducts(id);
+    redirectAttributes.addFlashAttribute(ok ? "success" : "error",
+        ok ? "Xóa sản phẩm thành công!" : "Không tìm thấy sản phẩm!");
+    return "redirect:/admin/products";
+}
+   @RequestMapping(value="/admin/brands/delete/{id}", method=RequestMethod.GET)
+    public String deleteBrand(@PathVariable int id, HttpSession session,
+                           org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+    if (!isAdmin(session)) return "redirect:/auth/login";
+    boolean ok = brandService.deleteBrand(id);
+    redirectAttributes.addFlashAttribute(ok ? "success" : "error",
+        ok ? "Đã xóa danh mục và toàn bộ sản phẩm thuộc danh mục!" : "Không tìm thấy danh mục!");
+    return "redirect:/admin/brands";
+}
     
 
     // post

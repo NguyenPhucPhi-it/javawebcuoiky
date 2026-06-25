@@ -1,5 +1,6 @@
 package com.example.javawebcuoiky.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,8 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private int id;
     private String brandName;
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
     public Brand() {
     }
     public int getId() {
@@ -27,5 +30,8 @@ public class Brand {
     public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
+
+public boolean isDeleted() { return deleted; }
+public void setDeleted(boolean deleted) { this.deleted = deleted; }
     
 }

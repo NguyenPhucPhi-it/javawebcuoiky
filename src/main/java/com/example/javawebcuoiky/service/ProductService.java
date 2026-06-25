@@ -22,18 +22,22 @@ public class ProductService {
         Product p =this.productRepository.save(product);
         return p;
     }
-    // lay tat ca sp
+    // lay tat ca sp (chỉ sản phẩm chưa xóa)
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return productRepository.findAllActive();
     }
-    // xoa theo id
-    public void deletProducts(int id){
-        productRepository.deleteById(id);
+    // xoa theo id (soft delete)
+    public boolean deletProducts(int id){
+        Product p = productRepository.findById(id).orElse(null);
+        if (p == null) return false;
+        p.setDeleted(true);
+        productRepository.save(p);
+        return true;
     }
     //phân trang
     public Page<Product> getProductByPage(int page, int size){
         Pageable pageable=PageRequest.of(page,size);
-        return productRepository.findAll(pageable);
+        return productRepository.findAllActive(pageable);
     }
     // san pham moi 
     public List<Product> getNewProducts(){
@@ -43,8 +47,10 @@ public class ProductService {
     public List<Product> getSaleProducts(){
          return productRepository.findSaleProducts(PageRequest.of(0, 8));
     }
+    // chỉ trả sản phẩm chưa xóa
     public Product getProductById(int id){
-        return productRepository.findById(id).orElse(null);
+        Product p = productRepository.findById(id).orElse(null);
+        return (p != null && !p.isDeleted()) ? p : null;
     }
     
 // san pham hot (ban chay)
@@ -80,7 +86,7 @@ public List<Product> getHotProducts(){
     } else if (minPrice != null && maxPrice != null) {
         return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
     }
-    return productRepository.findAll(pageable);
+    return productRepository.findAllActive(pageable);
 }
     
 }

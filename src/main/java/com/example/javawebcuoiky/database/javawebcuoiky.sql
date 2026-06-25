@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2026 at 05:26 PM
+-- Generation Time: Jun 25, 2026 at 11:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,19 +29,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
-  `brand_name` varchar(255) DEFAULT NULL
+  `brand_name` varchar(255) DEFAULT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `brand`
 --
 
-INSERT INTO `brand` (`id`, `brand_name`) VALUES
-(1, 'casio'),
-(2, 'Smart Watch'),
-(3, 'BENYAR'),
-(4, 'Carnival'),
-(6, 'heheh');
+INSERT INTO `brand` (`id`, `brand_name`, `deleted`) VALUES
+(1, 'casio', 0),
+(2, 'Smart Watch', 0),
+(3, 'BENYAR', 0),
+(4, 'Carnival', 0),
+(6, 'guci', 0),
+(7, 'ưatch', 1),
+(8, 'casioo', 1);
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,13 @@ INSERT INTO `chat_message` (`id`, `user_id`, `sender_role`, `content`, `created_
 (5, 4, 'ADMIN', 'xin chào,bạn cần giúp gì ko?', '2026-06-24 22:19:54'),
 (6, 2, 'ADMIN', 'bên mình hiện chưa có ạ!', '2026-06-24 22:25:39'),
 (7, 4, 'USER', 'có', '2026-06-24 22:26:02'),
-(8, 2, 'USER', 'thanhs!', '2026-06-24 22:26:29');
+(8, 2, 'USER', 'thanhs!', '2026-06-24 22:26:29'),
+(9, 3, 'USER', 'hi', '2026-06-25 08:11:26'),
+(10, 3, 'ADMIN', 'chào bạn', '2026-06-25 08:14:33'),
+(11, 4, 'ADMIN', 'bạn cần giúp gì ạ?', '2026-06-25 08:20:15'),
+(12, 3, 'USER', 'ok', '2026-06-25 14:47:36'),
+(13, 2, 'USER', 'ok', '2026-06-25 16:50:26'),
+(14, 2, 'ADMIN', 'ok', '2026-06-25 16:52:13');
 
 -- --------------------------------------------------------
 
@@ -150,16 +159,23 @@ INSERT INTO `orders` (`id`, `address`, `id_user`, `order_date`, `receiver_email`
 (18, 'xóm 5, quan 1, Ha Noi', 4, '2026-06-22 21:30:43', 'duc@gmail.com', 'Duc', '0567748576', 'Thành công'),
 (19, 'xóm 1, Tân An, Tân Kỳ', 2, '2026-06-23 07:34:46', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
 (20, 'xom 5 , Liên Thành, Bình Dương', 2, '2026-06-23 07:55:35', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
-(21, 'so 113, Đà Nẵng', 4, '2026-06-23 08:00:15', 'duc@gmail.com', 'Duc', '0567748576', 'Đã xác nhận'),
-(22, 'số 11, đường Lê Thiện Trị, Đà Nẵng', 4, '2026-06-23 09:58:01', 'duc@gmail.com', 'Duc', '0328859476', 'Đang giao'),
+(21, 'so 113, Đà Nẵng', 4, '2026-06-23 08:00:15', 'duc@gmail.com', 'Duc', '0567748576', 'Thành công'),
+(22, 'số 11, đường Lê Thiện Trị, Đà Nẵng', 4, '2026-06-23 09:58:01', 'duc@gmail.com', 'Duc', '0328859476', 'Thành công'),
 (23, 'số 112, Phường Hoà Hải, Quận Ngũ Hành Sơn, Thành phố Đà Nẵng', 2, '2026-06-23 10:28:00', 'anh@gmail.com', 'Anh', '0328859476', 'Đã hủy'),
 (24, 'số 112, Phường Hoàng Quế, Thành phố Đông Triều, Tỉnh Quảng Ninh', 2, '2026-06-23 14:33:46', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
 (25, 'số 12, Xã Liên Chung, Huyện Tân Yên, Tỉnh Bắc Giang', 2, '2026-06-24 09:24:57', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công'),
 (26, 'xóm 11, Xã Vân Tụ, Huyện Yên Thành, Tỉnh Nghệ An', 2, '2026-06-24 09:25:52', 'anh@gmail.com', 'Anh', '0343356475', 'Thành công'),
-(27, 'số 12, Phường Vân Dương, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-24 09:31:34', 'duc@gmail.com', 'Duc', '0328859476', 'Đã xác nhận'),
+(27, 'số 12, Phường Vân Dương, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-24 09:31:34', 'duc@gmail.com', 'Duc', '0328859476', 'Thành công'),
 (28, 'xóm 11, Phường Khắc Niệm, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-24 15:59:57', 'duc@gmail.com', 'Duc', '0343356475', 'Thành công'),
-(29, 'xóm 11, Xã An Nhân, Huyện Vĩnh Tường, Tỉnh Vĩnh Phúc', 2, '2026-06-24 19:45:31', 'anh@gmail.com', 'Anh', '0567748576', 'Đã xác nhận'),
-(30, 'số 12, Phường Phúc Thắng, Thành phố Phúc Yên, Tỉnh Vĩnh Phúc', 4, '2026-06-24 19:50:40', 'duc@gmail.com', 'Duc', '0356654345', 'Chờ xác nhận');
+(29, 'xóm 11, Xã An Nhân, Huyện Vĩnh Tường, Tỉnh Vĩnh Phúc', 2, '2026-06-24 19:45:31', 'anh@gmail.com', 'Anh', '0567748576', 'Thành công'),
+(30, 'số 12, Phường Phúc Thắng, Thành phố Phúc Yên, Tỉnh Vĩnh Phúc', 4, '2026-06-24 19:50:40', 'duc@gmail.com', 'Duc', '0356654345', 'Thành công'),
+(31, 'số 112, Xã Đồng Trung, Huyện Thanh Thuỷ, Tỉnh Phú Thọ', 3, '2026-06-25 08:11:56', 'ly@gmail.com', 'Ly', '0356654345', 'Thành công'),
+(32, 'xóm 11, Xã Tứ Yên, Huyện Sông Lô, Tỉnh Vĩnh Phúc', 3, '2026-06-25 08:27:12', 'ly@gmail.com', 'Ly', '0567748576', 'Thành công'),
+(33, 'số 12, Xã Cao Xá, Huyện Lâm Thao, Tỉnh Phú Thọ', 3, '2026-06-25 14:44:27', 'ly@gmail.com', 'Ly', '0356654345', 'Đã hủy'),
+(34, 'số 12, Phường Đình Bảng, Thành phố Từ Sơn, Tỉnh Bắc Ninh', 3, '2026-06-25 14:46:10', 'ly@gmail.com', 'Ly', '0567748576', 'Thành công'),
+(35, 'số 12, Phường Khắc Niệm, Thành phố Bắc Ninh, Tỉnh Bắc Ninh', 4, '2026-06-25 16:32:20', 'duc@gmail.com', 'Duc', '0567748576', 'Thành công'),
+(36, 'ng phổ, Xã Quỳnh Sơn, Thành phố Bắc Giang, Tỉnh Bắc Giang', 3, '2026-06-25 16:35:05', 'ly@gmail.com', 'Ly', '0356654345', 'Thành công'),
+(37, 'số 12, Phường Tích Sơn, Thành phố Vĩnh Yên, Tỉnh Vĩnh Phúc', 2, '2026-06-25 16:50:51', 'anh@gmail.com', 'Anh', '0356654345', 'Thành công');
 
 -- --------------------------------------------------------
 
@@ -225,8 +241,8 @@ INSERT INTO `order_detail` (`id`, `discount`, `id_order`, `id_product`, `quantit
 (40, 0, 19, 10, 2, 0, 450000, 'Thành công'),
 (41, 0, 20, 2, 1, 0, 3000000, 'Thành công'),
 (42, 0, 20, 3, 1, 0, 2000000, 'Thành công'),
-(43, 0, 21, 13, 1, 0, 200000, 'Đã xác nhận'),
-(44, 0, 22, 8, 1, 0, 1000000, 'Đang giao'),
+(43, 0, 21, 13, 1, 0, 200000, 'Thành công'),
+(44, 0, 22, 8, 1, 0, 1000000, 'Thành công'),
 (45, 0, 23, 10, 1, 0, 450000, 'Đã hủy'),
 (46, 0, 23, 2, 1, 0, 3000000, 'Đã hủy'),
 (47, 0, 23, 3, 1, 0, 2000000, 'Đã hủy'),
@@ -237,14 +253,22 @@ INSERT INTO `order_detail` (`id`, `discount`, `id_order`, `id_product`, `quantit
 (52, 0, 26, 10, 1, 0, 450000, 'Thành công'),
 (53, 0, 26, 9, 1, 0, 3000000, 'Thành công'),
 (54, 0, 26, 2, 1, 0, 3000000, 'Thành công'),
-(55, 0, 27, 5, 1, 0, 123123, 'Đã xác nhận'),
-(56, 0, 27, 7, 1, 0, 2000000, 'Đã xác nhận'),
+(55, 0, 27, 5, 1, 0, 123123, 'Thành công'),
+(56, 0, 27, 7, 1, 0, 2000000, 'Thành công'),
 (57, 0, 28, 6, 1, 0, 500000, 'Thành công'),
 (58, 0, 28, 7, 1, 0, 2000000, 'Thành công'),
-(59, 0, 29, 8, 5, 0, 1000000, 'Đã xác nhận'),
-(60, 0, 29, 13, 12, 0, 200000, 'Đã xác nhận'),
-(61, 0, 30, 13, 12, 0, 200000, 'Chờ xác nhận'),
-(62, 0, 30, 8, 12, 0, 1000000, 'Chờ xác nhận');
+(59, 0, 29, 8, 5, 0, 1000000, 'Thành công'),
+(60, 0, 29, 13, 12, 0, 200000, 'Thành công'),
+(61, 0, 30, 13, 12, 0, 200000, 'Thành công'),
+(62, 0, 30, 8, 12, 0, 1000000, 'Thành công'),
+(63, 0, 31, 8, 1, 0, 1000000, 'Thành công'),
+(64, 0, 31, 6, 1, 0, 500000, 'Thành công'),
+(65, 0, 32, 14, 1, 0, 300000, 'Thành công'),
+(66, 0, 33, 5, 2, 0, 123123, 'Chờ xác nhận'),
+(67, 0, 34, 4, 1, 0, 800000, 'Thành công'),
+(68, 0, 35, 7, 1, 0, 2000000, 'Thành công'),
+(69, 0, 36, 15, 3, 0, 1000000, 'Thành công'),
+(70, 0, 37, 14, 1, 0, 300000, 'Thành công');
 
 -- --------------------------------------------------------
 
@@ -294,7 +318,14 @@ INSERT INTO `payment` (`id`, `amount`, `created_at`, `id_order`, `note`, `paymen
 (23, 2123123, '2026-06-24 09:31:34', 27, '', '2026-06-24 09:31:34', 'BANK', 'Đã thanh toán', 'TXN-27-1782268294654'),
 (24, 2500000, '2026-06-24 15:59:57', 28, '', '2026-06-24 15:59:57', 'COD', 'Chờ thu tiền', 'TXN-28-1782291597851'),
 (25, 7400000, '2026-06-24 19:45:31', 29, '', '2026-06-24 19:45:31', 'COD', 'Chờ thu tiền', 'TXN-29-1782305131065'),
-(26, 14400000, '2026-06-24 19:50:40', 30, '', '2026-06-24 19:50:40', 'COD', 'Chờ thu tiền', 'TXN-30-1782305440325');
+(26, 14400000, '2026-06-24 19:50:40', 30, '', '2026-06-24 19:50:40', 'COD', 'Chờ thu tiền', 'TXN-30-1782305440325'),
+(27, 1500000, '2026-06-25 08:11:56', 31, '', '2026-06-25 08:11:56', 'BANK', 'Đã thanh toán', 'TXN-31-1782349916366'),
+(28, 300000, '2026-06-25 08:27:12', 32, '', '2026-06-25 08:27:12', 'COD', 'Chờ thu tiền', 'TXN-32-1782350832754'),
+(29, 246246, '2026-06-25 14:44:27', 33, '', '2026-06-25 14:44:27', 'COD', 'Chờ thu tiền', 'TXN-33-1782373467977'),
+(30, 800000, '2026-06-25 14:46:10', 34, '', '2026-06-25 14:46:10', 'COD', 'Chờ thu tiền', 'TXN-34-1782373570866'),
+(31, 2000000, '2026-06-25 16:32:20', 35, '', '2026-06-25 16:32:20', 'COD', 'Chờ thu tiền', 'TXN-35-1782379940942'),
+(32, 3000000, '2026-06-25 16:35:05', 36, '', '2026-06-25 16:35:05', 'COD', 'Chờ thu tiền', 'TXN-36-1782380105302'),
+(33, 300000, '2026-06-25 16:50:51', 37, '', '2026-06-25 16:50:51', 'COD', 'Chờ thu tiền', 'TXN-37-1782381051670');
 
 -- --------------------------------------------------------
 
@@ -334,27 +365,31 @@ CREATE TABLE `product` (
   `image` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `price` double DEFAULT NULL,
-  `quantity` int(11) NOT NULL
+  `quantity` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `description`, `discount`, `hot`, `id_brand`, `image`, `name`, `price`, `quantity`) VALUES
-(1, 'Theo dõi sức khỏe, chống nước 5ATM', 10, 0, 2, '1779801781825_dongho2.webp', 'Vòng Đồng Hồ Thông Minh 2026', 869000, 3),
-(2, 'Giá ưu đãi online', 12, 0, 3, '1779801801860_istockphoto-890822072-612x612.webp', 'Đồng Hồ Đeo Tay Nữ Pindow PDS-2109-N9', 3000000, 30),
-(3, 'sdafsdfsdfdsfsdvxcvxcvxcvxcvx', 10, 0, 2, '1779808185902_photo-1732679005773-f2ef48b724c7.avif', 'đồng hồ 1', 2000000, 50),
-(4, 'Ghi âm 24h, lọc âm', 2, 0, 2, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 12),
-(5, 'ềasfesdafsdfds', 10, 0, 1, '1780019780217_photo-1624106159879-8a16d53c54ff.avif', 'ưefgewfgwe', 123123, 20),
-(6, 'qưertyuiop[ádfghjkl;zxcvbnm,', 3, 0, 1, '1779808253524_photo-1631031354362-b1fd73f89e19.avif', 'ưerfewfwe', 500000, 12),
-(7, 'sdfsasdfghjklxcvbnmrtyuio', 12, 0, 2, '1779808283436_photo-1624106159879-8a16d53c54ff.avif', 'ádfghjklr', 2000000, 22),
-(8, 'ưertyuuioplokijhgfvbnm,', 10, 0, 3, '1779808317074_photo-1610888968213-4f6d2c068108.avif', 'ádfghjkl', 1000000, 32),
-(9, 'êfsdvxcvsvsdvsdvsd', 12, 0, 3, '1779808345735_photo-1588748543198-cd1afaf858ff.avif', 'dèagdahdjnjasmdak', 3000000, 12),
-(10, 'gfsklmnmsgjfugfdbdfd', 2, 0, 2, '1779808381920_photo-1751437774882-deeea4352018.avif', 'adasfdasdfsdfsdfsdf', 450000, 24),
-(12, 'Phiên bản cao cấp 1', 2, 0, 3, '1780019945191_premium_photo-1728012217493-b0bfdc0c389a.avif', 'Đồng hồ điện tử chống nước huyền thoại 1', 174000, 34),
-(13, 'dxv', 2, 0, 4, '1781766029250_photo-1585123334904-845d60e97b29.avif', 'dfcv', 200000, 22),
-(14, 'Titoni Cosmo 797 G-DB-541 – Biểu tượng của sự tinh tế Thụy Sỹ, nơi truyền thống gia đình gặp gỡ thiết kế hiện đại. Với bộ vỏ thép không gỉ, mặt số trang nhã và bộ máy cơ tự động Thụy Sỹ chuẩn mực, Cosmo giúp tôn vinh phong cách và giá trị bền vững – minh chứng cho di sản chế tác tỉ mỉ, chất lượng và đáng tin cậy của Titoni.Titoni Cosmo 797 G-DB-541 – Biểu tượng của sự tinh tế Thụy Sỹ, nơi truyền thống gia đình gặp gỡ thiết kế hiện đại. Với bộ vỏ thép không gỉ, mặt số trang nhã và bộ máy cơ tự động Thụy Sỹ chuẩn mực, Cosmo giúp tôn vinh phong cách và giá trị bền vững – minh chứng cho di sản chế tác tỉ mỉ, chất lượng và đáng tin cậy của Titoni.', 3, 0, 4, '1782309595611_photo-1631031354362-b1fd73f89e19.avif', 'Đồng hồ 2', 300000, 23);
+INSERT INTO `product` (`id`, `description`, `discount`, `hot`, `id_brand`, `image`, `name`, `price`, `quantity`, `deleted`) VALUES
+(1, 'Theo dõi sức khỏe, chống nước 5ATM', 10, 0, 2, '1779801781825_dongho2.webp', 'Vòng Đồng Hồ Thông Minh 2026', 869000, 3, 0),
+(2, 'Giá ưu đãi online', 12, 0, 3, '1779801801860_istockphoto-890822072-612x612.webp', 'Đồng Hồ Đeo Tay Nữ Pindow PDS-2109-N9', 3000000, 30, 0),
+(3, 'sdafsdfsdfdsfsdvxcvxcvxcvxcvx', 10, 0, 2, '1779808185902_photo-1732679005773-f2ef48b724c7.avif', 'đồng hồ 1', 2000000, 50, 0),
+(4, 'Ghi âm 24h, lọc âm', 2, 0, 2, '1779808201663_photo-1748327929572-2ccf5716d3b9.avif', 'svsdfvds', 800000, 11, 0),
+(5, 'ềasfesdafsdfds', 10, 0, 1, '1780019780217_photo-1624106159879-8a16d53c54ff.avif', 'ưefgewfgwe', 123123, 18, 0),
+(6, 'qưertyuiop[ádfghjkl;zxcvbnm,', 3, 0, 1, '1779808253524_photo-1631031354362-b1fd73f89e19.avif', 'ưerfewfwe', 500000, 11, 0),
+(7, 'sdfsasdfghjklxcvbnmrtyuio', 12, 0, 2, '1779808283436_photo-1624106159879-8a16d53c54ff.avif', 'ádfghjklr', 2000000, 21, 1),
+(8, 'ưertyuuioplokijhgfvbnm,', 10, 0, 3, '1779808317074_photo-1610888968213-4f6d2c068108.avif', 'ádfghjkl', 1000000, 31, 0),
+(9, 'êfsdvxcvsvsdvsdvsd', 12, 0, 3, '1779808345735_photo-1588748543198-cd1afaf858ff.avif', 'dèagdahdjnjasmdak', 3000000, 12, 0),
+(10, 'gfsklmnmsgjfugfdbdfd', 2, 0, 2, '1779808381920_photo-1751437774882-deeea4352018.avif', 'adasfdasdfsdfsdfsdf', 450000, 24, 0),
+(12, 'Phiên bản cao cấp 1', 2, 0, 3, '1780019945191_premium_photo-1728012217493-b0bfdc0c389a.avif', 'Đồng hồ điện tử chống nước huyền thoại 1', 174000, 34, 0),
+(13, 'dxv', 2, 0, 4, '1781766029250_photo-1585123334904-845d60e97b29.avif', 'dfcv', 200000, 22, 0),
+(14, 'Titoni Cosmo 797 G-DB-541 – Biểu tượng của sự tinh tế Thụy Sỹ, nơi truyền thống gia đình gặp gỡ thiết kế hiện đại. Với bộ vỏ thép không gỉ, mặt số trang nhã và bộ máy cơ tự động Thụy Sỹ chuẩn mực, Cosmo giúp tôn vinh phong cách và giá trị bền vững – minh chứng cho di sản chế tác tỉ mỉ, chất lượng và đáng tin cậy của Titoni.Titoni Cosmo 797 G-DB-541 – Biểu tượng của sự tinh tế Thụy Sỹ, nơi truyền thống gia đình gặp gỡ thiết kế hiện đại. Với bộ vỏ thép không gỉ, mặt số trang nhã và bộ máy cơ tự động Thụy Sỹ chuẩn mực, Cosmo giúp tôn vinh phong cách và giá trị bền vững – minh chứng cho di sản chế tác tỉ mỉ, chất lượng và đáng tin cậy của Titoni.', 3, 0, 4, '1782309595611_photo-1631031354362-b1fd73f89e19.avif', 'Đồng hồ 2', 300000, 21, 0),
+(15, 'fadsfc', 2, 0, 7, '1782380047156_dongho2.webp', 'Đồng hồ y3', 1000000, 9, 1),
+(16, 'ẻdgdfg', 2, 0, 7, '1782380157876_photo-1748327929572-2ccf5716d3b9.avif', 'y5', 200000, 12, 1),
+(17, 'sdfvvsdfv', 3, 0, 8, '1782380714655_photo-1585123334904-845d60e97b29.avif', 'Phi onTop', 232333, 32, 1);
 
 -- --------------------------------------------------------
 
@@ -377,7 +412,10 @@ CREATE TABLE `shopping_cart` (
 
 INSERT INTO `shopping_cart` (`id`, `id_product`, `id_user`, `price`, `quantity`, `session_id`) VALUES
 (132, 13, 4, 200000, 1, NULL),
-(133, 1, 4, 869000, 1, NULL);
+(133, 1, 4, 869000, 1, NULL),
+(137, 10, 3, 450000, 1, NULL),
+(138, 8, 3, 1000000, 1, NULL),
+(139, 5, 3, 123123, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -399,7 +437,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `username`, `password`, `role`) VALUES
 (2, 'anh@gmail.com', 'Anh', '$2a$10$vC2ltpinJLt7Ih5RGIwYHe8ddl.K3/YXLMajjK2oyDCv/VMzKTH7i', 0),
-(3, 'ly@gmail.com', 'Ly', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lkq.', 0),
+(3, 'ly@gmail.com', 'Ly', '$2a$10$vC2ltpinJLt7Ih5RGIwYHe8ddl.K3/YXLMajjK2oyDCv/VMzKTH7i', 0),
 (4, 'duc@gmail.com', 'Duc', '$2a$10$vC2ltpinJLt7Ih5RGIwYHe8ddl.K3/YXLMajjK2oyDCv/VMzKTH7i', 0),
 (5, 'nguyenphucphi210@gmail.com', 'Phi', '$2a$10$5QjftkwKMEY.4o/l.WzNp.VWuGDhv8MsJqB8A3hCowNGODKIdFPWq', 1);
 
@@ -485,13 +523,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `chat_message`
 --
 ALTER TABLE `chat_message`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -503,19 +541,19 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `post`
@@ -527,13 +565,13 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `shopping_cart`
 --
 ALTER TABLE `shopping_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `user`
