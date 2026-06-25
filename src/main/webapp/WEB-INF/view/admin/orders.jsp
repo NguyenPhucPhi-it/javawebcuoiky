@@ -115,6 +115,7 @@
                     Quản lý đơn hàng
                 </a>
             </li>
+              <li><a href="/admin/chat"><i class="fa-solid fa-message ico-side"></i>Chat khách hàng</a></li>
 
             <li>
                 <a href="/auth/logout">

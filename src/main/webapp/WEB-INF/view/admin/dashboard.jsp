@@ -116,8 +116,7 @@
                         <span class="alert-badge">${choXacNhan}</span>
                     </c:if> -->
                 </a></li>
-                 <li><a href="/admin/chat">
-                    <i class="fa-solid fa-mug-hot ico-side"></i>Quản lí chat</a></li>
+                  <li><a href="/admin/chat"><i class="fa-solid fa-message ico-side"></i>Chat khách hàng</a></li>
                 <li><a href="/auth/logout">
                     <i class="fa-solid fa-right-from-bracket ico-side"></i>Đăng xuất</a></li>
             </ul>

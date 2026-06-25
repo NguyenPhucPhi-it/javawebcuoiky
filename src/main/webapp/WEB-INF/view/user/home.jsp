@@ -1268,7 +1268,7 @@
         </div>
         <!--Brand section end-->
 <c:if test="${not empty sessionScope.loggedUser}">
-<div id="chatWidget" style="position:fixed;bottom:20px;right:20px;z-index:9999;">
+<div id="chatWidget" style="position:fixed;bottom:90px;right:20px;z-index:9999;">
     <button id="chatToggleBtn" style="width:55px;height:55px;border-radius:50%;background:#0d6efd;color:#fff;border:none;font-size:22px;">💬</button>
     <div id="chatPanel" style="display:none;width:300px;height:400px;background:#fff;border:1px solid #ccc;border-radius:8px;position:absolute;bottom:65px;right:0;box-shadow:0 0 10px rgba(0,0,0,.2);flex-direction:column;">
         <div style="background:#0d6efd;color:#fff;padding:8px;border-radius:8px 8px 0 0;">Hỗ trợ khách hàng</div>
