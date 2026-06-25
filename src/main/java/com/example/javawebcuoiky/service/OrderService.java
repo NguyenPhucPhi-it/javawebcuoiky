@@ -31,7 +31,7 @@ public class OrderService {
         this.orderDetailService = orderDetailService;
         this.cartService        = cartService;
         this.paymentService     = paymentService;
-        this.productRepository  = productRepository; // ← thêm
+        this.productRepository  = productRepository;
     }
 
   public Order placeOrder(String receiverName, String receiverEmail,
@@ -101,7 +101,7 @@ public class OrderService {
         return orderRepository.findByUserId(userId);
     }
 
-    // ← THÊM MỚI: lấy toàn bộ sản phẩm đã mua của user
+    // THÊM MỚI: lấy toàn bộ sản phẩm đã mua của user
     public List<OrderDetailItem> getPurchasedItems(int userId) {
         List<Order> orders = orderRepository.findByUserId(userId);
         List<OrderDetailItem> items = new ArrayList<>();

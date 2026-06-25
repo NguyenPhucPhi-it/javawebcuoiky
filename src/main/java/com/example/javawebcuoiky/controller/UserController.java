@@ -384,7 +384,7 @@ public String submitReview(@RequestParam int detailId,
     if (!commentService.hasReviewed(loggedUser.getId(), productId, orderId)) {
         commentService.saveComment(loggedUser.getId(), productId, orderId, message, rating);
     }
-   return "redirect:/user/review/" + detailId + "?success=true";
+   return "redirect:/user/pending-reviews?reviewSuccess=true";
 }
 @RequestMapping(value = "/user/pending-reviews", method = RequestMethod.GET)
 public String showPendingReviews(Model model, HttpSession session) {

@@ -131,12 +131,11 @@
                             </span>
                         </div>
 
-                        <!-- Thành tiền -->
+                   
                         <div class="prod-price">
                             <fmt:formatNumber value="${item.lineTotal}" type="number"/> đ
                         </div>
 
-                        <!-- Nút đánh giá -->
                         <div>
                             <a href="${pageContext.request.contextPath}/user/review/${item.detail.id}"
                                class="btn-review">

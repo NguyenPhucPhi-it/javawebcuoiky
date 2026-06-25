@@ -14,7 +14,7 @@ import com.example.javawebcuoiky.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    // ===== Danh sách sản phẩm còn hoạt động (thay cho findAll gốc) =====
+    //  Danh sách sản phẩm còn hoạt động
     @Query("SELECT p FROM Product p WHERE p.deleted = false ORDER BY p.id DESC")
     List<Product> findAllActive();
 
@@ -52,7 +52,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                                @Param("max") double max,
                                                Pageable pageable);
 
-    // ===== Tìm kiếm theo tên (keyword) =====
+    //  Tìm kiếm theo tên (keyword) 
 
     @Query("SELECT p FROM Product p WHERE p.deleted = false AND LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Product> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);

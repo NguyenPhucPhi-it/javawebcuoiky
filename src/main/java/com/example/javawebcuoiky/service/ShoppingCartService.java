@@ -38,17 +38,17 @@ public void addToCart(User loggedUser, String sessionId, int productId, int quan
         Optional<ShoppingCart> existing =
                 cartRepo.findByIdUserAndIdProduct(loggedUser.getId(), productId);
 
-        if (existing.isPresent()) {
-            ShoppingCart cart = existing.get();
-            int newQty = cart.getQuantity() + quantity;
-            // Không được vượt quá tồn kho
-            if (newQty > product.getQuantity()) {
-                throw new RuntimeException("Số lượng trong giỏ vượt quá tồn kho (" 
-                    + product.getQuantity() + " sản phẩm)");
-            }
-            cart.setQuantity(newQty);
-            cartRepo.save(cart);
-        } else {
+       if (existing.isPresent()) {
+    ShoppingCart cart = existing.get();
+    int newQty = cart.getQuantity() + quantity;
+    if (newQty > product.getQuantity()) {
+        throw new RuntimeException("Số lượng trong giỏ vượt quá tồn kho (" 
+            + product.getQuantity() + " sản phẩm)");
+    }
+    cart.setQuantity(newQty);
+    cart.setPrice(getFinalPrice(product)); 
+    cartRepo.save(cart);
+} else {
             if (quantity > product.getQuantity()) {
                 throw new RuntimeException("Số lượng vượt quá tồn kho (" 
                     + product.getQuantity() + " sản phẩm)");
@@ -56,7 +56,7 @@ public void addToCart(User loggedUser, String sessionId, int productId, int quan
             ShoppingCart cart = new ShoppingCart();
             cart.setIdUser(loggedUser.getId());
             cart.setIdProduct(productId);
-            cart.setPrice(product.getPrice());
+            cart.setPrice(getFinalPrice(product));
             cart.setQuantity(quantity);
             cartRepo.save(cart);
         }
@@ -81,7 +81,7 @@ public void addToCart(User loggedUser, String sessionId, int productId, int quan
             ShoppingCart cart = new ShoppingCart();
             cart.setSessionId(sessionId);
             cart.setIdProduct(productId);
-            cart.setPrice(product.getPrice());
+            cart.setPrice(getFinalPrice(product));
             cart.setQuantity(quantity);
             cart.setIdUser(0);
             cartRepo.save(cart);
@@ -174,9 +174,14 @@ public ShoppingCart addToCartExact(User loggedUser, String sessionId, int produc
         cart.setIdUser(0);
     }
     cart.setIdProduct(productId);
-    cart.setPrice(product.getPrice());
+    cart.setPrice(getFinalPrice(product));
     cart.setQuantity(quantity);
     return cartRepo.save(cart);
 }
-
+private double getFinalPrice(Product product) {
+    if (product.getDiscount() != null && product.getDiscount() > 0 && product.getDiscount() <= 100) {
+        return product.getPrice() * (100 - product.getDiscount()) / 100.0;
+    }
+    return product.getPrice();
+}
 }

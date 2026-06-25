@@ -66,11 +66,6 @@ public class AdminController {
         return user != null && user.getRole() == 1;
     }
 
-    // @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-    // public String showDashboard(HttpSession session) {
-    //     if (!isAdmin(session)) return "redirect:/auth/login";
-    //     return "admin/dashboard";
-    // }
 
     @RequestMapping(value = "/admin/products", method = RequestMethod.GET)
     public String showProduct(Model model, HttpSession session) {
